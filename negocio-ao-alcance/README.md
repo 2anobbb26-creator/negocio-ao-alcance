@@ -77,3 +77,6 @@ Participação de [JohanneLivia] no desenvolvimento do projeto Negócio ao Alcan
 
 Participação de [nubiadeoliveirapinheiro] no desenvolvimento do projeto Negócio ao Alcance 
 
+## contribuição da equipe 
+
+Partipação de [Jerrydcs] no desenvolvimento do projeto Negócio ao Alcance.
