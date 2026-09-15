@@ -105,7 +105,7 @@ const SearchBar = ({ budget, onBudgetChange, onSearch, onClear, hasSearched, pla
       <InputGroup>
         <Input
           type="text"
-          placeholder={placeholder || "Digite o valor mínimo (ex: 500)"}
+          placeholder={placeholder || "Digite o valor mínimo (ex: 100)"}
           value={budget}
           onChange={onBudgetChange}
           onKeyPress={(e) => e.key === 'Enter' && onSearch()}

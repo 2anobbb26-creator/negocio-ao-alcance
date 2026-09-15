@@ -4,7 +4,6 @@ import { businessData, categories } from '../data/businessData';
 import BusinessCard from '../components/BusinessCard';
 import SearchBar from '../components/SearchBar';
 import FilterButtons from '../components/FilterButtons';
-import ProfileFilter from '../components/ProfileFilter';
 
 // ANIMAÇÕES
 const fadeInUp = keyframes`
@@ -307,34 +306,12 @@ const Home = ({ user }) => {
   const [selectedCategory, setSelectedCategory] = useState('Todos');
   const [filteredResults, setFilteredResults] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
-  const [profileFilters, setProfileFilters] = useState(null);
 
   useEffect(() => {
     console.log('📦 Total de serviços:', businessData.length);
     setFilteredResults(businessData);
     setHasSearched(false);
   }, []);
-
-  // 🎯 FILTRAR POR PERFIL
-  const handleProfileFilter = (filters) => {
-    console.log('🎯 Filtros de perfil:', filters);
-    setProfileFilters(filters);
-    
-    const filtered = businessData.filter(business => {
-      const timeMatch = business.timeProfile?.includes(filters.time);
-      const workMatch = business.workProfile?.includes(filters.workType);
-      return timeMatch && workMatch;
-    });
-    
-    setFilteredResults(filtered);
-    setHasSearched(true);
-  };
-
-  const clearProfileFilter = () => {
-    setProfileFilters(null);
-    setFilteredResults(businessData);
-    setHasSearched(false);
-  };
 
   const handleSearch = () => {
     if (!budget || budget === '') {
@@ -424,8 +401,6 @@ const Home = ({ user }) => {
     ? Math.max(...businessData.map(item => item.maxInvestment))
     : 0;
 
-  const hasActiveFilter = profileFilters?.time || profileFilters?.workType;
-
   return (
     <Container>
       <WelcomeBanner>
@@ -454,33 +429,11 @@ const Home = ({ user }) => {
         placeholder="Digite o valor mínimo (ex: 100) - serviços a partir deste valor"
       />
 
-      <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
-        <FilterButtons
-          categories={categories}
-          selectedCategory={selectedCategory}
-          onCategoryChange={handleCategoryChange}
-        />
-        
-        {/* ✅ COMPONENTE DE FILTRO COM FUNÇÕES */}
-        <ProfileFilter 
-          onApply={handleProfileFilter}
-          onClear={clearProfileFilter}
-          selectedFilters={profileFilters}
-        />
-        
-        {hasActiveFilter && (
-          <span style={{ 
-            color: '#4ade80', 
-            fontSize: '0.8rem', 
-            background: 'rgba(74, 222, 128, 0.1)', 
-            padding: '4px 12px',
-            borderRadius: '20px',
-            border: '1px solid rgba(74, 222, 128, 0.2)'
-          }}>
-            ✅ Filtro ativo
-          </span>
-        )}
-      </div>
+      <FilterButtons
+        categories={categories}
+        selectedCategory={selectedCategory}
+        onCategoryChange={handleCategoryChange}
+      />
 
       <StatsBar>
         <StatItem>
@@ -507,12 +460,10 @@ const Home = ({ user }) => {
 
       <ResultsHeader>
         <ResultsTitle>
-          {selectedCategory === 'Todos' && !hasSearched && !hasActiveFilter ? (
+          {selectedCategory === 'Todos' && !hasSearched ? (
             '📊 Todos os serviços disponíveis'
           ) : hasSearched && budget ? (
             <>📊 Resultados para <span>R$ {budget}</span></>
-          ) : hasActiveFilter ? (
-            <>📊 Resultados do filtro de perfil</>
           ) : (
             '📊 Todos os serviços disponíveis'
           )}
@@ -523,9 +474,10 @@ const Home = ({ user }) => {
         </ResultsCount>
       </ResultsHeader>
 
+      {/* 🔥 VERIFICAÇÃO VISUAL: Mostra uma mensagem se não houver resultados */}
       {filteredResults.length === 0 && (
         <div style={{ color: '#ff6b6b', textAlign: 'center', padding: '20px', background: 'rgba(255,0,0,0.1)', borderRadius: '10px' }}>
-          ⚠️ Nenhum serviço encontrado. Tente ajustar os filtros.
+          ⚠️ Nenhum serviço encontrado. Verifique se o businessData tem dados.
         </div>
       )}
 
@@ -544,8 +496,6 @@ const Home = ({ user }) => {
             <p>
               {budget && hasSearched
                 ? `Nenhum serviço encontrado com investimento a partir de R$ ${budget}. Tente um valor menor!`
-                : hasActiveFilter
-                ? 'Nenhum serviço encontrado para o perfil selecionado. Tente ajustar os filtros!'
                 : 'Nenhum serviço encontrado nesta categoria.'}
             </p>
             <p style={{ marginTop: '8px', color: '#667eea' }}>
