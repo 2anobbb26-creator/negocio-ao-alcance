@@ -72,3 +72,8 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 ## Contribuição da equipe
 
 Participação de [JohanneLivia] no desenvolvimento do projeto Negócio ao Alcance 
+
+## contribuição da equipe
+
+Participação de [nubiadeoliveirapinheiro] no desenvolvimento do projeto Negócio ao Alcance 
+
