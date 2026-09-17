@@ -7,10 +7,11 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import BusinessDetail from './pages/BusinessDetail';
+import Perfil from './pages/Perfil';
 
 const AppContainer = styled.div`
   min-height: 100vh;
-  background: linear-gradient(135deg, #0a0e27 0%, #1a1a3e 30%, #16213e 60%, #1a1a4e 80%, #2d1b69 100%);
+  background: linear-gradient(135deg, #0a1530 0%, #0d1b3e 50%, #0a1530 100%);
 `;
 
 function App() {
@@ -40,18 +41,16 @@ function App() {
     const result = await authService.login(email, password);
     if (result.success) {
       return { success: true };
-    } else {
-      return { success: false, error: result.error };
     }
+    return { success: false, error: result.error };
   };
 
   const handleRegister = async (email, password, name, phone) => {
     const result = await authService.register(email, password, name, phone);
     if (result.success) {
       return { success: true };
-    } else {
-      return { success: false, error: result.error };
     }
+    return { success: false, error: result.error };
   };
 
   const handleLogout = async () => {
@@ -60,7 +59,11 @@ function App() {
   };
 
   if (loading) {
-    return <div style={{ color: '#fff', textAlign: 'center', marginTop: '50px' }}>Carregando...</div>;
+    return (
+      <div style={{ color: '#fff', textAlign: 'center', marginTop: '50px', fontSize: '1.2rem' }}>
+        Carregando...
+      </div>
+    );
   }
 
   return (
@@ -79,7 +82,11 @@ function App() {
           />
           <Route 
             path="/" 
-            element={user ? <Home /> : <Navigate to="/login" replace />} 
+            element={user ? <Home user={user} /> : <Navigate to="/login" replace />} 
+          />
+          <Route 
+            path="/perfil" 
+            element={user ? <Perfil /> : <Navigate to="/login" replace />} 
           />
           <Route 
             path="/business/:id" 
