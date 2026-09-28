@@ -114,7 +114,7 @@ const BackgroundDecor = styled.div`
   }
 `;
 
-// 🚀 HEADER PRINCIPAL
+//  HEADER PRINCIPAL
 const Header = styled.header`
   text-align: center;
   margin-bottom: 40px;
