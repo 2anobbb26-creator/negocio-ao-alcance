@@ -28,7 +28,10 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db = getFirestore(app);
+
+// ✅ CORREÇÃO: passar 'default' como segundo argumento
+// porque o banco no console se chama "default" (sem parênteses)
+const db = getFirestore(app, 'default');
 
 export const authService = {
   // 📝 REGISTRO
@@ -56,11 +59,30 @@ export const authService = {
     }
   },
 
-  // 🔑 LOGIN
+  // 🔑 LOGIN (com auto-criação do documento se não existir)
   async login(email, password) {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      return { success: true, user: userCredential.user };
+      const user = userCredential.user;
+
+      // 🆕 Garante que o documento do usuário existe no Firestore
+      const userRef = doc(db, 'users', user.uid);
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) {
+        console.warn('⚠️ Documento do usuário não existe. Criando...');
+        await setDoc(userRef, {
+          uid: user.uid,
+          name: user.displayName || '',
+          email: user.email || '',
+          phone: '',
+          favorites: [],
+          searchHistory: [],
+          createdAt: Timestamp.now()
+        });
+      }
+
+      return { success: true, user };
     } catch (error) {
       console.error('❌ Erro no login:', error.code, error.message);
       return { success: false, error: error.message };
@@ -128,25 +150,35 @@ export const authService = {
     }
   },
 
-  // ⭐ ADICIONAR FAVORITO
+  // ⭐ ADICIONAR FAVORITO (com auto-criação do documento)
   async addFavorite(uid, businessId) {
     try {
       console.log('⭐ Adicionando favorito:', uid, businessId);
       const userRef = doc(db, 'users', uid);
       const userSnap = await getDoc(userRef);
       
-      if (!userSnap.exists()) {
-        console.error('❌ Usuário não encontrado no Firestore');
-        return { success: false, error: 'Usuário não encontrado' };
-      }
+      let favorites = [];
       
-      const userData = userSnap.data();
-      const favorites = userData.favorites || [];
+      if (userSnap.exists()) {
+        const userData = userSnap.data();
+        favorites = userData.favorites || [];
+      } else {
+        // 🆕 Documento não existe — cria ele agora
+        console.warn('⚠️ Documento do usuário não existe. Criando...');
+        await setDoc(userRef, {
+          uid: uid,
+          favorites: [],
+          searchHistory: [],
+          createdAt: Timestamp.now()
+        });
+      }
       
       if (!favorites.includes(businessId)) {
         favorites.push(businessId);
         await updateDoc(userRef, { favorites });
         console.log('✅ Favorito adicionado:', favorites);
+      } else {
+        console.log('ℹ️ Favorito já estava na lista');
       }
       
       return { success: true };
@@ -164,7 +196,8 @@ export const authService = {
       const userSnap = await getDoc(userRef);
       
       if (!userSnap.exists()) {
-        return { success: false, error: 'Usuário não encontrado' };
+        console.warn('⚠️ Documento não existe, nada a remover');
+        return { success: true }; // nada a remover
       }
       
       const userData = userSnap.data();

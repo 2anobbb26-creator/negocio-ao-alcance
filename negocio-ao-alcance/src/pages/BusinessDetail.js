@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { businessData } from '../data/businessData';
+import ShareButton from '../components/ShareButton';
 
 // 🎨 ANIMAÇÕES
 const fadeInUp = keyframes`
@@ -76,6 +77,10 @@ const Header = styled.div`
   padding-bottom: 28px;
   border-bottom: 1px solid rgba(74, 140, 247, 0.15);
 
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+  }
+
   @media (max-width: 480px) {
     flex-direction: column;
     text-align: center;
@@ -105,6 +110,18 @@ const EmojiWrapper = styled.div`
 const HeaderContent = styled.div`
   flex: 1;
   min-width: 0;
+`;
+
+const ShareButtonWrapper = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: center;
+  }
 `;
 
 const Name = styled.h1`
@@ -587,6 +604,9 @@ const BusinessDetail = () => {
             <Name>{business.name}</Name>
             <Category>📂 {business.category}</Category>
           </HeaderContent>
+          <ShareButtonWrapper>
+            <ShareButton business={business} variant="large" />
+          </ShareButtonWrapper>
         </Header>
 
         <Description>{business.description}</Description>

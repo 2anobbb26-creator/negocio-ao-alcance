@@ -73,7 +73,8 @@ const ResultsTitle = styled.h2`
     display: block;
     width: 4px;
     height: 20px;
-    background: linear-gradient(180deg, #ef4444, #dc2626);
+    /* ✅ Azul em vez de vermelho */
+    background: linear-gradient(180deg, #4a8cf7, #2563eb);
     border-radius: 2px;
   }
 `;
@@ -81,19 +82,23 @@ const ResultsTitle = styled.h2`
 const ResultsCount = styled.div`
   color: #a8b8d8;
   font-size: 0.8rem;
-  background: rgba(239, 68, 68, 0.08);
+  /* ✅ Azul translúcido em vez de vermelho */
+  background: rgba(74, 140, 247, 0.08);
   padding: 8px 16px;
   border-radius: 10px;
-  border: 1px solid rgba(239, 68, 68, 0.15);
+  /* ✅ Borda azul em vez de vermelha */
+  border: 1px solid rgba(74, 140, 247, 0.18);
   font-weight: 600;
   letter-spacing: 0.5px;
   text-transform: uppercase;
 
   span {
-    color: #ef4444;
+    /* ✅ Número em branco em vez de vermelho */
+    color: #ffffff;
     font-weight: 800;
     font-size: 0.95rem;
-    margin-right: 2px;
+    /* ✅ Separa o número da palavra */
+    margin-right: 8px;
   }
 `;
 
@@ -171,7 +176,6 @@ const Favoritos = () => {
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState(null);
 
-  // 🔥 ESCUTAR MUDANÇAS DE AUTENTICAÇÃO
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -185,7 +189,6 @@ const Favoritos = () => {
     return () => unsubscribe();
   }, []);
 
-  // 🔥 CARREGAR FAVORITOS QUANDO O USERID ESTIVER DISPONÍVEL
   useEffect(() => {
     if (!userId) return;
 
@@ -234,7 +237,7 @@ const Favoritos = () => {
             <ResultsTitle>Negócios Favoritados</ResultsTitle>
             <ResultsCount>
               <span>{favorites.length}</span>
-              {favorites.length === 1 ? 'negócio' : 'negócios'}
+              {favorites.length === 1 ? 'NEGÓCIO' : 'NEGÓCIOS'}
             </ResultsCount>
           </ResultsHeader>
 

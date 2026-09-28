@@ -16,6 +16,11 @@ const AppContainer = styled.div`
   background: linear-gradient(135deg, #0a1530 0%, #0d1b3e 50%, #0a1530 100%);
 `;
 
+// 🔒 Rota que exige login
+const PrivateRoute = ({ user, children }) => {
+  return user ? children : <Navigate to="/login" replace />;
+};
+
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -31,7 +36,6 @@ function App() {
           searchHistory: []
         });
 
-        // 🔔 Verificar novos negócios
         const newNotifs = notificationService.checkForNewBusinesses(firebaseUser.uid);
         if (newNotifs.length > 0) {
           console.log('🔔 Novos negócios detectados:', newNotifs.length);
@@ -88,21 +92,22 @@ function App() {
             path="/register" 
             element={user ? <Navigate to="/" replace /> : <Login onLogin={handleLogin} onRegister={handleRegister} />} 
           />
+
+          {/* 🔓 ROTAS PÚBLICAS (funcionam sem login) */}
+          <Route path="/business/:id" element={<BusinessDetail user={user} />} />
+
+          {/* 🔒 ROTAS PRIVADAS */}
           <Route 
             path="/" 
-            element={user ? <Home user={user} /> : <Navigate to="/login" replace />} 
+            element={<PrivateRoute user={user}><Home user={user} /></PrivateRoute>} 
           />
           <Route 
             path="/perfil" 
-            element={user ? <Perfil /> : <Navigate to="/login" replace />} 
+            element={<PrivateRoute user={user}><Perfil /></PrivateRoute>} 
           />
           <Route 
             path="/favoritos" 
-            element={user ? <Favoritos /> : <Navigate to="/login" replace />} 
-          />
-          <Route 
-            path="/business/:id" 
-            element={user ? <BusinessDetail /> : <Navigate to="/login" replace />} 
+            element={<PrivateRoute user={user}><Favoritos /></PrivateRoute>} 
           />
         </Routes>
       </AppContainer>
