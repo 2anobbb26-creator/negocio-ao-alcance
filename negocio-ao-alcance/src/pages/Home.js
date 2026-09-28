@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import styled, { keyframes } from 'styled-components';
 import { businessData, categories } from '../data/businessData';
 import BusinessCard from '../components/BusinessCard';
@@ -51,6 +52,18 @@ const Container = styled.div`
   position: relative;
   z-index: 1;
   animation: ${fadeInUp} 0.8s ease-out;
+
+  @media (max-width: 768px) {
+    padding: 20px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 16px;
+  }
+
+  @media (max-width: 360px) {
+    padding: 12px;
+  }
 `;
 
 // 🌟 BACKGROUND DECORATIVO
@@ -87,10 +100,21 @@ const BackgroundDecor = styled.div`
     border-radius: 50%;
     animation: ${float} 15s ease-in-out infinite reverse;
   }
+
+  @media (max-width: 480px) {
+    &::before {
+      width: 350px;
+      height: 350px;
+    }
+
+    &::after {
+      width: 300px;
+      height: 300px;
+    }
+  }
 `;
 
-// 🚀 HEADER PRINCIPAL - BORDA AO REDOR
-// 🚀 HEADER PRINCIPAL - BORDA GRADIENTE SUTIL
+// 🚀 HEADER PRINCIPAL
 const Header = styled.header`
   text-align: center;
   margin-bottom: 40px;
@@ -101,7 +125,6 @@ const Header = styled.header`
   position: relative;
   overflow: hidden;
 
-  /* ✨ BORDA GRADIENTE SUTIL AO REDOR */
   &::before {
     content: '';
     position: absolute;
@@ -125,7 +148,6 @@ const Header = styled.header`
     pointer-events: none;
   }
 
-  /* 🌟 BACKGROUND DECORATIVO INTERNO */
   &::after {
     content: '';
     position: absolute;
@@ -144,16 +166,25 @@ const Header = styled.header`
   @media (max-width: 768px) {
     padding: 40px 24px;
     margin-bottom: 32px;
+    border-radius: 24px;
+
+    &::before {
+      border-radius: 24px;
+    }
   }
 
   @media (max-width: 480px) {
-    padding: 32px 16px;
+    padding: 32px 18px;
     margin-bottom: 24px;
-    border-radius: 22px;
+    border-radius: 20px;
 
     &::before {
-      border-radius: 22px;
+      border-radius: 20px;
     }
+  }
+
+  @media (max-width: 360px) {
+    padding: 26px 14px;
   }
 `;
 
@@ -186,6 +217,11 @@ const Title = styled.h1`
   @media (max-width: 480px) {
     font-size: 2.2rem;
     letter-spacing: -0.5px;
+    margin-bottom: 14px;
+  }
+
+  @media (max-width: 360px) {
+    font-size: 1.85rem;
   }
 `;
 
@@ -205,11 +241,18 @@ const Subtitle = styled.p`
   display: inline-block;
   border: 1px solid rgba(74, 140, 247, 0.15);
   backdrop-filter: blur(10px);
+  margin: 0;
 
   @media (max-width: 480px) {
     font-size: 0.75rem;
     letter-spacing: 1.5px;
     padding: 10px 16px;
+  }
+
+  @media (max-width: 360px) {
+    font-size: 0.68rem;
+    letter-spacing: 1px;
+    padding: 8px 12px;
   }
 `;
 
@@ -222,6 +265,12 @@ const GradientLine = styled.div`
   margin: 20px auto;
   animation: ${shimmer} 3s linear infinite, ${pulse} 2s ease-in-out infinite;
   box-shadow: 0 0 20px rgba(74, 140, 247, 0.5);
+
+  @media (max-width: 480px) {
+    width: 90px;
+    height: 3px;
+    margin: 14px auto;
+  }
 `;
 
 // 📋 RESULTS HEADER
@@ -235,9 +284,17 @@ const ResultsHeader = styled.div`
   gap: 16px;
   animation: ${slideInLeft} 0.6s ease-out;
 
+  @media (max-width: 768px) {
+    margin-top: 32px;
+    gap: 12px;
+    padding: 0;
+  }
+
   @media (max-width: 480px) {
     flex-direction: column;
     align-items: flex-start;
+    margin-top: 24px;
+    gap: 10px;
   }
 `;
 
@@ -249,6 +306,7 @@ const ResultsTitle = styled.h2`
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-wrap: wrap;
 
   span {
     background: linear-gradient(135deg, #4a8cf7, #a855f7);
@@ -257,8 +315,17 @@ const ResultsTitle = styled.h2`
     background-clip: text;
   }
 
+  @media (max-width: 768px) {
+    font-size: 1.35rem;
+  }
+
   @media (max-width: 480px) {
-    font-size: 1.2rem;
+    font-size: 1.15rem;
+    gap: 6px;
+  }
+
+  @media (max-width: 360px) {
+    font-size: 1rem;
   }
 `;
 
@@ -271,6 +338,18 @@ const ResultsCount = styled.p`
   border: 1px solid rgba(255, 255, 255, 0.06);
   font-weight: 600;
   animation: ${slideInRight} 0.6s ease-out;
+  margin: 0;
+  white-space: nowrap;
+
+  @media (max-width: 480px) {
+    font-size: 0.8rem;
+    padding: 6px 14px;
+  }
+
+  @media (max-width: 360px) {
+    font-size: 0.72rem;
+    padding: 5px 12px;
+  }
 `;
 
 // 📦 RESULTS CONTAINER
@@ -283,11 +362,17 @@ const ResultsContainer = styled.div`
   @media (max-width: 768px) {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 20px;
+    margin-top: 24px;
   }
 
   @media (max-width: 480px) {
     grid-template-columns: 1fr;
     gap: 16px;
+    margin-top: 20px;
+  }
+
+  @media (max-width: 360px) {
+    gap: 14px;
   }
 `;
 
@@ -301,7 +386,7 @@ const NoResults = styled.div`
   grid-column: 1 / -1;
   border: 1px solid rgba(255, 255, 255, 0.08);
   animation: ${fadeIn} 0.6s ease-out;
-  
+
   h3 {
     color: #fff;
     font-size: 1.8rem;
@@ -317,11 +402,37 @@ const NoResults = styled.div`
     line-height: 1.6;
   }
 
-  @media (max-width: 480px) {
-    padding: 48px 24px;
-    
+  @media (max-width: 768px) {
+    padding: 60px 28px;
+
     h3 {
-      font-size: 1.3rem;
+      font-size: 1.5rem;
+    }
+
+    p {
+      font-size: 0.95rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 48px 20px;
+    border-radius: 18px;
+
+    h3 {
+      font-size: 1.25rem;
+      margin-bottom: 12px;
+    }
+
+    p {
+      font-size: 0.88rem;
+    }
+  }
+
+  @media (max-width: 360px) {
+    padding: 36px 16px;
+
+    h3 {
+      font-size: 1.1rem;
     }
   }
 `;
@@ -332,6 +443,14 @@ const Divider = styled.div`
   background: linear-gradient(90deg, transparent, rgba(74, 140, 247, 0.3), transparent);
   margin: 40px 0;
   border: none;
+
+  @media (max-width: 768px) {
+    margin: 32px 0;
+  }
+
+  @media (max-width: 480px) {
+    margin: 24px 0;
+  }
 `;
 
 // 🎯 ANIMAÇÕES EM CASCATA
@@ -360,31 +479,30 @@ const Home = ({ user }) => {
   }, []);
 
   const handleSearch = () => {
-  if (!budget || budget === '') {
-    setFilteredResults(businessData);
-    setHasSearched(false);
-    return;
-  }
+    if (!budget || budget === '') {
+      setFilteredResults(businessData);
+      setHasSearched(false);
+      return;
+    }
 
-  const cleanBudget = budget.replace(/\./g, '').replace(',', '.');
-  const budgetValue = parseFloat(cleanBudget);
-  
-  if (isNaN(budgetValue) || budgetValue <= 0) {
-    alert('Por favor, insira um valor válido.');
-    return;
-  }
+    const cleanBudget = budget.replace(/\./g, '').replace(',', '.');
+    const budgetValue = parseFloat(cleanBudget);
 
-  // 🔥 FILTRO: minInvestment === budgetValue (exato)
-  const results = businessData.filter(item => item.minInvestment === budgetValue);
+    if (isNaN(budgetValue) || budgetValue <= 0) {
+      alert('Por favor, insira um valor válido.');
+      return;
+    }
 
-  let finalResults = results;
-  if (selectedCategory !== 'Todos') {
-    finalResults = results.filter(item => item.category === selectedCategory);
-  }
+    const results = businessData.filter(item => item.minInvestment === budgetValue);
 
-  setFilteredResults(finalResults);
-  setHasSearched(true);
-};
+    let finalResults = results;
+    if (selectedCategory !== 'Todos') {
+      finalResults = results.filter(item => item.category === selectedCategory);
+    }
+
+    setFilteredResults(finalResults);
+    setHasSearched(true);
+  };
 
   const handleBudgetChange = (e) => {
     const value = e.target.value.replace(/\D/g, '');
@@ -400,7 +518,7 @@ const Home = ({ user }) => {
 
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
-    
+
     if (category === 'Todos') {
       setFilteredResults(businessData);
       setHasSearched(false);
@@ -429,12 +547,33 @@ const Home = ({ user }) => {
     setHasSearched(false);
   };
 
-  const minInvestment = businessData.length > 0 
+  const minInvestment = businessData.length > 0
     ? Math.min(...businessData.map(item => item.minInvestment))
     : 0;
 
   return (
     <>
+      <Helmet>
+        <title>Negócio ao Alcance | Descubra oportunidades de negócio</title>
+        <meta name="description" content="Descubra oportunidades de negócio que cabem no seu bolso! Explore serviços, calcule faturamento e encontre o negócio ideal para você." />
+
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Negócio ao Alcance | Descubra oportunidades" />
+        <meta property="og:description" content="Descubra oportunidades de negócio que cabem no seu bolso!" />
+        <meta property="og:image" content={`${window.location.origin}/preview.jpg`} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:url" content={window.location.origin} />
+        <meta property="og:site_name" content="Negócio ao Alcance" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Negócio ao Alcance" />
+        <meta name="twitter:description" content="Descubra oportunidades de negócio que cabem no seu bolso!" />
+        <meta name="twitter:image" content={`${window.location.origin}/preview.jpg`} />
+      </Helmet>
+
       <BackgroundDecor />
       <Container>
         <Header>
@@ -483,9 +622,9 @@ const Home = ({ user }) => {
         <ResultsContainer>
           {filteredResults.length > 0 ? (
             filteredResults.map((business, index) => (
-              <BusinessCard 
-                key={business.id} 
-                business={business} 
+              <BusinessCard
+                key={business.id}
+                business={business}
                 style={{ animationDelay: `${index * 0.05}s` }}
               />
             ))

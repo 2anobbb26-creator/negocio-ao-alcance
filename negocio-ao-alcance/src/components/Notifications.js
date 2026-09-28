@@ -16,6 +16,10 @@ const pulse = keyframes`
 
 const Container = styled.div`
   position: relative;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const BellButton = styled.button`
@@ -32,6 +36,8 @@ const BellButton = styled.button`
   font-size: 1.1rem;
   transition: all 0.3s ease;
   color: #e8eef7;
+  padding: 0;
+  flex-shrink: 0;
 
   &:hover {
     background: rgba(74, 140, 247, 0.15);
@@ -41,6 +47,29 @@ const BellButton = styled.button`
 
   &:active {
     transform: scale(0.95);
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    padding: 14px 18px;
+    justify-content: flex-start;
+    gap: 10px;
+    font-size: 1rem;
+    background: rgba(74, 140, 247, 0.06);
+    border: 1px solid rgba(74, 140, 247, 0.1);
+
+    &::after {
+      content: 'Notificações';
+      font-weight: 600;
+      color: #a8b8d8;
+    }
+
+    &:hover {
+      transform: none;
+      background: rgba(74, 140, 247, 0.15);
+    }
   }
 `;
 
@@ -61,6 +90,15 @@ const Badge = styled.span`
   justify-content: center;
   border: 2px solid #0a1530;
   animation: ${pulse} 2s ease-in-out infinite;
+
+  @media (max-width: 768px) {
+    position: static;
+    margin-left: auto;
+    border: none;
+    min-width: 22px;
+    height: 22px;
+    font-size: 0.7rem;
+  }
 `;
 
 const Dropdown = styled.div`
@@ -88,9 +126,17 @@ const Dropdown = styled.div`
     border-radius: 10px;
   }
 
-  @media (max-width: 480px) {
-    width: 300px;
-    right: -20px;
+  /* 📱 No mobile, ocupa 100% da largura do menu */
+  @media (max-width: 768px) {
+    position: static;
+    width: 100%;
+    max-height: 320px;
+    margin-top: 4px;
+    right: auto;
+    top: auto;
+    border-radius: 12px;
+    box-shadow: none;
+    animation: none;
   }
 `;
 
@@ -100,10 +146,16 @@ const DropdownHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 10px;
   position: sticky;
   top: 0;
   background: #0d1b3e;
   z-index: 1;
+
+  @media (max-width: 768px) {
+    padding: 14px 16px;
+    flex-wrap: wrap;
+  }
 `;
 
 const DropdownTitle = styled.h3`
@@ -111,6 +163,10 @@ const DropdownTitle = styled.h3`
   font-size: 1rem;
   font-weight: 800;
   margin: 0;
+
+  @media (max-width: 480px) {
+    font-size: 0.9rem;
+  }
 `;
 
 const MarkAllButton = styled.button`
@@ -121,9 +177,16 @@ const MarkAllButton = styled.button`
   font-weight: 700;
   cursor: pointer;
   transition: color 0.3s;
+  font-family: inherit;
+  padding: 4px 0;
+  white-space: nowrap;
 
   &:hover {
     color: #a855f7;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.7rem;
   }
 `;
 
@@ -144,6 +207,11 @@ const NotificationItem = styled.div`
   &:last-child {
     border-bottom: none;
   }
+
+  @media (max-width: 480px) {
+    padding: 14px 16px;
+    gap: 10px;
+  }
 `;
 
 const NotificationIcon = styled.div`
@@ -156,6 +224,12 @@ const NotificationIcon = styled.div`
   justify-content: center;
   background: rgba(74, 140, 247, 0.1);
   border-radius: 10px;
+
+  @media (max-width: 480px) {
+    width: 36px;
+    height: 36px;
+    font-size: 1.3rem;
+  }
 `;
 
 const NotificationContent = styled.div`
@@ -168,6 +242,10 @@ const NotificationTitle = styled.div`
   font-size: 0.9rem;
   font-weight: 700;
   margin-bottom: 4px;
+
+  @media (max-width: 480px) {
+    font-size: 0.85rem;
+  }
 `;
 
 const NotificationText = styled.div`
@@ -175,12 +253,20 @@ const NotificationText = styled.div`
   font-size: 0.8rem;
   line-height: 1.4;
   margin-bottom: 6px;
+
+  @media (max-width: 480px) {
+    font-size: 0.75rem;
+  }
 `;
 
 const NotificationTime = styled.div`
   color: #6b7fa8;
   font-size: 0.7rem;
   font-weight: 600;
+
+  @media (max-width: 480px) {
+    font-size: 0.65rem;
+  }
 `;
 
 const Empty = styled.div`
@@ -188,12 +274,21 @@ const Empty = styled.div`
   text-align: center;
   color: #a8b8d8;
   font-size: 0.9rem;
+
+  @media (max-width: 480px) {
+    padding: 36px 16px;
+    font-size: 0.85rem;
+  }
 `;
 
 const EmptyIcon = styled.div`
   font-size: 2.5rem;
   margin-bottom: 12px;
   opacity: 0.5;
+
+  @media (max-width: 480px) {
+    font-size: 2rem;
+  }
 `;
 
 const Notifications = () => {
@@ -202,12 +297,10 @@ const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
   const dropdownRef = useRef(null);
 
-  // 🔄 CARREGAR NOTIFICAÇÕES
   useEffect(() => {
     loadNotifications();
   }, []);
 
-  // 🔒 FECHAR AO CLICAR FORA
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -223,13 +316,8 @@ const Notifications = () => {
     const currentUser = auth.currentUser;
     if (!currentUser) return;
 
-    // 🔑 Chave única por usuário
     const storageKey = `notifications_${currentUser.uid}`;
-    const lastSeenKey = `lastSeenBusiness_${currentUser.uid}`;
-
-    // 📦 Dados do localStorage
     const savedNotifications = JSON.parse(localStorage.getItem(storageKey) || '[]');
-    const lastSeen = localStorage.getItem(lastSeenKey);
 
     setNotifications(savedNotifications);
   };
@@ -238,7 +326,7 @@ const Notifications = () => {
 
   const handleMarkAllRead = (e) => {
     e.stopPropagation();
-    
+
     const currentUser = auth.currentUser;
     if (!currentUser) return;
 
@@ -253,7 +341,6 @@ const Notifications = () => {
     const currentUser = auth.currentUser;
     if (!currentUser) return;
 
-    // Marcar como lida
     const updated = notifications.map(n =>
       n.id === notification.id ? { ...n, read: true } : n
     );
@@ -262,7 +349,6 @@ const Notifications = () => {
     const storageKey = `notifications_${currentUser.uid}`;
     localStorage.setItem(storageKey, JSON.stringify(updated));
 
-    // Navegar para o negócio
     if (notification.businessId) {
       navigate(`/business/${notification.businessId}`);
       setIsOpen(false);

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import styled, { keyframes } from 'styled-components';
 import { businessData } from '../data/businessData';
 import ShareButton from '../components/ShareButton';
@@ -618,9 +619,14 @@ const BusinessDetail = () => {
   const [clientesDia, setClientesDia] = useState('');
   const [diasMes, setDiasMes] = useState('22');
 
+  // 🚫 NEGÓCIO NÃO ENCONTRADO
   if (!business) {
     return (
       <Container>
+        <Helmet>
+          <title>Serviço não encontrado | Negócio ao Alcance</title>
+          <meta name="description" content="O serviço que você procura não existe ou foi removido." />
+        </Helmet>
         <NotFound>
           <h2>😕 Serviço não encontrado</h2>
           <p>O serviço que você procura não existe ou foi removido.</p>
@@ -669,8 +675,33 @@ const BusinessDetail = () => {
     });
   };
 
+  // 🔗 URL e imagem para o Open Graph
+  const shareUrl = `${window.location.origin}/business/${business.id}`;
+  const previewImage = `${window.location.origin}/preview.jpg`;
+
   return (
     <Container>
+      <Helmet>
+        <title>{business.name} | Negócio ao Alcance</title>
+        <meta name="description" content={business.description} />
+
+        {/* Open Graph — Facebook, WhatsApp, LinkedIn */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={`${business.name} | Negócio ao Alcance`} />
+        <meta property="og:description" content={business.description} />
+        <meta property="og:image" content={previewImage} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:url" content={shareUrl} />
+        <meta property="og:site_name" content="Negócio ao Alcance" />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${business.name} | Negócio ao Alcance`} />
+        <meta name="twitter:description" content={business.description} />
+        <meta name="twitter:image" content={previewImage} />
+      </Helmet>
+
       <BackButton onClick={() => navigate('/')}>
         ← Voltar para os serviços
       </BackButton>

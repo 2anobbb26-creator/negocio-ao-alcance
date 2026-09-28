@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import styled from 'styled-components';
 import { GlobalStyle } from './styles/GlobalStyles';
 import { authService } from './services/firebase';
@@ -79,39 +80,41 @@ function App() {
   }
 
   return (
-    <Router>
-      <GlobalStyle />
-      <AppContainer>
-        <Navbar user={user} onLogout={handleLogout} />
-        <Routes>
-          <Route 
-            path="/login" 
-            element={user ? <Navigate to="/" replace /> : <Login onLogin={handleLogin} onRegister={handleRegister} />} 
-          />
-          <Route 
-            path="/register" 
-            element={user ? <Navigate to="/" replace /> : <Login onLogin={handleLogin} onRegister={handleRegister} />} 
-          />
+    <HelmetProvider>
+      <Router>
+        <GlobalStyle />
+        <AppContainer>
+          <Navbar user={user} onLogout={handleLogout} />
+          <Routes>
+            <Route 
+              path="/login" 
+              element={user ? <Navigate to="/" replace /> : <Login onLogin={handleLogin} onRegister={handleRegister} />} 
+            />
+            <Route 
+              path="/register" 
+              element={user ? <Navigate to="/" replace /> : <Login onLogin={handleLogin} onRegister={handleRegister} />} 
+            />
 
-          {/* 🔓 ROTAS PÚBLICAS (funcionam sem login) */}
-          <Route path="/business/:id" element={<BusinessDetail user={user} />} />
+            {/* 🔓 ROTAS PÚBLICAS (funcionam sem login) */}
+            <Route path="/business/:id" element={<BusinessDetail user={user} />} />
 
-          {/* 🔒 ROTAS PRIVADAS */}
-          <Route 
-            path="/" 
-            element={<PrivateRoute user={user}><Home user={user} /></PrivateRoute>} 
-          />
-          <Route 
-            path="/perfil" 
-            element={<PrivateRoute user={user}><Perfil /></PrivateRoute>} 
-          />
-          <Route 
-            path="/favoritos" 
-            element={<PrivateRoute user={user}><Favoritos /></PrivateRoute>} 
-          />
-        </Routes>
-      </AppContainer>
-    </Router>
+            {/* 🔒 ROTAS PRIVADAS */}
+            <Route 
+              path="/" 
+              element={<PrivateRoute user={user}><Home user={user} /></PrivateRoute>} 
+            />
+            <Route 
+              path="/perfil" 
+              element={<PrivateRoute user={user}><Perfil /></PrivateRoute>} 
+            />
+            <Route 
+              path="/favoritos" 
+              element={<PrivateRoute user={user}><Favoritos /></PrivateRoute>} 
+            />
+          </Routes>
+        </AppContainer>
+      </Router>
+    </HelmetProvider>
   );
 }
 
