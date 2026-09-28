@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { auth, authService } from '../services/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 
 const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(20px); }
@@ -215,48 +216,67 @@ const BusinessCard = ({ business, style }) => {
   const navigate = useNavigate();
   const [favorited, setFavorited] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
 
-  // 🔍 VERIFICAR SE JÁ É FAVORITO
+  // 🔥 ESCUTAR ESTADO DE AUTENTICAÇÃO
   useEffect(() => {
-    const checkFavorite = async () => {
-      const currentUser = auth.currentUser;
-      if (!currentUser) return;
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+    });
+    return () => unsubscribe();
+  }, []);
 
-      const result = await authService.getFavorites(currentUser.uid);
-      if (result.success) {
-        setFavorited(result.data.includes(business.id));
-      }
-    };
+  // 🔍 VERIFICAR SE JÁ É FAVORITO (usa localStorage - instantâneo)
+  useEffect(() => {
+    if (!currentUser) return;
 
-    checkFavorite();
-  }, [business.id]);
+    const storageKey = `favorites_${currentUser.uid}`;
+    const savedFavorites = JSON.parse(localStorage.getItem(storageKey) || '[]');
+    setFavorited(savedFavorites.includes(business.id));
+  }, [business.id, currentUser]);
 
-  // ❤️ CLICAR NO CORAÇÃO
-  const handleFavoriteClick = async (e) => {
+  // ❤️ CLICAR NO CORAÇÃO (localStorage - INSTANTÂNEO)
+  const handleFavoriteClick = (e) => {
     e.stopPropagation();
-    
-    const currentUser = auth.currentUser;
+
     if (!currentUser) {
       alert('Faça login para favoritar!');
       return;
     }
 
+    console.log('🔘 Clique no coração');
     setLoading(true);
 
+    const storageKey = `favorites_${currentUser.uid}`;
+    const savedFavorites = JSON.parse(localStorage.getItem(storageKey) || '[]');
+
     if (favorited) {
-      // Remove dos favoritos
-      const result = await authService.removeFavorite(currentUser.uid, business.id);
-      if (result.success) {
-        setFavorited(false);
-        console.log('💔 Removido dos favoritos');
-      }
+      // 💔 REMOVER
+      const newFavorites = savedFavorites.filter(id => id !== business.id);
+      localStorage.setItem(storageKey, JSON.stringify(newFavorites));
+      setFavorited(false);
+      console.log('💔 Removido do localStorage');
+
+      // 🔄 Sincronizar com Firestore em background
+      authService.removeFavorite(currentUser.uid, business.id)
+        .catch(err => console.warn('⚠️ Firestore erro:', err));
     } else {
-      // Adiciona aos favoritos
-      const result = await authService.addFavorite(currentUser.uid, business.id);
-      if (result.success) {
-        setFavorited(true);
-        console.log('❤️ Adicionado aos favoritos');
+      // ❤️ ADICIONAR
+      if (!savedFavorites.includes(business.id)) {
+        savedFavorites.push(business.id);
+        localStorage.setItem(storageKey, JSON.stringify(savedFavorites));
       }
+      setFavorited(true);
+      console.log('❤️ Adicionado ao localStorage');
+
+      // 🔄 Sincronizar com Firestore em background
+      authService.addFavorite(currentUser.uid, business.id)
+        .catch(err => console.warn('⚠️ Firestore erro:', err));
+
+      // 🚀 REDIRECIONAR PARA FAVORITOS
+      setTimeout(() => {
+        navigate('/favoritos');
+      }, 400);
     }
 
     setLoading(false);
