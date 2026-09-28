@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { auth, authService } from '../services/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 import { businessData } from '../data/businessData';
 import BusinessCard from '../components/BusinessCard';
 
@@ -168,27 +169,49 @@ const Favoritos = () => {
   const navigate = useNavigate();
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [userId, setUserId] = useState(null);
 
+  // 🔥 ESCUTAR MUDANÇAS DE AUTENTICAÇÃO
   useEffect(() => {
-    const loadFavorites = async () => {
-      const currentUser = auth.currentUser;
-      if (!currentUser) {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserId(user.uid);
+      } else {
+        setUserId(null);
         setLoading(false);
-        return;
       }
+    });
 
-      const result = await authService.getFavorites(currentUser.uid);
+    return () => unsubscribe();
+  }, []);
+
+  // 🔥 CARREGAR FAVORITOS QUANDO O USERID ESTIVER DISPONÍVEL
+  useEffect(() => {
+    if (!userId) return;
+
+    const loadFavorites = async () => {
+      setLoading(true);
+      console.log('📥 Carregando favoritos para:', userId);
+
+      const result = await authService.getFavorites(userId);
+      console.log('📦 Resultado:', result);
+
       if (result.success && result.data.length > 0) {
         const favoriteBusinesses = businessData.filter(b => 
           result.data.includes(b.id)
         );
+        console.log('✅ Favoritos encontrados:', favoriteBusinesses.length);
         setFavorites(favoriteBusinesses);
+      } else {
+        console.log('⚠️ Nenhum favorito encontrado');
+        setFavorites([]);
       }
+
       setLoading(false);
     };
 
     loadFavorites();
-  }, []);
+  }, [userId]);
 
   if (loading) {
     return (
