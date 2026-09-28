@@ -16,6 +16,10 @@ const Container = styled.div`
   margin: 0 auto;
   padding: 24px;
   animation: ${fadeInUp} 0.6s ease-out;
+
+  @media (max-width: 480px) {
+    padding: 16px;
+  }
 `;
 
 const Header = styled.div`
@@ -26,6 +30,12 @@ const Header = styled.div`
   border-radius: 24px;
   border: 1px solid rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(20px);
+
+  @media (max-width: 480px) {
+    padding: 28px 20px;
+    margin-bottom: 24px;
+    border-radius: 18px;
+  }
 `;
 
 const Title = styled.h1`
@@ -37,8 +47,12 @@ const Title = styled.h1`
   -webkit-text-fill-color: transparent;
   background-clip: text;
 
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
+
   @media (max-width: 480px) {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
   }
 `;
 
@@ -46,17 +60,28 @@ const Subtitle = styled.p`
   color: #a8b8d8;
   font-size: 1rem;
   margin: 0;
+
+  @media (max-width: 480px) {
+    font-size: 0.9rem;
+  }
 `;
 
 const ResultsHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 12px;
   margin: 32px 0 24px;
   padding: 20px 24px;
   background: rgba(255, 255, 255, 0.02);
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.05);
+
+  @media (max-width: 480px) {
+    padding: 16px 18px;
+    margin: 24px 0 18px;
+    flex-wrap: wrap;
+  }
 `;
 
 const ResultsTitle = styled.h2`
@@ -73,32 +98,46 @@ const ResultsTitle = styled.h2`
     display: block;
     width: 4px;
     height: 20px;
-    /* ✅ Azul em vez de vermelho */
     background: linear-gradient(180deg, #4a8cf7, #2563eb);
     border-radius: 2px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1rem;
+
+    &::before {
+      height: 16px;
+    }
   }
 `;
 
 const ResultsCount = styled.div`
   color: #a8b8d8;
   font-size: 0.8rem;
-  /* ✅ Azul translúcido em vez de vermelho */
   background: rgba(74, 140, 247, 0.08);
   padding: 8px 16px;
   border-radius: 10px;
-  /* ✅ Borda azul em vez de vermelha */
   border: 1px solid rgba(74, 140, 247, 0.18);
   font-weight: 600;
   letter-spacing: 0.5px;
   text-transform: uppercase;
+  white-space: nowrap;
 
   span {
-    /* ✅ Número em branco em vez de vermelho */
     color: #ffffff;
     font-weight: 800;
     font-size: 0.95rem;
-    /* ✅ Separa o número da palavra */
     margin-right: 8px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.7rem;
+    padding: 6px 12px;
+
+    span {
+      font-size: 0.85rem;
+      margin-right: 6px;
+    }
   }
 `;
 
@@ -139,6 +178,18 @@ const Empty = styled.div`
     font-size: 1rem;
     line-height: 1.6;
   }
+
+  @media (max-width: 480px) {
+    padding: 50px 24px;
+
+    h3 {
+      font-size: 1.2rem;
+    }
+
+    p {
+      font-size: 0.9rem;
+    }
+  }
 `;
 
 const BackButton = styled.button`
@@ -160,6 +211,11 @@ const BackButton = styled.button`
   &:hover {
     background: linear-gradient(135deg, #142952 0%, #1e3a8a 50%, #2563eb 100%);
     transform: translateY(-2px);
+  }
+
+  @media (max-width: 480px) {
+    padding: 12px 24px;
+    font-size: 0.85rem;
   }
 `;
 
@@ -200,7 +256,7 @@ const Favoritos = () => {
       console.log('📦 Resultado:', result);
 
       if (result.success && result.data.length > 0) {
-        const favoriteBusinesses = businessData.filter(b => 
+        const favoriteBusinesses = businessData.filter(b =>
           result.data.includes(b.id)
         );
         console.log('✅ Favoritos encontrados:', favoriteBusinesses.length);
@@ -243,9 +299,9 @@ const Favoritos = () => {
 
           <Grid>
             {favorites.map((business, index) => (
-              <BusinessCard 
-                key={business.id} 
-                business={business} 
+              <BusinessCard
+                key={business.id}
+                business={business}
                 style={{ animationDelay: `${index * 0.05}s` }}
               />
             ))}

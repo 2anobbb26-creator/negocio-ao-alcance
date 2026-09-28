@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { auth, authService } from '../services/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
+import ShareButton from './ShareButton';
 
 const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(20px); }
@@ -26,7 +27,7 @@ const Card = styled.div`
   animation: ${fadeIn} 0.5s ease-out;
   position: relative;
   overflow: hidden;
-  
+
   &::before {
     content: '';
     position: absolute;
@@ -34,13 +35,13 @@ const Card = styled.div`
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, 
-      #4a8cf7 0%, 
-      #7eb8ff 20%, 
-      #a855f7 45%, 
-      #ffffff 60%, 
-      #a855f7 75%, 
-      #7eb8ff 90%, 
+    background: linear-gradient(90deg,
+      #4a8cf7 0%,
+      #7eb8ff 20%,
+      #a855f7 45%,
+      #ffffff 60%,
+      #a855f7 75%,
+      #7eb8ff 90%,
       #4a8cf7 100%
     );
     background-size: 300% auto;
@@ -48,7 +49,7 @@ const Card = styled.div`
     transition: opacity 0.4s ease;
     animation: ${borderFlow} 4s linear infinite;
   }
-  
+
   &:hover {
     transform: translateY(-4px);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
@@ -60,6 +61,27 @@ const Card = styled.div`
       height: 4px;
     }
   }
+
+  @media (max-width: 480px) {
+    padding: 18px;
+    border-radius: 14px;
+  }
+`;
+
+const TopActions = styled.div`
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  z-index: 10;
+
+  @media (max-width: 480px) {
+    top: 12px;
+    right: 12px;
+    gap: 6px;
+  }
 `;
 
 const CardHeader = styled.div`
@@ -67,12 +89,20 @@ const CardHeader = styled.div`
   align-items: flex-start;
   gap: 14px;
   margin-bottom: 10px;
+
+  @media (max-width: 480px) {
+    gap: 10px;
+  }
 `;
 
 const Emoji = styled.span`
   font-size: 2.2rem;
   flex-shrink: 0;
   margin-top: 4px;
+
+  @media (max-width: 480px) {
+    font-size: 1.8rem;
+  }
 `;
 
 const HeaderContent = styled.div`
@@ -86,7 +116,17 @@ const Name = styled.h3`
   margin: 0;
   font-weight: 700;
   line-height: 1.3;
-  padding-right: 45px;
+  padding-right: 95px;
+
+  @media (max-width: 480px) {
+    font-size: 1.05rem;
+    padding-right: 85px;
+  }
+
+  @media (max-width: 360px) {
+    font-size: 1rem;
+    padding-right: 80px;
+  }
 `;
 
 const Category = styled.span`
@@ -101,33 +141,35 @@ const Category = styled.span`
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-top: 4px;
+
+  @media (max-width: 480px) {
+    font-size: 0.6rem;
+    padding: 2px 10px;
+  }
 `;
 
 const FavoriteButton = styled.button`
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  background: ${props => props.$favorited 
-    ? 'rgba(239, 68, 68, 0.15)' 
+  background: ${props => props.$favorited
+    ? 'rgba(239, 68, 68, 0.15)'
     : 'rgba(255, 255, 255, 0.05)'};
-  border: 1px solid ${props => props.$favorited 
-    ? 'rgba(239, 68, 68, 0.4)' 
+  border: 1px solid ${props => props.$favorited
+    ? 'rgba(239, 68, 68, 0.4)'
     : 'rgba(255, 255, 255, 0.1)'};
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   transition: all 0.3s ease;
-  z-index: 10;
   padding: 0;
+  flex-shrink: 0;
 
   &:hover {
-    background: ${props => props.$favorited 
-      ? 'rgba(239, 68, 68, 0.25)' 
+    background: ${props => props.$favorited
+      ? 'rgba(239, 68, 68, 0.25)'
       : 'rgba(239, 68, 68, 0.1)'};
     border-color: rgba(239, 68, 68, 0.5);
     transform: scale(1.1);
@@ -140,6 +182,12 @@ const FavoriteButton = styled.button`
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+  }
+
+  @media (max-width: 480px) {
+    width: 34px;
+    height: 34px;
+    font-size: 1rem;
   }
 `;
 
@@ -160,6 +208,11 @@ const Badge = styled.span`
   border: 1px solid ${props => props.$color || 'rgba(74, 140, 247, 0.1)'};
   text-transform: uppercase;
   letter-spacing: 0.3px;
+
+  @media (max-width: 480px) {
+    font-size: 0.55rem;
+    padding: 2px 10px;
+  }
 `;
 
 const Description = styled.p`
@@ -171,6 +224,10 @@ const Description = styled.p`
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+
+  @media (max-width: 480px) {
+    font-size: 0.85rem;
+  }
 `;
 
 const Investment = styled.p`
@@ -183,6 +240,11 @@ const Investment = styled.p`
   border-radius: 8px;
   display: inline-block;
   border: 1px solid rgba(74, 140, 247, 0.1);
+
+  @media (max-width: 480px) {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+  }
 `;
 
 const DetailButton = styled.button`
@@ -210,6 +272,11 @@ const DetailButton = styled.button`
   &:active {
     transform: translateY(0) scale(0.98);
   }
+
+  @media (max-width: 480px) {
+    font-size: 0.8rem;
+    padding: 10px;
+  }
 `;
 
 const BusinessCard = ({ business, style }) => {
@@ -218,7 +285,6 @@ const BusinessCard = ({ business, style }) => {
   const [loading, setLoading] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
 
-  // 🔥 ESCUTAR ESTADO DE AUTENTICAÇÃO
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
@@ -226,7 +292,6 @@ const BusinessCard = ({ business, style }) => {
     return () => unsubscribe();
   }, []);
 
-  // 🔍 VERIFICAR SE JÁ É FAVORITO (usa localStorage - instantâneo)
   useEffect(() => {
     if (!currentUser) return;
 
@@ -235,7 +300,6 @@ const BusinessCard = ({ business, style }) => {
     setFavorited(savedFavorites.includes(business.id));
   }, [business.id, currentUser]);
 
-  // ❤️ CLICAR NO CORAÇÃO (localStorage - INSTANTÂNEO)
   const handleFavoriteClick = (e) => {
     e.stopPropagation();
 
@@ -251,17 +315,14 @@ const BusinessCard = ({ business, style }) => {
     const savedFavorites = JSON.parse(localStorage.getItem(storageKey) || '[]');
 
     if (favorited) {
-      // 💔 REMOVER
       const newFavorites = savedFavorites.filter(id => id !== business.id);
       localStorage.setItem(storageKey, JSON.stringify(newFavorites));
       setFavorited(false);
       console.log('💔 Removido do localStorage');
 
-      // 🔄 Sincronizar com Firestore em background
       authService.removeFavorite(currentUser.uid, business.id)
         .catch(err => console.warn('⚠️ Firestore erro:', err));
     } else {
-      // ❤️ ADICIONAR
       if (!savedFavorites.includes(business.id)) {
         savedFavorites.push(business.id);
         localStorage.setItem(storageKey, JSON.stringify(savedFavorites));
@@ -269,11 +330,9 @@ const BusinessCard = ({ business, style }) => {
       setFavorited(true);
       console.log('❤️ Adicionado ao localStorage');
 
-      // 🔄 Sincronizar com Firestore em background
       authService.addFavorite(currentUser.uid, business.id)
         .catch(err => console.warn('⚠️ Firestore erro:', err));
 
-      // 🚀 REDIRECIONAR PARA FAVORITOS
       setTimeout(() => {
         navigate('/favoritos');
       }, 400);
@@ -293,15 +352,17 @@ const BusinessCard = ({ business, style }) => {
 
   return (
     <Card style={style}>
-      {/* ❤️ BOTÃO DE FAVORITO */}
-      <FavoriteButton
-        $favorited={favorited}
-        onClick={handleFavoriteClick}
-        disabled={loading}
-        title={favorited ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
-      >
-        {loading ? '⏳' : favorited ? '❤️' : '🤍'}
-      </FavoriteButton>
+      <TopActions>
+        <ShareButton business={business} />
+        <FavoriteButton
+          $favorited={favorited}
+          onClick={handleFavoriteClick}
+          disabled={loading}
+          title={favorited ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
+        >
+          {loading ? '⏳' : favorited ? '❤️' : '🤍'}
+        </FavoriteButton>
+      </TopActions>
 
       <CardHeader>
         <Emoji>{business.image}</Emoji>

@@ -4,21 +4,23 @@ import styled, { keyframes } from 'styled-components';
 import { businessData } from '../data/businessData';
 import ShareButton from '../components/ShareButton';
 
-// 🎨 ANIMAÇÕES
 const fadeInUp = keyframes`
   from { opacity: 0; transform: translateY(40px); }
   to { opacity: 1; transform: translateY(0); }
 `;
 
-// 🎨 CONTAINER PRINCIPAL
 const Container = styled.div`
   max-width: 1000px;
   margin: 30px auto;
   padding: 20px;
   animation: ${fadeInUp} 0.6s ease-out;
+
+  @media (max-width: 480px) {
+    margin: 16px auto;
+    padding: 16px;
+  }
 `;
 
-// 🔙 BOTÃO VOLTAR
 const BackButton = styled.button`
   background: linear-gradient(135deg, #0d1b3e 0%, #142952 50%, #1e3a8a 100%);
   border: 1px solid rgba(74, 140, 247, 0.3);
@@ -35,7 +37,7 @@ const BackButton = styled.button`
   gap: 8px;
   margin-bottom: 24px;
   letter-spacing: 0.8px;
-  box-shadow: 
+  box-shadow:
     0 4px 16px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(74, 140, 247, 0.15);
 
@@ -43,7 +45,7 @@ const BackButton = styled.button`
     background: linear-gradient(135deg, #142952 0%, #1e3a8a 50%, #2563eb 100%);
     transform: translateX(-4px);
     border-color: rgba(74, 140, 247, 0.5);
-    box-shadow: 
+    box-shadow:
       0 8px 24px rgba(30, 58, 138, 0.4),
       inset 0 1px 0 rgba(74, 140, 247, 0.25);
   }
@@ -51,9 +53,14 @@ const BackButton = styled.button`
   &:active {
     transform: translateX(-2px) scale(0.98);
   }
+
+  @media (max-width: 480px) {
+    padding: 10px 20px;
+    font-size: 0.85rem;
+    margin-bottom: 18px;
+  }
 `;
 
-// 🔵 CARD PRINCIPAL
 const Card = styled.div`
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(10px);
@@ -62,13 +69,17 @@ const Card = styled.div`
   position: relative;
   border: 1px solid rgba(255, 255, 255, 0.06);
 
-  @media (max-width: 480px) {
-    padding: 28px;
+  @media (max-width: 768px) {
+    padding: 32px;
     border-radius: 22px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 24px 18px;
+    border-radius: 18px;
   }
 `;
 
-// 🎯 HEADER DO CARD
 const Header = styled.div`
   display: flex;
   align-items: center;
@@ -79,12 +90,15 @@ const Header = styled.div`
 
   @media (max-width: 768px) {
     flex-wrap: wrap;
+    gap: 16px;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
   }
 
   @media (max-width: 480px) {
     flex-direction: column;
     text-align: center;
-    gap: 16px;
+    gap: 14px;
   }
 `;
 
@@ -100,10 +114,17 @@ const EmojiWrapper = styled.div`
   border: 1px solid rgba(74, 140, 247, 0.15);
   flex-shrink: 0;
 
-  @media (max-width: 480px) {
+  @media (max-width: 768px) {
     width: 80px;
     height: 80px;
     font-size: 3rem;
+  }
+
+  @media (max-width: 480px) {
+    width: 70px;
+    height: 70px;
+    font-size: 2.5rem;
+    border-radius: 18px;
   }
 `;
 
@@ -130,10 +151,10 @@ const Name = styled.h1`
   font-weight: 800;
   letter-spacing: -0.5px;
   line-height: 1.2;
-  background: linear-gradient(135deg, 
-    #ffffff 0%, 
-    #d0e0ff 30%, 
-    #7eb8ff 60%, 
+  background: linear-gradient(135deg,
+    #ffffff 0%,
+    #d0e0ff 30%,
+    #7eb8ff 60%,
     #4a8cf7 100%
   );
   -webkit-background-clip: text;
@@ -162,9 +183,13 @@ const Category = styled.span`
   border: 1px solid rgba(74, 140, 247, 0.2);
   text-transform: uppercase;
   letter-spacing: 1px;
+
+  @media (max-width: 480px) {
+    font-size: 0.65rem;
+    padding: 5px 14px;
+  }
 `;
 
-// 📄 DESCRIÇÃO
 const Description = styled.p`
   color: #d8e4f5;
   font-size: 1.05rem;
@@ -179,15 +204,21 @@ const Description = styled.p`
   @media (max-width: 480px) {
     font-size: 0.95rem;
     padding: 18px;
+    margin-bottom: 24px;
   }
 `;
 
-// 📊 GRID DE INFORMAÇÕES
 const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 16px;
   margin: 0 0 32px 0;
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
 `;
 
 const InfoCard = styled.div`
@@ -229,7 +260,6 @@ const InfoValue = styled.div`
   }
 `;
 
-// 🧮 CALCULADORA DE FATURAMENTO
 const CalculatorSection = styled.div`
   background: rgba(74, 140, 247, 0.06);
   border-radius: 20px;
@@ -238,7 +268,8 @@ const CalculatorSection = styled.div`
   margin: 0 0 32px 0;
 
   @media (max-width: 480px) {
-    padding: 20px;
+    padding: 20px 16px;
+    margin-bottom: 24px;
   }
 `;
 
@@ -263,6 +294,16 @@ const CalculatorTitle = styled.h3`
     border-radius: 12px;
     border: 1px solid rgba(74, 140, 247, 0.15);
   }
+
+  @media (max-width: 480px) {
+    font-size: 1rem;
+
+    span {
+      width: 34px;
+      height: 34px;
+      font-size: 1.2rem;
+    }
+  }
 `;
 
 const CalculatorSubtitle = styled.p`
@@ -270,6 +311,11 @@ const CalculatorSubtitle = styled.p`
   font-size: 0.85rem;
   margin-bottom: 24px;
   line-height: 1.6;
+
+  @media (max-width: 480px) {
+    font-size: 0.8rem;
+    margin-bottom: 18px;
+  }
 `;
 
 const CalculatorGrid = styled.div`
@@ -277,6 +323,12 @@ const CalculatorGrid = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 16px;
   margin-bottom: 24px;
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
 `;
 
 const CalculatorField = styled.div`
@@ -302,6 +354,8 @@ const CalculatorInput = styled.input`
   font-size: 1rem;
   font-weight: 600;
   transition: all 0.3s ease;
+  font-family: inherit;
+  width: 100%;
 
   &:focus {
     outline: none;
@@ -321,6 +375,11 @@ const CalculatorInput = styled.input`
     margin: 0;
   }
   -moz-appearance: textfield;
+
+  @media (max-width: 480px) {
+    padding: 12px 14px;
+    font-size: 0.95rem;
+  }
 `;
 
 const CalculatorResult = styled.div`
@@ -329,6 +388,10 @@ const CalculatorResult = styled.div`
   padding: 24px;
   border: 1px solid rgba(74, 222, 128, 0.25);
   text-align: center;
+
+  @media (max-width: 480px) {
+    padding: 18px 14px;
+  }
 `;
 
 const ResultLabel = styled.div`
@@ -347,7 +410,7 @@ const ResultValue = styled.div`
   letter-spacing: -0.5px;
 
   @media (max-width: 480px) {
-    font-size: 1.7rem;
+    font-size: 1.6rem;
   }
 `;
 
@@ -362,6 +425,10 @@ const ResultDetails = styled.div`
     color: #e8eef7;
     font-weight: 700;
   }
+
+  @media (max-width: 480px) {
+    font-size: 0.78rem;
+  }
 `;
 
 const ResultGrid = styled.div`
@@ -374,6 +441,7 @@ const ResultGrid = styled.div`
 
   @media (max-width: 480px) {
     grid-template-columns: 1fr;
+    gap: 10px;
   }
 `;
 
@@ -394,11 +462,18 @@ const ResultItemValue = styled.div`
   color: #e8eef7;
   font-size: 1.1rem;
   font-weight: 800;
+
+  @media (max-width: 480px) {
+    font-size: 1rem;
+  }
 `;
 
-// 📋 SEÇÕES
 const Section = styled.div`
   margin: 32px 0;
+
+  @media (max-width: 480px) {
+    margin: 24px 0;
+  }
 `;
 
 const SectionTitle = styled.h3`
@@ -427,8 +502,8 @@ const SectionTitle = styled.h3`
     font-size: 1rem;
 
     span {
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
       font-size: 1.2rem;
     }
   }
@@ -480,7 +555,6 @@ const ListItem = styled.li`
   }
 `;
 
-// 💰 PREÇO
 const PriceTag = styled.div`
   background: rgba(74, 222, 128, 0.08);
   padding: 16px 28px;
@@ -500,12 +574,11 @@ const PriceTag = styled.div`
   }
 
   @media (max-width: 480px) {
-    font-size: 1rem;
-    padding: 14px 22px;
+    font-size: 0.95rem;
+    padding: 12px 18px;
   }
 `;
 
-// 🚫 NÃO ENCONTRADO
 const NotFound = styled.div`
   text-align: center;
   padding: 80px 40px;
@@ -525,15 +598,22 @@ const NotFound = styled.div`
     color: #a8b8d8;
     margin-bottom: 24px;
   }
+
+  @media (max-width: 480px) {
+    padding: 50px 24px;
+
+    h2 {
+      font-size: 1.5rem;
+    }
+  }
 `;
 
 const BusinessDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  
+
   const business = businessData.find(b => b.id === parseInt(id));
 
-  // 🧮 ESTADOS DA CALCULADORA
   const [precoServico, setPrecoServico] = useState('');
   const [clientesDia, setClientesDia] = useState('');
   const [diasMes, setDiasMes] = useState('22');
@@ -557,7 +637,6 @@ const BusinessDetail = () => {
     return `R$ ${min.toLocaleString('pt-BR')} - R$ ${max.toLocaleString('pt-BR')}`;
   };
 
-  // 🧮 FUNÇÃO DE CÁLCULO
   const calcularFaturamento = () => {
     const preco = parseFloat(precoServico.replace(',', '.')) || 0;
     const clientes = parseInt(clientesDia) || 0;
@@ -565,7 +644,6 @@ const BusinessDetail = () => {
 
     const faturamento = preco * clientes * dias;
 
-    // Calcular margem média
     let margem = 0;
     if (business.profitMargin) {
       const margemStr = business.profitMargin.replace('%', '').split('-');
@@ -626,7 +704,6 @@ const BusinessDetail = () => {
           </InfoCard>
         </Grid>
 
-        {/* 🧮 CALCULADORA DE FATURAMENTO */}
         <CalculatorSection>
           <CalculatorTitle>
             <span>🧮</span>
@@ -678,7 +755,7 @@ const BusinessDetail = () => {
             <CalculatorResult>
               <ResultLabel>💰 Faturamento Mensal Estimado</ResultLabel>
               <ResultValue>{formatCurrency(resultado.faturamento)}</ResultValue>
-              
+
               <ResultDetails>
                 Baseado em <strong>{clientesDia} clientes/dia</strong> × <strong>{diasMes} dias</strong> × <strong>{formatCurrency(parseFloat(precoServico.replace(',', '.')) || 0)}</strong>
               </ResultDetails>
