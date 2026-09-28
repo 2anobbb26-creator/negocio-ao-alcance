@@ -5,7 +5,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
-  updateProfile
+  updateProfile as updateAuthProfile
 } from 'firebase/auth';
 import { 
   getFirestore, 
@@ -16,7 +16,6 @@ import {
   getDoc
 } from 'firebase/firestore';
 
-// ✅ CONFIGURAÇÃO CORRETA
 const firebaseConfig = {
   apiKey: "AIzaSyDWPINcbRAUWxL2j6cbTYxof66qOhHl38w",
   authDomain: "negocio-ao-alcance.firebaseapp.com",
@@ -27,39 +26,28 @@ const firebaseConfig = {
   measurementId: "G-63GCF5Z85F"
 };
 
-console.log('🔥 Firebase inicializado com a chave correta!');
-console.log('📁 Project ID:', firebaseConfig.projectId);
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
 export const authService = {
-  // 📝 CADASTRO
+  // 📝 REGISTRO
   async register(email, password, name, phone) {
     try {
-      console.log('📝 Criando usuário...');
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       
-      console.log('✅ Usuário criado:', user.uid);
-      await updateProfile(user, { displayName: name });
+      await updateAuthProfile(user, { displayName: name });
       
-      // Tentar salvar no Firestore
-      try {
-        await setDoc(doc(db, 'users', user.uid), {
-          uid: user.uid,
-          name: name,
-          email: email,
-          phone: phone || '',
-          createdAt: Timestamp.now(),
-          favorites: [],
-          searchHistory: []
-        });
-        console.log('✅ Dados salvos no Firestore!');
-      } catch (firestoreError) {
-        console.warn('⚠️ Firestore não disponível, dados salvos apenas no Authentication');
-      }
+      await setDoc(doc(db, 'users', user.uid), {
+        uid: user.uid,
+        name: name,
+        email: email,
+        phone: phone || '',
+        createdAt: Timestamp.now(),
+        favorites: [],
+        searchHistory: []
+      });
       
       return { success: true, user };
     } catch (error) {
@@ -71,11 +59,8 @@ export const authService = {
   // 🔑 LOGIN
   async login(email, password) {
     try {
-      console.log('🔑 Tentando login...');
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-      console.log('✅ Login realizado:', user.uid);
-      return { success: true, user };
+      return { success: true, user: userCredential.user };
     } catch (error) {
       console.error('❌ Erro no login:', error.code, error.message);
       return { success: false, error: error.message };
@@ -86,10 +71,8 @@ export const authService = {
   async logout() {
     try {
       await signOut(auth);
-      console.log('✅ Logout realizado');
       return { success: true };
     } catch (error) {
-      console.error('❌ Erro no logout:', error.code, error.message);
       return { success: false, error: error.message };
     }
   },
@@ -109,7 +92,6 @@ export const authService = {
       }
       return { success: false, error: 'Usuário não encontrado' };
     } catch (error) {
-      console.warn('⚠️ Erro ao buscar usuário:', error.message);
       return { success: false, error: error.message };
     }
   },
@@ -121,23 +103,52 @@ export const authService = {
       await updateDoc(docRef, data);
       return { success: true };
     } catch (error) {
-      console.warn('⚠️ Erro ao atualizar:', error.message);
       return { success: false, error: error.message };
     }
   },
 
-  // ⭐ FAVORITOS
+  // ✏️ ATUALIZAR PERFIL (NOME + TELEFONE)
+  async updateProfile(user, data) {
+    try {
+      if (data.name) {
+        await updateAuthProfile(auth.currentUser, { displayName: data.name });
+      }
+
+      const docRef = doc(db, 'users', user.uid);
+      await updateDoc(docRef, {
+        name: data.name,
+        phone: data.phone,
+        updatedAt: Timestamp.now()
+      });
+
+      return { success: true };
+    } catch (error) {
+      console.error('❌ Erro ao atualizar perfil:', error);
+      return { success: false, error: error.message };
+    }
+  },
+
+  // ⭐ ADICIONAR FAVORITO
   async addFavorite(uid, businessId) {
     try {
+      console.log('⭐ Adicionando favorito:', uid, businessId);
       const userRef = doc(db, 'users', uid);
       const userSnap = await getDoc(userRef);
+      
+      if (!userSnap.exists()) {
+        console.error('❌ Usuário não encontrado no Firestore');
+        return { success: false, error: 'Usuário não encontrado' };
+      }
+      
       const userData = userSnap.data();
       const favorites = userData.favorites || [];
       
       if (!favorites.includes(businessId)) {
         favorites.push(businessId);
         await updateDoc(userRef, { favorites });
+        console.log('✅ Favorito adicionado:', favorites);
       }
+      
       return { success: true };
     } catch (error) {
       console.error('❌ Erro ao adicionar favorito:', error);
@@ -148,13 +159,21 @@ export const authService = {
   // ❌ REMOVER FAVORITO
   async removeFavorite(uid, businessId) {
     try {
+      console.log('❌ Removendo favorito:', uid, businessId);
       const userRef = doc(db, 'users', uid);
       const userSnap = await getDoc(userRef);
+      
+      if (!userSnap.exists()) {
+        return { success: false, error: 'Usuário não encontrado' };
+      }
+      
       const userData = userSnap.data();
       const favorites = userData.favorites || [];
       
       const newFavorites = favorites.filter(id => id !== businessId);
       await updateDoc(userRef, { favorites: newFavorites });
+      console.log('✅ Favorito removido:', newFavorites);
+      
       return { success: true };
     } catch (error) {
       console.error('❌ Erro ao remover favorito:', error);
@@ -162,30 +181,21 @@ export const authService = {
     }
   },
 
-  // 📜 HISTÓRICO
-  async saveSearchHistory(uid, searchData) {
+  // 📋 BUSCAR FAVORITOS
+  async getFavorites(uid) {
     try {
       const userRef = doc(db, 'users', uid);
       const userSnap = await getDoc(userRef);
-      const userData = userSnap.data();
-      const history = userData.searchHistory || [];
       
-      history.unshift({
-        budget: searchData.budget,
-        category: searchData.category,
-        timestamp: Timestamp.now(),
-        results: searchData.results
-      });
-      
-      if (history.length > 10) {
-        history.pop();
+      if (!userSnap.exists()) {
+        return { success: true, data: [] };
       }
       
-      await updateDoc(userRef, { searchHistory: history });
-      return { success: true };
+      const userData = userSnap.data();
+      return { success: true, data: userData.favorites || [] };
     } catch (error) {
-      console.error('❌ Erro ao salvar histórico:', error);
-      return { success: false, error: error.message };
+      console.error('❌ Erro ao buscar favoritos:', error);
+      return { success: false, error: error.message, data: [] };
     }
   }
 };
