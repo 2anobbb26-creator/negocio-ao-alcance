@@ -3,11 +3,13 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import styled from 'styled-components';
 import { GlobalStyle } from './styles/GlobalStyles';
 import { authService } from './services/firebase';
+import { notificationService } from './utils/notificationService';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import BusinessDetail from './pages/BusinessDetail';
 import Perfil from './pages/Perfil';
+import Favoritos from './pages/Favoritos';
 
 const AppContainer = styled.div`
   min-height: 100vh;
@@ -28,6 +30,12 @@ function App() {
           favorites: [],
           searchHistory: []
         });
+
+        // 🔔 VERIFICAR NOVOS NEGÓCIOS
+        const newNotifs = notificationService.checkForNewBusinesses(firebaseUser.uid);
+        if (newNotifs.length > 0) {
+          console.log('🔔 Novos negócios detectados:', newNotifs.length);
+        }
       } else {
         setUser(null);
       }
@@ -87,6 +95,10 @@ function App() {
           <Route 
             path="/perfil" 
             element={user ? <Perfil /> : <Navigate to="/login" replace />} 
+          />
+          <Route 
+            path="/favoritos" 
+            element={user ? <Favoritos /> : <Navigate to="/login" replace />} 
           />
           <Route 
             path="/business/:id" 

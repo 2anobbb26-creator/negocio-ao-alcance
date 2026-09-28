@@ -360,30 +360,31 @@ const Home = ({ user }) => {
   }, []);
 
   const handleSearch = () => {
-    if (!budget || budget === '') {
-      setFilteredResults(businessData);
-      setHasSearched(false);
-      return;
-    }
+  if (!budget || budget === '') {
+    setFilteredResults(businessData);
+    setHasSearched(false);
+    return;
+  }
 
-    const cleanBudget = budget.replace(/\./g, '').replace(',', '.');
-    const budgetValue = parseFloat(cleanBudget);
-    
-    if (isNaN(budgetValue) || budgetValue <= 0) {
-      alert('Por favor, insira um valor válido.');
-      return;
-    }
+  const cleanBudget = budget.replace(/\./g, '').replace(',', '.');
+  const budgetValue = parseFloat(cleanBudget);
+  
+  if (isNaN(budgetValue) || budgetValue <= 0) {
+    alert('Por favor, insira um valor válido.');
+    return;
+  }
 
-    const results = businessData.filter(item => item.minInvestment >= budgetValue);
+  // 🔥 FILTRO: minInvestment === budgetValue (exato)
+  const results = businessData.filter(item => item.minInvestment === budgetValue);
 
-    let finalResults = results;
-    if (selectedCategory !== 'Todos') {
-      finalResults = results.filter(item => item.category === selectedCategory);
-    }
+  let finalResults = results;
+  if (selectedCategory !== 'Todos') {
+    finalResults = results.filter(item => item.category === selectedCategory);
+  }
 
-    setFilteredResults(finalResults);
-    setHasSearched(true);
-  };
+  setFilteredResults(finalResults);
+  setHasSearched(true);
+};
 
   const handleBudgetChange = (e) => {
     const value = e.target.value.replace(/\D/g, '');

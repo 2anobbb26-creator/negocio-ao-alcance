@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import Notifications from './Notifications';
 
 const Nav = styled.nav`
   background: rgba(10, 14, 39, 0.85);
@@ -8,24 +9,13 @@ const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgba(102, 126, 234, 0.15);
+  border-bottom: 1px solid rgba(74, 140, 247, 0.15);
   backdrop-filter: blur(24px);
   position: sticky;
   top: 0;
   z-index: 1000;
   flex-wrap: wrap;
   gap: 15px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.3), rgba(168, 85, 247, 0.3), transparent);
-  }
 
   @media (max-width: 768px) {
     padding: 12px 20px;
@@ -39,7 +29,6 @@ const Logo = styled(Link)`
   text-decoration: none;
   font-weight: 900;
   letter-spacing: -0.5px;
-  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -47,12 +36,6 @@ const Logo = styled(Link)`
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  position: relative;
-
-  &:hover {
-    filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.6));
-    transform: scale(1.02);
-  }
 
   @media (max-width: 768px) {
     font-size: 1.2rem;
@@ -61,7 +44,6 @@ const Logo = styled(Link)`
 
 const LogoIcon = styled.span`
   font-size: 1.6rem;
-  filter: drop-shadow(0 0 10px rgba(102, 126, 234, 0.5));
   
   @media (max-width: 768px) {
     font-size: 1.3rem;
@@ -82,39 +64,21 @@ const NavLinks = styled.div`
 `;
 
 const NavLink = styled(Link)`
-  color: #b8c6db;
+  color: #a8b8d8;
   text-decoration: none;
   font-size: 0.95rem;
   font-weight: 600;
   transition: all 0.3s;
   padding: 10px 20px;
   border-radius: 10px;
-  position: relative;
   display: flex;
   align-items: center;
   gap: 8px;
 
-  &::before {
-    content: '';
-    position: absolute;
-    bottom: 4px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 2px;
-    background: linear-gradient(90deg, #667eea, #a855f7);
-    border-radius: 2px;
-    transition: width 0.3s ease;
-  }
-
   &:hover {
     color: #fff;
-    background: rgba(102, 126, 234, 0.15);
+    background: rgba(74, 140, 247, 0.15);
     transform: translateY(-2px);
-
-    &::before {
-      width: 60%;
-    }
   }
 `;
 
@@ -122,11 +86,11 @@ const UserInfo = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
-  color: #b8c6db;
+  color: #a8b8d8;
   padding: 6px 6px 6px 16px;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(168, 85, 247, 0.1));
+  background: rgba(74, 140, 247, 0.08);
   border-radius: 24px;
-  border: 1px solid rgba(102, 126, 234, 0.2);
+  border: 1px solid rgba(74, 140, 247, 0.15);
 
   @media (max-width: 768px) {
     width: 100%;
@@ -136,7 +100,7 @@ const UserInfo = styled.div`
 
 const UserName = styled.span`
   font-weight: 700;
-  color: #fff;
+  color: #e8eef7;
   font-size: 0.9rem;
 `;
 
@@ -155,11 +119,6 @@ const LogoutButton = styled.button`
   &:hover {
     background: linear-gradient(135deg, #ef4444, #dc2626);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
-  }
-
-  &:active {
-    transform: translateY(0) scale(0.98);
   }
 `;
 
@@ -174,15 +133,16 @@ const Navbar = ({ user, onLogout }) => {
   return (
     <Nav>
       <Logo to={user ? "/" : "/login"}>
-        <LogoIcon></LogoIcon>
+        <LogoIcon>🚀</LogoIcon>
         Negócio ao Alcance
       </Logo>
       <NavLinks>
         {user ? (
           <>
-            <NavLink to="/perfil">
-              👤 Perfil
-            </NavLink>
+            <NavLink to="/">🏠 Início</NavLink>
+            <NavLink to="/favoritos">❤️ Favoritos</NavLink>
+            <NavLink to="/perfil">👤 Perfil</NavLink>
+            <Notifications />
             <UserInfo>
               <UserName>👋 {user?.displayName || user?.name || 'Usuário'}</UserName>
               <LogoutButton onClick={handleLogout}>Sair</LogoutButton>

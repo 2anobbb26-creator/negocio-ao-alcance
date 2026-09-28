@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { businessData } from '../data/businessData';
@@ -7,23 +7,6 @@ import { businessData } from '../data/businessData';
 const fadeInUp = keyframes`
   from { opacity: 0; transform: translateY(40px); }
   to { opacity: 1; transform: translateY(0); }
-`;
-
-const float = keyframes`
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
-  100% { transform: translateY(0px); }
-`;
-
-const shimmer = keyframes`
-  0% { background-position: 0% 50%; }
-  100% { background-position: 300% 50%; }
-`;
-
-const pulse = keyframes`
-  0% { opacity: 0.6; }
-  50% { opacity: 1; }
-  100% { opacity: 0.6; }
 `;
 
 // 🎨 CONTAINER PRINCIPAL
@@ -72,11 +55,11 @@ const BackButton = styled.button`
 // 🔵 CARD PRINCIPAL
 const Card = styled.div`
   background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(24px);
+  backdrop-filter: blur(10px);
   border-radius: 28px;
   padding: 48px;
   position: relative;
-  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.06);
 
   @media (max-width: 480px) {
     padding: 28px;
@@ -107,10 +90,9 @@ const EmojiWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(74, 140, 247, 0.12), rgba(168, 85, 247, 0.08));
+  background: rgba(74, 140, 247, 0.08);
   border-radius: 24px;
-  border: 1px solid rgba(74, 140, 247, 0.2);
-  animation: ${float} 6s ease-in-out infinite;
+  border: 1px solid rgba(74, 140, 247, 0.15);
   flex-shrink: 0;
 
   @media (max-width: 480px) {
@@ -128,10 +110,18 @@ const HeaderContent = styled.div`
 const Name = styled.h1`
   font-size: 2.4rem;
   margin: 0 0 12px 0;
-  font-weight: 900;
+  font-weight: 800;
   letter-spacing: -0.5px;
   line-height: 1.2;
-  color: #000000;
+  background: linear-gradient(135deg, 
+    #ffffff 0%, 
+    #d0e0ff 30%, 
+    #7eb8ff 60%, 
+    #4a8cf7 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 
   @media (max-width: 768px) {
     font-size: 1.9rem;
@@ -150,8 +140,8 @@ const Category = styled.span`
   background: rgba(74, 140, 247, 0.12);
   border-radius: 24px;
   font-size: 0.75rem;
-  color: #000000;
-  font-weight: 800;
+  color: #c8d8f0;
+  font-weight: 700;
   border: 1px solid rgba(74, 140, 247, 0.2);
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -159,7 +149,7 @@ const Category = styled.span`
 
 // 📄 DESCRIÇÃO
 const Description = styled.p`
-  color: #000000;
+  color: #d8e4f5;
   font-size: 1.05rem;
   line-height: 1.8;
   margin: 0 0 32px 0;
@@ -167,7 +157,7 @@ const Description = styled.p`
   background: rgba(74, 140, 247, 0.06);
   border-radius: 16px;
   border-left: 4px solid #4a8cf7;
-  font-weight: 600;
+  font-weight: 500;
 
   @media (max-width: 480px) {
     font-size: 0.95rem;
@@ -184,31 +174,17 @@ const Grid = styled.div`
 `;
 
 const InfoCard = styled.div`
-  background: rgba(74, 140, 247, 0.08);
+  background: rgba(74, 140, 247, 0.06);
   border-radius: 16px;
   padding: 24px 20px;
-  border: 1px solid rgba(74, 140, 247, 0.15);
+  border: 1px solid rgba(74, 140, 247, 0.12);
   text-align: center;
   transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, #4a8cf7, transparent);
-    opacity: 0.6;
-  }
 
   &:hover {
-    background: rgba(74, 140, 247, 0.12);
-    border-color: rgba(74, 140, 247, 0.3);
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(74, 140, 247, 0.15);
+    background: rgba(74, 140, 247, 0.1);
+    border-color: rgba(74, 140, 247, 0.2);
+    transform: translateY(-3px);
   }
 
   @media (max-width: 480px) {
@@ -217,18 +193,18 @@ const InfoCard = styled.div`
 `;
 
 const InfoLabel = styled.div`
-  color: #000000;
+  color: #a8b8d8;
   font-size: 0.68rem;
   text-transform: uppercase;
   letter-spacing: 1.2px;
-  font-weight: 800;
+  font-weight: 700;
   margin-bottom: 8px;
 `;
 
 const InfoValue = styled.div`
-  color: #000000;
+  color: #e8eef7;
   font-size: 1.15rem;
-  font-weight: 900;
+  font-weight: 800;
   letter-spacing: -0.3px;
 
   @media (max-width: 480px) {
@@ -236,19 +212,27 @@ const InfoValue = styled.div`
   }
 `;
 
-// 📋 SEÇÕES
-const Section = styled.div`
-  margin: 32px 0;
+// 🧮 CALCULADORA DE FATURAMENTO
+const CalculatorSection = styled.div`
+  background: rgba(74, 140, 247, 0.06);
+  border-radius: 20px;
+  padding: 28px;
+  border: 1px solid rgba(74, 140, 247, 0.15);
+  margin: 0 0 32px 0;
+
+  @media (max-width: 480px) {
+    padding: 20px;
+  }
 `;
 
-const SectionTitle = styled.h3`
-  color: #000000;
+const CalculatorTitle = styled.h3`
+  color: #e8eef7;
   font-size: 1.15rem;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
   display: flex;
   align-items: center;
   gap: 12px;
-  font-weight: 900;
+  font-weight: 800;
   letter-spacing: 0.3px;
 
   span {
@@ -258,7 +242,166 @@ const SectionTitle = styled.h3`
     justify-content: center;
     width: 40px;
     height: 40px;
-    background: linear-gradient(135deg, rgba(74, 140, 247, 0.15), rgba(168, 85, 247, 0.1));
+    background: rgba(74, 140, 247, 0.1);
+    border-radius: 12px;
+    border: 1px solid rgba(74, 140, 247, 0.15);
+  }
+`;
+
+const CalculatorSubtitle = styled.p`
+  color: #a8b8d8;
+  font-size: 0.85rem;
+  margin-bottom: 24px;
+  line-height: 1.6;
+`;
+
+const CalculatorGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+`;
+
+const CalculatorField = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
+const CalculatorLabel = styled.label`
+  color: #a8b8d8;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  font-weight: 700;
+`;
+
+const CalculatorInput = styled.input`
+  padding: 14px 16px;
+  background: rgba(10, 21, 48, 0.6);
+  border: 1.5px solid rgba(74, 140, 247, 0.2);
+  border-radius: 12px;
+  color: #e8eef7;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+
+  &:focus {
+    outline: none;
+    border-color: rgba(74, 140, 247, 0.5);
+    box-shadow: 0 0 0 4px rgba(74, 140, 247, 0.1);
+    background: rgba(10, 21, 48, 0.8);
+  }
+
+  &::placeholder {
+    color: #556677;
+    font-weight: 400;
+  }
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  -moz-appearance: textfield;
+`;
+
+const CalculatorResult = styled.div`
+  background: rgba(74, 222, 128, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid rgba(74, 222, 128, 0.25);
+  text-align: center;
+`;
+
+const ResultLabel = styled.div`
+  color: #a8b8d8;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  margin-bottom: 8px;
+`;
+
+const ResultValue = styled.div`
+  color: #86efac;
+  font-size: 2.2rem;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+
+  @media (max-width: 480px) {
+    font-size: 1.7rem;
+  }
+`;
+
+const ResultDetails = styled.div`
+  color: #a8b8d8;
+  font-size: 0.85rem;
+  margin-top: 12px;
+  line-height: 1.6;
+  font-weight: 500;
+
+  strong {
+    color: #e8eef7;
+    font-weight: 700;
+  }
+`;
+
+const ResultGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(74, 222, 128, 0.15);
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const ResultItem = styled.div`
+  text-align: center;
+`;
+
+const ResultItemLabel = styled.div`
+  color: #a8b8d8;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+  margin-bottom: 4px;
+`;
+
+const ResultItemValue = styled.div`
+  color: #e8eef7;
+  font-size: 1.1rem;
+  font-weight: 800;
+`;
+
+// 📋 SEÇÕES
+const Section = styled.div`
+  margin: 32px 0;
+`;
+
+const SectionTitle = styled.h3`
+  color: #e8eef7;
+  font-size: 1.15rem;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+
+  span {
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(74, 140, 247, 0.1);
     border-radius: 12px;
     border: 1px solid rgba(74, 140, 247, 0.15);
   }
@@ -290,17 +433,17 @@ const List = styled.ul`
 const ListItem = styled.li`
   padding: 14px 18px 14px 42px;
   position: relative;
-  color: #000000;
-  font-weight: 700;
-  background: rgba(74, 140, 247, 0.06);
+  color: #d8e4f5;
+  font-weight: 500;
+  background: rgba(74, 140, 247, 0.05);
   border-radius: 12px;
-  border: 1px solid rgba(74, 140, 247, 0.12);
+  border: 1px solid rgba(74, 140, 247, 0.1);
   transition: all 0.3s ease;
   font-size: 0.95rem;
 
   &:before {
     content: "▸";
-    color: #000000;
+    color: #7eb8ff;
     font-weight: 900;
     position: absolute;
     left: 18px;
@@ -308,8 +451,9 @@ const ListItem = styled.li`
   }
 
   &:hover {
-    background: rgba(74, 140, 247, 0.12);
-    border-color: rgba(74, 140, 247, 0.25);
+    background: rgba(74, 140, 247, 0.1);
+    border-color: rgba(74, 140, 247, 0.2);
+    color: #e8eef7;
     transform: translateX(4px);
   }
 
@@ -321,15 +465,15 @@ const ListItem = styled.li`
 
 // 💰 PREÇO
 const PriceTag = styled.div`
-  background: linear-gradient(135deg, rgba(74, 222, 128, 0.15), rgba(34, 197, 94, 0.08));
+  background: rgba(74, 222, 128, 0.08);
   padding: 16px 28px;
   border-radius: 14px;
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  font-weight: 900;
-  color: #000000;
-  border: 1px solid rgba(74, 222, 128, 0.3);
+  font-weight: 800;
+  color: #86efac;
+  border: 1px solid rgba(74, 222, 128, 0.2);
   font-size: 1.1rem;
   margin: 4px 0;
 
@@ -348,20 +492,20 @@ const PriceTag = styled.div`
 const NotFound = styled.div`
   text-align: center;
   padding: 80px 40px;
-  color: #000000;
+  color: #d8e4f5;
   background: rgba(255, 255, 255, 0.03);
   border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
 
   h2 {
-    color: #000000;
+    color: #e8eef7;
     font-size: 2rem;
     margin-bottom: 12px;
-    font-weight: 900;
+    font-weight: 800;
   }
 
   p {
-    color: #000000;
-    font-weight: 600;
+    color: #a8b8d8;
     margin-bottom: 24px;
   }
 `;
@@ -371,6 +515,11 @@ const BusinessDetail = () => {
   const navigate = useNavigate();
   
   const business = businessData.find(b => b.id === parseInt(id));
+
+  // 🧮 ESTADOS DA CALCULADORA
+  const [precoServico, setPrecoServico] = useState('');
+  const [clientesDia, setClientesDia] = useState('');
+  const [diasMes, setDiasMes] = useState('22');
 
   if (!business) {
     return (
@@ -389,6 +538,40 @@ const BusinessDetail = () => {
   const formatInvestment = (min, max) => {
     if (min === max) return `R$ ${min.toLocaleString('pt-BR')}`;
     return `R$ ${min.toLocaleString('pt-BR')} - R$ ${max.toLocaleString('pt-BR')}`;
+  };
+
+  // 🧮 FUNÇÃO DE CÁLCULO
+  const calcularFaturamento = () => {
+    const preco = parseFloat(precoServico.replace(',', '.')) || 0;
+    const clientes = parseInt(clientesDia) || 0;
+    const dias = parseInt(diasMes) || 0;
+
+    const faturamento = preco * clientes * dias;
+
+    // Calcular margem média
+    let margem = 0;
+    if (business.profitMargin) {
+      const margemStr = business.profitMargin.replace('%', '').split('-');
+      const min = parseFloat(margemStr[0]) || 0;
+      const max = margemStr[1] ? parseFloat(margemStr[1]) : min;
+      margem = (min + max) / 2 / 100;
+    }
+
+    const lucro = faturamento * margem;
+
+    return { faturamento, lucro, margem: margem * 100 };
+  };
+
+  const resultado = calcularFaturamento();
+  const mostrarResultado = precoServico && clientesDia && diasMes;
+
+  const formatCurrency = (value) => {
+    return value.toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
   };
 
   return (
@@ -414,10 +597,6 @@ const BusinessDetail = () => {
             <InfoValue>{formatInvestment(business.minInvestment, business.maxInvestment)}</InfoValue>
           </InfoCard>
           <InfoCard>
-            <InfoLabel>📈 Faturamento</InfoLabel>
-            <InfoValue>{business.monthlyRevenue}</InfoValue>
-          </InfoCard>
-          <InfoCard>
             <InfoLabel>💲 Margem</InfoLabel>
             <InfoValue>{business.profitMargin}</InfoValue>
           </InfoCard>
@@ -426,6 +605,79 @@ const BusinessDetail = () => {
             <InfoValue>{business.payback}</InfoValue>
           </InfoCard>
         </Grid>
+
+        {/* 🧮 CALCULADORA DE FATURAMENTO */}
+        <CalculatorSection>
+          <CalculatorTitle>
+            <span>🧮</span>
+            Calculadora de Faturamento
+          </CalculatorTitle>
+          <CalculatorSubtitle>
+            Descubra quanto você pode faturar com este negócio! Preencha os campos abaixo:
+          </CalculatorSubtitle>
+
+          <CalculatorGrid>
+            <CalculatorField>
+              <CalculatorLabel>💵 Preço por serviço (R$)</CalculatorLabel>
+              <CalculatorInput
+                type="text"
+                placeholder="Ex: 40"
+                value={precoServico}
+                onChange={(e) => {
+                  const value = e.target.value.replace(/[^0-9,.]/g, '');
+                  setPrecoServico(value);
+                }}
+              />
+            </CalculatorField>
+
+            <CalculatorField>
+              <CalculatorLabel>👥 Clientes por dia</CalculatorLabel>
+              <CalculatorInput
+                type="number"
+                placeholder="Ex: 5"
+                value={clientesDia}
+                onChange={(e) => setClientesDia(e.target.value)}
+                min="0"
+              />
+            </CalculatorField>
+
+            <CalculatorField>
+              <CalculatorLabel>📅 Dias por mês</CalculatorLabel>
+              <CalculatorInput
+                type="number"
+                placeholder="Ex: 22"
+                value={diasMes}
+                onChange={(e) => setDiasMes(e.target.value)}
+                min="0"
+                max="31"
+              />
+            </CalculatorField>
+          </CalculatorGrid>
+
+          {mostrarResultado && (
+            <CalculatorResult>
+              <ResultLabel>💰 Faturamento Mensal Estimado</ResultLabel>
+              <ResultValue>{formatCurrency(resultado.faturamento)}</ResultValue>
+              
+              <ResultDetails>
+                Baseado em <strong>{clientesDia} clientes/dia</strong> × <strong>{diasMes} dias</strong> × <strong>{formatCurrency(parseFloat(precoServico.replace(',', '.')) || 0)}</strong>
+              </ResultDetails>
+
+              <ResultGrid>
+                <ResultItem>
+                  <ResultItemLabel>💵 Lucro Estimado</ResultItemLabel>
+                  <ResultItemValue style={{ color: '#86efac' }}>
+                    {formatCurrency(resultado.lucro)}
+                  </ResultItemValue>
+                </ResultItem>
+                <ResultItem>
+                  <ResultItemLabel>📊 Margem Média</ResultItemLabel>
+                  <ResultItemValue>{resultado.margem.toFixed(0)}%</ResultItemValue>
+                </ResultItem>
+              </ResultGrid>
+            </CalculatorResult>
+          )}
+        </CalculatorSection>
 
         <Section>
           <SectionTitle>

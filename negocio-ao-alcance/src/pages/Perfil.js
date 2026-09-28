@@ -8,12 +8,6 @@ const fadeInUp = keyframes`
   to { opacity: 1; transform: translateY(0); }
 `;
 
-const float = keyframes`
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
-`;
-
 const shimmer = keyframes`
   0% { background-position: 0% 50%; }
   100% { background-position: 300% 50%; }
@@ -28,42 +22,15 @@ const Container = styled.div`
 
 const Card = styled.div`
   background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(24px);
+  backdrop-filter: blur(10px);
   border-radius: 28px;
   padding: 40px;
   position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 28px;
-    padding: 1px;
-    background: linear-gradient(135deg, 
-      rgba(74, 140, 247, 0.5) 0%, 
-      rgba(126, 184, 255, 0.4) 25%, 
-      rgba(168, 85, 247, 0.35) 50%, 
-      rgba(126, 184, 255, 0.4) 75%, 
-      rgba(74, 140, 247, 0.5) 100%
-    );
-    background-size: 300% 300%;
-    animation: ${shimmer} 6s linear infinite;
-    -webkit-mask: 
-      linear-gradient(#fff 0 0) content-box, 
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-  }
+  border: 1px solid rgba(255, 255, 255, 0.06);
 
   @media (max-width: 480px) {
     padding: 24px;
     border-radius: 22px;
-
-    &::before {
-      border-radius: 22px;
-    }
   }
 `;
 
@@ -86,10 +53,8 @@ const Avatar = styled.div`
   font-weight: 900;
   color: #fff;
   border: 3px solid rgba(74, 140, 247, 0.3);
-  animation: ${float} 6s ease-in-out infinite;
   margin-bottom: 16px;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  box-shadow: 0 8px 32px rgba(74, 140, 247, 0.25);
 
   @media (max-width: 480px) {
     width: 100px;
@@ -122,7 +87,7 @@ const UserName = styled.h1`
 `;
 
 const UserEmail = styled.p`
-  color: #8899aa;
+  color: #a8b8d8;
   font-size: 1rem;
   margin: 0;
   text-align: center;
@@ -132,7 +97,6 @@ const UserEmail = styled.p`
   justify-content: center;
 `;
 
-// ✏️ BOTÃO EDITAR PERFIL
 const EditButton = styled.button`
   margin-top: 16px;
   padding: 10px 24px;
@@ -149,21 +113,10 @@ const EditButton = styled.button`
   display: flex;
   align-items: center;
   gap: 8px;
-  box-shadow: 
-    0 4px 16px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(74, 140, 247, 0.15);
 
   &:hover {
     background: linear-gradient(135deg, #142952 0%, #1e3a8a 50%, #2563eb 100%);
     transform: translateY(-2px);
-    border-color: rgba(74, 140, 247, 0.5);
-    box-shadow: 
-      0 8px 24px rgba(30, 58, 138, 0.4),
-      inset 0 1px 0 rgba(74, 140, 247, 0.25);
-  }
-
-  &:active {
-    transform: translateY(0) scale(0.98);
   }
 `;
 
@@ -174,7 +127,7 @@ const Divider = styled.div`
 `;
 
 const SectionTitle = styled.h3`
-  color: #fff;
+  color: #e8eef7;
   font-size: 1.1rem;
   margin-bottom: 20px;
   display: flex;
@@ -207,7 +160,6 @@ const InfoCard = styled.div`
   display: flex;
   align-items: center;
   gap: 14px;
-  backdrop-filter: blur(10px);
 
   &:hover {
     background: rgba(30, 58, 138, 0.2);
@@ -223,7 +175,7 @@ const InfoIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(74, 140, 247, 0.15), rgba(168, 85, 247, 0.1));
+  background: rgba(74, 140, 247, 0.1);
   border-radius: 12px;
   border: 1px solid rgba(74, 140, 247, 0.15);
   flex-shrink: 0;
@@ -235,7 +187,7 @@ const InfoContent = styled.div`
 `;
 
 const InfoLabel = styled.div`
-  color: #6b7fa8;
+  color: #a8b8d8;
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -244,7 +196,7 @@ const InfoLabel = styled.div`
 `;
 
 const InfoValue = styled.div`
-  color: #fff;
+  color: #e8eef7;
   font-size: 0.95rem;
   font-weight: 600;
   word-break: break-word;
@@ -262,25 +214,12 @@ const StatsSection = styled.div`
 `;
 
 const StatCard = styled.div`
-  background: linear-gradient(135deg, rgba(13, 27, 62, 0.9) 0%, rgba(10, 21, 48, 0.9) 100%);
+  background: rgba(10, 21, 48, 0.6);
   border-radius: 14px;
   padding: 20px 12px;
   text-align: center;
   border: 1px solid rgba(74, 140, 247, 0.15);
   transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, #4a8cf7, transparent);
-    opacity: 0.5;
-  }
 
   &:hover {
     transform: translateY(-4px);
@@ -291,10 +230,7 @@ const StatCard = styled.div`
 const StatValue = styled.div`
   font-size: 1.8rem;
   font-weight: 800;
-  background: linear-gradient(135deg, #ffffff 0%, #c8d8f0 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #e8eef7;
 
   @media (max-width: 480px) {
     font-size: 1.4rem;
@@ -302,7 +238,7 @@ const StatValue = styled.div`
 `;
 
 const StatLabel = styled.div`
-  color: #6b7fa8;
+  color: #a8b8d8;
   font-size: 0.65rem;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -320,7 +256,7 @@ const BackButton = styled.button`
   border: 1px solid rgba(74, 140, 247, 0.3);
   border-radius: 12px;
   color: #ffffff;
-  font-family: 'Poppins', 'Inter', -apple-system, sans-serif;
+  font-family: 'Poppins', 'Inter', sans-serif;
   font-size: 0.95rem;
   font-weight: 700;
   cursor: pointer;
@@ -330,29 +266,11 @@ const BackButton = styled.button`
   gap: 8px;
   margin: 32px auto 0;
   letter-spacing: 0.8px;
-  box-shadow: 
-    0 4px 16px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(74, 140, 247, 0.15);
 
   &:hover {
     background: linear-gradient(135deg, #142952 0%, #1e3a8a 50%, #2563eb 100%);
     transform: translateY(-2px);
-    border-color: rgba(74, 140, 247, 0.5);
-    box-shadow: 
-      0 8px 24px rgba(30, 58, 138, 0.4),
-      inset 0 1px 0 rgba(74, 140, 247, 0.25);
   }
-
-  &:active {
-    transform: translateY(0) scale(0.98);
-  }
-`;
-
-const Loading = styled.div`
-  text-align: center;
-  color: #b8c6db;
-  padding: 60px 20px;
-  font-size: 1.1rem;
 `;
 
 // 🎯 MODAL DE EDIÇÃO
@@ -369,7 +287,6 @@ const Overlay = styled.div`
   justify-content: center;
   align-items: center;
   padding: 20px;
-  animation: ${fadeInUp} 0.3s ease-out;
 `;
 
 const Modal = styled.div`
@@ -380,8 +297,6 @@ const Modal = styled.div`
   max-width: 500px;
   width: 100%;
   position: relative;
-  animation: ${fadeInUp} 0.3s ease-out;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
 
   @media (max-width: 480px) {
     padding: 24px;
@@ -389,14 +304,10 @@ const Modal = styled.div`
 `;
 
 const ModalTitle = styled.h2`
-  color: #fff;
+  color: #e8eef7;
   font-size: 1.5rem;
   margin-bottom: 24px;
   font-weight: 800;
-  background: linear-gradient(135deg, #ffffff 0%, #7eb8ff 50%, #a855f7 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 `;
 
 const ModalForm = styled.form`
@@ -412,7 +323,7 @@ const ModalFormGroup = styled.div`
 `;
 
 const ModalLabel = styled.label`
-  color: #b8c6db;
+  color: #a8b8d8;
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.8px;
@@ -424,7 +335,7 @@ const ModalInput = styled.input`
   background: rgba(10, 21, 48, 0.7);
   border: 1.5px solid rgba(74, 140, 247, 0.2);
   border-radius: 12px;
-  color: #fff;
+  color: #e8eef7;
   font-size: 1rem;
   font-weight: 500;
   transition: all 0.3s;
@@ -433,12 +344,10 @@ const ModalInput = styled.input`
     outline: none;
     border-color: rgba(74, 140, 247, 0.5);
     box-shadow: 0 0 0 4px rgba(74, 140, 247, 0.1);
-    background: rgba(10, 21, 48, 0.9);
   }
 
   &::placeholder {
     color: #556677;
-    font-weight: 400;
   }
 
   &:disabled {
@@ -474,11 +383,6 @@ const ModalSaveButton = styled.button`
   &:hover {
     background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
-  }
-
-  &:active {
-    transform: translateY(0) scale(0.98);
   }
 
   &:disabled {
@@ -494,7 +398,7 @@ const ModalCancelButton = styled.button`
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
-  color: #b8c6db;
+  color: #a8b8d8;
   font-family: 'Poppins', 'Inter', sans-serif;
   font-size: 0.95rem;
   font-weight: 700;
@@ -505,11 +409,6 @@ const ModalCancelButton = styled.button`
   &:hover {
     background: rgba(255, 255, 255, 0.1);
     color: #fff;
-    transform: translateY(-2px);
-  }
-
-  &:active {
-    transform: translateY(0) scale(0.98);
   }
 `;
 
@@ -519,7 +418,7 @@ const ModalCloseButton = styled.button`
   right: 20px;
   background: none;
   border: none;
-  color: #8899aa;
+  color: #a8b8d8;
   font-size: 1.8rem;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -533,7 +432,6 @@ const ModalCloseButton = styled.button`
   &:hover {
     color: #fff;
     background: rgba(255, 255, 255, 0.05);
-    transform: rotate(90deg);
   }
 `;
 
@@ -555,42 +453,51 @@ const Message = styled.div`
 const Perfil = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState({ name: '', phone: '' });
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState({ text: '', success: true });
 
+  // ⚡ CARREGAMENTO INSTANTÂNEO - SEM ESPERAR FIRESTORE
   useEffect(() => {
-    loadUserData();
-  }, []);
-
-  const loadUserData = async () => {
     const currentUser = auth.currentUser;
     
     if (currentUser) {
-      // Buscar dados do Firestore
-      const result = await authService.getUserData(currentUser.uid);
-      
-      const userInfo = {
-        name: currentUser.displayName || 
-              result.data?.name || 
-              currentUser.email?.split('@')[0] || 
-              'Usuário',
+      // Dados iniciais instantâneos (do Auth)
+      const initialData = {
+        name: currentUser.displayName || currentUser.email?.split('@')[0] || 'Usuário',
         email: currentUser.email,
-        phone: result.data?.phone || '',
+        phone: '',
         uid: currentUser.uid,
         createdAt: currentUser.metadata?.creationTime,
         lastLogin: currentUser.metadata?.lastSignInTime,
         emailVerified: currentUser.emailVerified
       };
-      
-      setUserData(userInfo);
-      setEditData({ name: userInfo.name, phone: userInfo.phone });
+
+      setUserData(initialData);
+      setEditData({ name: initialData.name, phone: '' });
+
+      // 🔄 BUSCAR DADOS DO FIRESTORE EM SEGUNDO PLANO (sem bloquear)
+      authService.getUserData(currentUser.uid)
+        .then((result) => {
+          if (result.success && result.data) {
+            setUserData(prev => ({
+              ...prev,
+              name: result.data.name || prev.name,
+              phone: result.data.phone || ''
+            }));
+            setEditData(prev => ({
+              ...prev,
+              name: result.data.name || prev.name,
+              phone: result.data.phone || ''
+            }));
+          }
+        })
+        .catch((error) => {
+          console.warn('⚠️ Erro ao buscar dados extras do Firestore:', error);
+        });
     }
-    
-    setLoading(false);
-  };
+  }, []);
 
   const handleEditClick = () => {
     setEditData({ name: userData.name, phone: userData.phone });
@@ -608,7 +515,6 @@ const Perfil = () => {
     setSaving(true);
     setMessage({ text: '', success: true });
 
-    // Validações
     if (!editData.name.trim() || editData.name.trim().length < 3) {
       setMessage({ text: 'O nome deve ter pelo menos 3 caracteres', success: false });
       setSaving(false);
@@ -623,14 +529,12 @@ const Perfil = () => {
     if (result.success) {
       setMessage({ text: '✅ Perfil atualizado com sucesso!', success: true });
       
-      // Atualizar os dados locais
       setUserData(prev => ({
         ...prev,
         name: editData.name.trim(),
         phone: editData.phone.trim()
       }));
 
-      // Fechar modal após 1.5 segundos
       setTimeout(() => {
         setIsEditing(false);
         setMessage({ text: '', success: true });
@@ -642,18 +546,16 @@ const Perfil = () => {
     setSaving(false);
   };
 
-  if (loading) {
-    return (
-      <Container>
-        <Loading>⏳ Carregando perfil...</Loading>
-      </Container>
-    );
-  }
-
+  // ⚡ SE NÃO TIVER DADOS AINDA, MOSTRA NADA (evita loading demorado)
   if (!userData) {
     return (
       <Container>
-        <Loading>❌ Usuário não encontrado</Loading>
+        <Card>
+          <AvatarSection>
+            <Avatar>...</Avatar>
+            <UserName>Carregando...</UserName>
+          </AvatarSection>
+        </Card>
       </Container>
     );
   }
@@ -781,7 +683,6 @@ const Perfil = () => {
         </Card>
       </Container>
 
-      {/* 🎯 MODAL DE EDIÇÃO */}
       {isEditing && (
         <Overlay onClick={() => !saving && setIsEditing(false)}>
           <Modal onClick={(e) => e.stopPropagation()}>

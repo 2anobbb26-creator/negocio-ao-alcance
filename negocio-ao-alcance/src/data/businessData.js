@@ -118,7 +118,7 @@ export const businessData = [
     name: "Gestão de Instagram",
     category: "Tecnologia",
     minInvestment: 100,
-    maxInvestment: 500,
+    maxInvestment: 350,
     materials: [
       "Celular e computador",
       "Internet",
@@ -173,8 +173,8 @@ export const businessData = [
     id: 7,
     name: "Criação de Sites Simples",
     category: "Tecnologia",
-    minInvestment: 200,
-    maxInvestment: 1000,
+    minInvestment: 150,
+    maxInvestment: 800,
     materials: [
       "Computador",
       "Internet",
@@ -201,8 +201,8 @@ export const businessData = [
     id: 8,
     name: "Manutenção Básica de Computadores",
     category: "Tecnologia",
-    minInvestment: 300,
-    maxInvestment: 1500,
+    minInvestment: 200,
+    maxInvestment: 800,
     materials: [
       "Ferramentas básicas",
       "Pen drives e HDs externos",
@@ -230,34 +230,6 @@ export const businessData = [
   // ============================================
   // 🏠 SERVIÇOS PARA RESIDÊNCIAS
   // ============================================
-  {
-    id: 9,
-    name: "Limpeza Residencial",
-    category: "Serviços",
-    minInvestment: 100,
-    maxInvestment: 300,
-    materials: [
-      "Produtos de limpeza",
-      "Panos e flanelas",
-      "Luvas de proteção",
-      "Vassoura e rodo"
-    ],
-    suggestedPrice: "R$ 100–250 por serviço",
-    potentialClients: [
-      "Casas e apartamentos",
-      "Famílias com crianças",
-      "Profissionais ocupados",
-      "Idosos",
-      "Empresas pequenas"
-    ],
-    description: "Serviço essencial com demanda constante e baixo investimento inicial.",
-    image: "🧹",
-    monthlyRevenue: "R$ 1.500 - R$ 4.000",
-    profitMargin: "50-60%",
-    payback: "2 a 4 meses",
-    timeProfile: ["medio", "integral"],
-    workProfile: ["servicos", "casa", "rua"]
-  },
   {
     id: 10,
     name: "Lavagem de Carros",
