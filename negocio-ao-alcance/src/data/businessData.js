@@ -1445,22 +1445,9 @@ export const businessData = [
     payback: "2 a 4 meses",
     timeProfile: ["pouco", "medio", "flexivel"],
     workProfile: ["produtos", "internet", "casa"]
-  }
-];
+  },
 
-export const categories = [
-  "Todos",
-  "Tecnologia",
-  "Serviços",
-  "Alimentação",
-  "Beleza",
-  "Educação",
-  "Agro",
-  "Artesanato",
-  "Automotivo",
-  "Revenda"
-
-    // ============================================
+  // ============================================
   // 🖥️ TECNOLOGIA E SERVIÇOS DIGITAIS (NOVOS)
   // ============================================
   {
@@ -1487,7 +1474,9 @@ export const categories = [
     image: "📄",
     monthlyRevenue: "R$ 3.000 - R$ 12.000",
     profitMargin: "80-90%",
-    payback: "1 a 3 meses"
+    payback: "1 a 3 meses",
+    timeProfile: ["medio", "integral", "flexivel"],
+    workProfile: ["internet", "casa"]
   },
   {
     id: 55,
@@ -1512,7 +1501,9 @@ export const categories = [
     image: "🤖",
     monthlyRevenue: "R$ 4.000 - R$ 15.000",
     profitMargin: "70-80%",
-    payback: "2 a 5 meses"
+    payback: "2 a 5 meses",
+    timeProfile: ["medio", "integral"],
+    workProfile: ["internet", "casa"]
   },
   {
     id: 56,
@@ -1537,7 +1528,9 @@ export const categories = [
     image: "📕",
     monthlyRevenue: "R$ 2.000 - R$ 8.000",
     profitMargin: "85-95%",
-    payback: "1 a 2 meses"
+    payback: "1 a 2 meses",
+    timeProfile: ["pouco", "medio", "flexivel"],
+    workProfile: ["internet", "casa"]
   },
   {
     id: 57,
@@ -1562,7 +1555,9 @@ export const categories = [
     image: "🎯",
     monthlyRevenue: "R$ 2.500 - R$ 10.000",
     profitMargin: "80-90%",
-    payback: "2 a 4 meses"
+    payback: "2 a 4 meses",
+    timeProfile: ["medio", "integral"],
+    workProfile: ["internet", "casa"]
   },
   {
     id: 58,
@@ -1587,7 +1582,9 @@ export const categories = [
     image: "🔧",
     monthlyRevenue: "R$ 3.000 - R$ 10.000",
     profitMargin: "75-85%",
-    payback: "1 a 3 meses"
+    payback: "1 a 3 meses",
+    timeProfile: ["pouco", "medio", "flexivel"],
+    workProfile: ["internet", "casa"]
   },
 
   // ============================================
@@ -1616,7 +1613,9 @@ export const categories = [
     image: "🏊",
     monthlyRevenue: "R$ 2.500 - R$ 8.000",
     profitMargin: "55-65%",
-    payback: "2 a 4 meses"
+    payback: "2 a 4 meses",
+    timeProfile: ["medio", "integral"],
+    workProfile: ["rua", "servicos"]
   },
   {
     id: 60,
@@ -1641,7 +1640,9 @@ export const categories = [
     image: "🐜",
     monthlyRevenue: "R$ 3.000 - R$ 12.000",
     profitMargin: "60-70%",
-    payback: "3 a 6 meses"
+    payback: "3 a 6 meses",
+    timeProfile: ["medio", "integral"],
+    workProfile: ["rua", "servicos"]
   },
   {
     id: 61,
@@ -1666,7 +1667,9 @@ export const categories = [
     image: "❄️",
     monthlyRevenue: "R$ 4.000 - R$ 15.000",
     profitMargin: "50-60%",
-    payback: "3 a 6 meses"
+    payback: "3 a 6 meses",
+    timeProfile: ["medio", "integral"],
+    workProfile: ["rua", "servicos"]
   },
   {
     id: 62,
@@ -1691,7 +1694,9 @@ export const categories = [
     image: "🚽",
     monthlyRevenue: "R$ 3.500 - R$ 12.000",
     profitMargin: "55-65%",
-    payback: "3 a 6 meses"
+    payback: "3 a 6 meses",
+    timeProfile: ["medio", "integral"],
+    workProfile: ["rua", "servicos"]
   },
   {
     id: 63,
@@ -1716,7 +1721,9 @@ export const categories = [
     image: "🔧",
     monthlyRevenue: "R$ 2.500 - R$ 10.000",
     profitMargin: "50-60%",
-    payback: "3 a 6 meses"
+    payback: "3 a 6 meses",
+    timeProfile: ["medio", "integral"],
+    workProfile: ["rua", "servicos"]
   },
   {
     id: 64,
@@ -1741,7 +1748,9 @@ export const categories = [
     image: "⚡",
     monthlyRevenue: "R$ 3.000 - R$ 12.000",
     profitMargin: "50-60%",
-    payback: "3 a 6 meses"
+    payback: "3 a 6 meses",
+    timeProfile: ["medio", "integral"],
+    workProfile: ["rua", "servicos"]
   },
   {
     id: 65,
@@ -1766,7 +1775,9 @@ export const categories = [
     image: "🎨",
     monthlyRevenue: "R$ 4.000 - R$ 15.000",
     profitMargin: "40-50%",
-    payback: "2 a 5 meses"
+    payback: "2 a 5 meses",
+    timeProfile: ["medio", "integral"],
+    workProfile: ["rua", "servicos"]
   },
 
   // ============================================
@@ -1795,7 +1806,9 @@ export const categories = [
     image: "🍧",
     monthlyRevenue: "R$ 2.500 - R$ 10.000",
     profitMargin: "55-65%",
-    payback: "2 a 4 meses"
+    payback: "2 a 4 meses",
+    timeProfile: ["medio", "integral"],
+    workProfile: ["casa", "produtos", "servicos"]
   },
   {
     id: 67,
@@ -1820,7 +1833,9 @@ export const categories = [
     image: "☕",
     monthlyRevenue: "R$ 2.000 - R$ 8.000",
     profitMargin: "60-70%",
-    payback: "2 a 4 meses"
+    payback: "2 a 4 meses",
+    timeProfile: ["medio", "integral"],
+    workProfile: ["casa", "produtos", "servicos"]
   },
   {
     id: 68,
@@ -1845,7 +1860,9 @@ export const categories = [
     image: "❄️",
     monthlyRevenue: "R$ 3.000 - R$ 10.000",
     profitMargin: "50-60%",
-    payback: "2 a 5 meses"
+    payback: "2 a 5 meses",
+    timeProfile: ["medio", "integral"],
+    workProfile: ["casa", "produtos"]
   },
   {
     id: 69,
@@ -1870,7 +1887,9 @@ export const categories = [
     image: "🥞",
     monthlyRevenue: "R$ 1.500 - R$ 5.000",
     profitMargin: "60-70%",
-    payback: "1 a 3 meses"
+    payback: "1 a 3 meses",
+    timeProfile: ["pouco", "medio", "flexivel"],
+    workProfile: ["casa", "produtos", "servicos"]
   },
   {
     id: 70,
@@ -1895,7 +1914,9 @@ export const categories = [
     image: "🍔",
     monthlyRevenue: "R$ 5.000 - R$ 20.000",
     profitMargin: "50-60%",
-    payback: "4 a 8 meses"
+    payback: "4 a 8 meses",
+    timeProfile: ["integral"],
+    workProfile: ["casa", "produtos", "servicos"]
   },
 
   // ============================================
@@ -1924,7 +1945,9 @@ export const categories = [
     image: "💈",
     monthlyRevenue: "R$ 3.000 - R$ 12.000",
     profitMargin: "60-70%",
-    payback: "3 a 6 meses"
+    payback: "3 a 6 meses",
+    timeProfile: ["medio", "integral"],
+    workProfile: ["servicos", "casa"]
   },
   {
     id: 72,
@@ -1949,7 +1972,9 @@ export const categories = [
     image: "💫",
     monthlyRevenue: "R$ 2.000 - R$ 8.000",
     profitMargin: "65-75%",
-    payback: "2 a 4 meses"
+    payback: "2 a 4 meses",
+    timeProfile: ["medio", "integral"],
+    workProfile: ["servicos", "casa"]
   },
   {
     id: 73,
@@ -1974,7 +1999,9 @@ export const categories = [
     image: "💅",
     monthlyRevenue: "R$ 2.500 - R$ 10.000",
     profitMargin: "70-80%",
-    payback: "2 a 4 meses"
+    payback: "2 a 4 meses",
+    timeProfile: ["medio", "integral"],
+    workProfile: ["servicos", "casa"]
   },
   {
     id: 74,
@@ -1999,7 +2026,9 @@ export const categories = [
     image: "💆",
     monthlyRevenue: "R$ 3.000 - R$ 12.000",
     profitMargin: "65-75%",
-    payback: "3 a 6 meses"
+    payback: "3 a 6 meses",
+    timeProfile: ["medio", "integral", "flexivel"],
+    workProfile: ["servicos", "casa"]
   },
   {
     id: 75,
@@ -2024,7 +2053,9 @@ export const categories = [
     image: "🧖",
     monthlyRevenue: "R$ 2.500 - R$ 9.000",
     profitMargin: "60-70%",
-    payback: "3 a 5 meses"
+    payback: "3 a 5 meses",
+    timeProfile: ["medio", "integral"],
+    workProfile: ["servicos", "casa"]
   },
 
   // ============================================
@@ -2053,7 +2084,9 @@ export const categories = [
     image: "🎵",
     monthlyRevenue: "R$ 1.500 - R$ 6.000",
     profitMargin: "80-90%",
-    payback: "1 a 3 meses"
+    payback: "1 a 3 meses",
+    timeProfile: ["pouco", "medio", "flexivel"],
+    workProfile: ["internet", "casa"]
   },
   {
     id: 77,
@@ -2078,7 +2111,9 @@ export const categories = [
     image: "💃",
     monthlyRevenue: "R$ 1.500 - R$ 5.000",
     profitMargin: "80-90%",
-    payback: "1 a 3 meses"
+    payback: "1 a 3 meses",
+    timeProfile: ["pouco", "medio", "flexivel"],
+    workProfile: ["internet", "casa"]
   },
   {
     id: 78,
@@ -2103,7 +2138,9 @@ export const categories = [
     image: "💻",
     monthlyRevenue: "R$ 2.500 - R$ 10.000",
     profitMargin: "85-95%",
-    payback: "1 a 3 meses"
+    payback: "1 a 3 meses",
+    timeProfile: ["pouco", "medio", "flexivel"],
+    workProfile: ["internet", "casa"]
   },
   {
     id: 79,
@@ -2128,7 +2165,9 @@ export const categories = [
     image: "📷",
     monthlyRevenue: "R$ 1.500 - R$ 6.000",
     profitMargin: "85-95%",
-    payback: "1 a 2 meses"
+    payback: "1 a 2 meses",
+    timeProfile: ["pouco", "medio", "flexivel"],
+    workProfile: ["internet", "casa"]
   },
   {
     id: 80,
@@ -2153,7 +2192,9 @@ export const categories = [
     image: "🍳",
     monthlyRevenue: "R$ 2.000 - R$ 8.000",
     profitMargin: "70-80%",
-    payback: "2 a 4 meses"
+    payback: "2 a 4 meses",
+    timeProfile: ["medio", "integral", "flexivel"],
+    workProfile: ["casa", "servicos"]
   },
 
   // ============================================
@@ -2182,7 +2223,9 @@ export const categories = [
     image: "👕",
     monthlyRevenue: "R$ 1.800 - R$ 6.000",
     profitMargin: "60-70%",
-    payback: "2 a 4 meses"
+    payback: "2 a 4 meses",
+    timeProfile: ["pouco", "medio", "flexivel"],
+    workProfile: ["casa", "produtos"]
   },
   {
     id: 82,
@@ -2207,7 +2250,9 @@ export const categories = [
     image: "🧼",
     monthlyRevenue: "R$ 1.200 - R$ 4.500",
     profitMargin: "70-80%",
-    payback: "1 a 3 meses"
+    payback: "1 a 3 meses",
+    timeProfile: ["pouco", "medio", "flexivel"],
+    workProfile: ["casa", "produtos"]
   },
   {
     id: 83,
@@ -2232,7 +2277,9 @@ export const categories = [
     image: "🧵",
     monthlyRevenue: "R$ 1.500 - R$ 5.000",
     profitMargin: "65-75%",
-    payback: "2 a 4 meses"
+    payback: "2 a 4 meses",
+    timeProfile: ["pouco", "medio", "flexivel"],
+    workProfile: ["casa", "produtos"]
   },
   {
     id: 84,
@@ -2257,7 +2304,9 @@ export const categories = [
     image: "💍",
     monthlyRevenue: "R$ 1.500 - R$ 6.000",
     profitMargin: "60-70%",
-    payback: "2 a 4 meses"
+    payback: "2 a 4 meses",
+    timeProfile: ["pouco", "medio", "flexivel"],
+    workProfile: ["casa", "produtos"]
   },
   {
     id: 85,
@@ -2282,7 +2331,9 @@ export const categories = [
     image: "🧸",
     monthlyRevenue: "R$ 1.500 - R$ 5.000",
     profitMargin: "70-80%",
-    payback: "2 a 4 meses"
+    payback: "2 a 4 meses",
+    timeProfile: ["pouco", "medio", "flexivel"],
+    workProfile: ["casa", "produtos"]
   },
 
   // ============================================
@@ -2311,7 +2362,9 @@ export const categories = [
     image: "🛢️",
     monthlyRevenue: "R$ 3.000 - R$ 10.000",
     profitMargin: "50-60%",
-    payback: "3 a 6 meses"
+    payback: "3 a 6 meses",
+    timeProfile: ["medio", "integral"],
+    workProfile: ["rua", "servicos"]
   },
   {
     id: 87,
@@ -2336,7 +2389,9 @@ export const categories = [
     image: "🏍️",
     monthlyRevenue: "R$ 2.500 - R$ 9.000",
     profitMargin: "50-60%",
-    payback: "3 a 6 meses"
+    payback: "3 a 6 meses",
+    timeProfile: ["medio", "integral"],
+    workProfile: ["rua", "servicos"]
   },
   {
     id: 88,
@@ -2361,7 +2416,9 @@ export const categories = [
     image: "🎨",
     monthlyRevenue: "R$ 8.000 - R$ 25.000",
     profitMargin: "40-50%",
-    payback: "6 a 12 meses"
+    payback: "6 a 12 meses",
+    timeProfile: ["integral"],
+    workProfile: ["rua", "servicos"]
   },
 
   // ============================================
@@ -2390,7 +2447,9 @@ export const categories = [
     image: "👶",
     monthlyRevenue: "R$ 1.800 - R$ 6.000",
     profitMargin: "30-70%",
-    payback: "2 a 5 meses"
+    payback: "2 a 5 meses",
+    timeProfile: ["pouco", "medio", "flexivel"],
+    workProfile: ["produtos", "internet", "casa"]
   },
   {
     id: 90,
@@ -2415,7 +2474,9 @@ export const categories = [
     image: "📚",
     monthlyRevenue: "R$ 1.000 - R$ 3.500",
     profitMargin: "40-80%",
-    payback: "1 a 3 meses"
+    payback: "1 a 3 meses",
+    timeProfile: ["pouco", "medio", "flexivel"],
+    workProfile: ["produtos", "internet", "casa"]
   },
   {
     id: 91,
@@ -2440,7 +2501,9 @@ export const categories = [
     image: "⚽",
     monthlyRevenue: "R$ 2.000 - R$ 7.000",
     profitMargin: "25-60%",
-    payback: "3 a 6 meses"
+    payback: "3 a 6 meses",
+    timeProfile: ["pouco", "medio", "flexivel"],
+    workProfile: ["produtos", "internet", "rua"]
   },
   {
     id: 92,
@@ -2465,6 +2528,21 @@ export const categories = [
     image: "🌿",
     monthlyRevenue: "R$ 1.500 - R$ 6.000",
     profitMargin: "30-70%",
-    payback: "2 a 4 meses"
+    payback: "2 a 4 meses",
+    timeProfile: ["pouco", "medio", "flexivel"],
+    workProfile: ["produtos", "internet", "casa"]
   }
+];
+
+export const categories = [
+  "Todos",
+  "Tecnologia",
+  "Serviços",
+  "Alimentação",
+  "Beleza",
+  "Educação",
+  "Agro",
+  "Artesanato",
+  "Automotivo",
+  "Revenda"
 ];
