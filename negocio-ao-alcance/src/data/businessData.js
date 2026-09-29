@@ -1459,4 +1459,1012 @@ export const categories = [
   "Artesanato",
   "Automotivo",
   "Revenda"
+
+    // ============================================
+  // 🖥️ TECNOLOGIA E SERVIÇOS DIGITAIS (NOVOS)
+  // ============================================
+  {
+    id: 54,
+    name: "Desenvolvimento de Landing Pages",
+    category: "Tecnologia",
+    minInvestment: 200,
+    maxInvestment: 800,
+    materials: [
+      "Computador",
+      "Internet",
+      "Editor de código (VS Code)",
+      "Hospedagem e domínio"
+    ],
+    suggestedPrice: "R$ 500–2.500 por página",
+    potentialClients: [
+      "Pequenas empresas",
+      "Profissionais autônomos",
+      "Startups",
+      "Infoprodutores",
+      "Lojas online"
+    ],
+    description: "Crie páginas de conversão profissionais para negócios digitais.",
+    image: "📄",
+    monthlyRevenue: "R$ 3.000 - R$ 12.000",
+    profitMargin: "80-90%",
+    payback: "1 a 3 meses"
+  },
+  {
+    id: 55,
+    name: "Automação de Marketing Digital",
+    category: "Tecnologia",
+    minInvestment: 300,
+    maxInvestment: 1500,
+    materials: [
+      "Computador",
+      "Ferramentas de automação (Zapier, Make)",
+      "Internet",
+      "Cursos de marketing"
+    ],
+    suggestedPrice: "R$ 800–3.000 por projeto",
+    potentialClients: [
+      "Empresas de médio porte",
+      "E-commerces",
+      "Agências de marketing",
+      "Infoprodutores"
+    ],
+    description: "Automatize processos de marketing para empresas com ferramentas no-code.",
+    image: "🤖",
+    monthlyRevenue: "R$ 4.000 - R$ 15.000",
+    profitMargin: "70-80%",
+    payback: "2 a 5 meses"
+  },
+  {
+    id: 56,
+    name: "Criação de E-books e Infoprodutos",
+    category: "Tecnologia",
+    minInvestment: 100,
+    maxInvestment: 400,
+    materials: [
+      "Computador",
+      "Word/Google Docs",
+      "Canva para capa",
+      "Internet"
+    ],
+    suggestedPrice: "R$ 200–1.500 por e-book",
+    potentialClients: [
+      "Empresas",
+      "Influenciadores digitais",
+      "Profissionais liberais",
+      "Coaches e mentores"
+    ],
+    description: "Crie conteúdo digital de alto valor agregado com baixo investimento.",
+    image: "📕",
+    monthlyRevenue: "R$ 2.000 - R$ 8.000",
+    profitMargin: "85-95%",
+    payback: "1 a 2 meses"
+  },
+  {
+    id: 57,
+    name: "Criação de Identidade Visual",
+    category: "Tecnologia",
+    minInvestment: 200,
+    maxInvestment: 700,
+    materials: [
+      "Computador",
+      "Adobe Illustrator/Photoshop",
+      "Internet",
+      "Ferramentas de design"
+    ],
+    suggestedPrice: "R$ 500–3.000 por projeto",
+    potentialClients: [
+      "Novos negócios",
+      "Empresas que querem se renovar",
+      "Startups",
+      "Lojas e restaurantes"
+    ],
+    description: "Crie a identidade visual completa para marcas e empresas.",
+    image: "🎯",
+    monthlyRevenue: "R$ 2.500 - R$ 10.000",
+    profitMargin: "80-90%",
+    payback: "2 a 4 meses"
+  },
+  {
+    id: 58,
+    name: "Suporte Técnico Remoto",
+    category: "Tecnologia",
+    minInvestment: 100,
+    maxInvestment: 500,
+    materials: [
+      "Computador",
+      "Internet",
+      "Softwares de acesso remoto",
+      "Ferramentas de diagnóstico"
+    ],
+    suggestedPrice: "R$ 80–200 por hora",
+    potentialClients: [
+      "Empresas locais",
+      "Profissionais autônomos",
+      "Idosos",
+      "Pequenos escritórios"
+    ],
+    description: "Ofereça suporte técnico remoto para computadores e redes.",
+    image: "🔧",
+    monthlyRevenue: "R$ 3.000 - R$ 10.000",
+    profitMargin: "75-85%",
+    payback: "1 a 3 meses"
+  },
+
+  // ============================================
+  // 🏠 SERVIÇOS PARA RESIDÊNCIAS (NOVOS)
+  // ============================================
+  {
+    id: 59,
+    name: "Limpeza de Piscinas",
+    category: "Serviços",
+    minInvestment: 300,
+    maxInvestment: 1200,
+    materials: [
+      "Equipamentos de limpeza",
+      "Produtos químicos",
+      "Testadores de pH",
+      "Escovas e redes"
+    ],
+    suggestedPrice: "R$ 80–200 por serviço",
+    potentialClients: [
+      "Casas com piscina",
+      "Condomínios",
+      "Hotéis e pousadas",
+      "Academias"
+    ],
+    description: "Serviço especializado com clientes fixos e boa margem.",
+    image: "🏊",
+    monthlyRevenue: "R$ 2.500 - R$ 8.000",
+    profitMargin: "55-65%",
+    payback: "2 a 4 meses"
+  },
+  {
+    id: 60,
+    name: "Dedetização e Controle de Pragas",
+    category: "Serviços",
+    minInvestment: 500,
+    maxInvestment: 2000,
+    materials: [
+      "Equipamentos de aplicação",
+      "Inseticidas",
+      "Equipamentos de proteção",
+      "Transporte"
+    ],
+    suggestedPrice: "R$ 150–500 por serviço",
+    potentialClients: [
+      "Residências",
+      "Empresas e comércios",
+      "Condomínios",
+      "Restaurantes"
+    ],
+    description: "Serviço essencial com alta demanda e margem de lucro.",
+    image: "🐜",
+    monthlyRevenue: "R$ 3.000 - R$ 12.000",
+    profitMargin: "60-70%",
+    payback: "3 a 6 meses"
+  },
+  {
+    id: 61,
+    name: "Instalação de Ar Condicionado",
+    category: "Serviços",
+    minInvestment: 800,
+    maxInvestment: 3000,
+    materials: [
+      "Ferramentas",
+      "Materiais de instalação",
+      "Equipamentos de segurança",
+      "Transporte"
+    ],
+    suggestedPrice: "R$ 200–800 por instalação",
+    potentialClients: [
+      "Residências",
+      "Empresas",
+      "Lojas e comércios",
+      "Escritórios"
+    ],
+    description: "Serviço técnico com alta remuneração e demanda crescente.",
+    image: "❄️",
+    monthlyRevenue: "R$ 4.000 - R$ 15.000",
+    profitMargin: "50-60%",
+    payback: "3 a 6 meses"
+  },
+  {
+    id: 62,
+    name: "Desentupimento",
+    category: "Serviços",
+    minInvestment: 500,
+    maxInvestment: 2000,
+    materials: [
+      "Equipamentos de desentupimento",
+      "Ferramentas",
+      "Equipamentos de proteção",
+      "Transporte"
+    ],
+    suggestedPrice: "R$ 150–500 por serviço",
+    potentialClients: [
+      "Residências",
+      "Empresas",
+      "Condomínios",
+      "Restaurantes"
+    ],
+    description: "Serviço de emergência com alta demanda e boa margem.",
+    image: "🚽",
+    monthlyRevenue: "R$ 3.500 - R$ 12.000",
+    profitMargin: "55-65%",
+    payback: "3 a 6 meses"
+  },
+  {
+    id: 63,
+    name: "Encanamento",
+    category: "Serviços",
+    minInvestment: 400,
+    maxInvestment: 1800,
+    materials: [
+      "Ferramentas",
+      "Materiais de encanamento",
+      "Equipamentos de segurança",
+      "Transporte"
+    ],
+    suggestedPrice: "R$ 80–350 por serviço",
+    potentialClients: [
+      "Residências",
+      "Empresas",
+      "Condomínios",
+      "Imobiliárias"
+    ],
+    description: "Serviço essencial com demanda constante e boa margem.",
+    image: "🔧",
+    monthlyRevenue: "R$ 2.500 - R$ 10.000",
+    profitMargin: "50-60%",
+    payback: "3 a 6 meses"
+  },
+  {
+    id: 64,
+    name: "Instalação Elétrica Residencial",
+    category: "Serviços",
+    minInvestment: 500,
+    maxInvestment: 2000,
+    materials: [
+      "Ferramentas",
+      "Materiais elétricos",
+      "Equipamentos de segurança",
+      "Transporte"
+    ],
+    suggestedPrice: "R$ 100–400 por serviço",
+    potentialClients: [
+      "Residências",
+      "Empresas",
+      "Condomínios",
+      "Lojas"
+    ],
+    description: "Serviço técnico com alta demanda e boa remuneração.",
+    image: "⚡",
+    monthlyRevenue: "R$ 3.000 - R$ 12.000",
+    profitMargin: "50-60%",
+    payback: "3 a 6 meses"
+  },
+  {
+    id: 65,
+    name: "Pintura Residencial",
+    category: "Serviços",
+    minInvestment: 300,
+    maxInvestment: 1500,
+    materials: [
+      "Tintas e pincéis",
+      "Rolos e bandejas",
+      "Lonas e fitas",
+      "Equipamentos de proteção"
+    ],
+    suggestedPrice: "R$ 1.500–8.000 por projeto",
+    potentialClients: [
+      "Casas e apartamentos",
+      "Empresas",
+      "Condomínios",
+      "Lojas e escritórios"
+    ],
+    description: "Serviço de alto valor agregado com excelente margem de lucro.",
+    image: "🎨",
+    monthlyRevenue: "R$ 4.000 - R$ 15.000",
+    profitMargin: "40-50%",
+    payback: "2 a 5 meses"
+  },
+
+  // ============================================
+  // 🍳 ALIMENTAÇÃO (NOVOS)
+  // ============================================
+  {
+    id: 66,
+    name: "Açaí Delivery",
+    category: "Alimentação",
+    minInvestment: 500,
+    maxInvestment: 2000,
+    materials: [
+      "Freezer",
+      "Açaí e complementos",
+      "Embalagens",
+      "Utensílios"
+    ],
+    suggestedPrice: "R$ 12–30 por copo",
+    potentialClients: [
+      "Jovens e adultos",
+      "Academias",
+      "Moradores locais",
+      "Escritórios"
+    ],
+    description: "Alta demanda com crescimento do mercado de saúde e bem-estar.",
+    image: "🍧",
+    monthlyRevenue: "R$ 2.500 - R$ 10.000",
+    profitMargin: "55-65%",
+    payback: "2 a 4 meses"
+  },
+  {
+    id: 67,
+    name: "Café Delivery",
+    category: "Alimentação",
+    minInvestment: 300,
+    maxInvestment: 1200,
+    materials: [
+      "Máquina de café",
+      "Copos e tampas",
+      "Ingredientes",
+      "Transporte"
+    ],
+    suggestedPrice: "R$ 8–20 por café",
+    potentialClients: [
+      "Escritórios",
+      "Profissionais ocupados",
+      "Moradores locais",
+      "Eventos"
+    ],
+    description: "Mercado em crescimento com alta recorrência de clientes.",
+    image: "☕",
+    monthlyRevenue: "R$ 2.000 - R$ 8.000",
+    profitMargin: "60-70%",
+    payback: "2 a 4 meses"
+  },
+  {
+    id: 68,
+    name: "Comida Congelada Fitness",
+    category: "Alimentação",
+    minInvestment: 400,
+    maxInvestment: 1500,
+    materials: [
+      "Freezer",
+      "Embalagens",
+      "Ingredientes",
+      "Utensílios"
+    ],
+    suggestedPrice: "R$ 15–30 por porção",
+    potentialClients: [
+      "Famílias",
+      "Profissionais ocupados",
+      "Academias",
+      "Pessoas que fazem dieta"
+    ],
+    description: "Alta demanda com possibilidade de escala e clientes recorrentes.",
+    image: "❄️",
+    monthlyRevenue: "R$ 3.000 - R$ 10.000",
+    profitMargin: "50-60%",
+    payback: "2 a 5 meses"
+  },
+  {
+    id: 69,
+    name: "Tapiocaria",
+    category: "Alimentação",
+    minInvestment: 200,
+    maxInvestment: 800,
+    materials: [
+      "Chapa",
+      "Ingredientes",
+      "Embalagens",
+      "Utensílios"
+    ],
+    suggestedPrice: "R$ 8–20 por tapioca",
+    potentialClients: [
+      "Moradores locais",
+      "Turistas",
+      "Trabalhadores",
+      "Estudantes"
+    ],
+    description: "Negócio de baixo investimento com alta aceitação.",
+    image: "🥞",
+    monthlyRevenue: "R$ 1.500 - R$ 5.000",
+    profitMargin: "60-70%",
+    payback: "1 a 3 meses"
+  },
+  {
+    id: 70,
+    name: "Hamburgueria Artesanal",
+    category: "Alimentação",
+    minInvestment: 2000,
+    maxInvestment: 8000,
+    materials: [
+      "Chapa ou grelha",
+      "Utensílios de cozinha",
+      "Ingredientes",
+      "Embalagens"
+    ],
+    suggestedPrice: "R$ 20–35 por hambúrguer",
+    potentialClients: [
+      "Jovens e adultos",
+      "Famílias",
+      "Trabalhadores",
+      "Delivery"
+    ],
+    description: "Mercado em alta com margem de lucro atrativa e clientes fiéis.",
+    image: "🍔",
+    monthlyRevenue: "R$ 5.000 - R$ 20.000",
+    profitMargin: "50-60%",
+    payback: "4 a 8 meses"
+  },
+
+  // ============================================
+  // 💄 BELEZA E CUIDADOS (NOVOS)
+  // ============================================
+  {
+    id: 71,
+    name: "Barbearia",
+    category: "Beleza",
+    minInvestment: 800,
+    maxInvestment: 3000,
+    materials: [
+      "Máquinas e tesouras",
+      "Produtos de barbearia",
+      "Móveis e decoração",
+      "Produtos de limpeza"
+    ],
+    suggestedPrice: "R$ 30–100 por corte",
+    potentialClients: [
+      "Homens de todas as idades",
+      "Profissionais",
+      "Jovens",
+      "Famílias"
+    ],
+    description: "Mercado em crescimento com clientes fiéis e alta margem.",
+    image: "💈",
+    monthlyRevenue: "R$ 3.000 - R$ 12.000",
+    profitMargin: "60-70%",
+    payback: "3 a 6 meses"
+  },
+  {
+    id: 72,
+    name: "Depilação",
+    category: "Beleza",
+    minInvestment: 200,
+    maxInvestment: 800,
+    materials: [
+      "Ceras",
+      "Espátulas",
+      "Produtos de limpeza",
+      "Móveis"
+    ],
+    suggestedPrice: "R$ 20–80 por área",
+    potentialClients: [
+      "Mulheres",
+      "Homens",
+      "Clientes de salão",
+      "Noivas"
+    ],
+    description: "Serviço com alta demanda e clientes recorrentes.",
+    image: "💫",
+    monthlyRevenue: "R$ 2.000 - R$ 8.000",
+    profitMargin: "65-75%",
+    payback: "2 a 4 meses"
+  },
+  {
+    id: 73,
+    name: "Alongamento de Unhas",
+    category: "Beleza",
+    minInvestment: 300,
+    maxInvestment: 1000,
+    materials: [
+      "Kit de alongamento",
+      "Esmaltes",
+      "Ferramentas",
+      "Mesa e cadeira"
+    ],
+    suggestedPrice: "R$ 50–200 por serviço",
+    potentialClients: [
+      "Mulheres de 18-50 anos",
+      "Noivas e madrinhas",
+      "Profissionais da imagem",
+      "Eventos"
+    ],
+    description: "Serviço com alta margem e cliente fiel.",
+    image: "💅",
+    monthlyRevenue: "R$ 2.500 - R$ 10.000",
+    profitMargin: "70-80%",
+    payback: "2 a 4 meses"
+  },
+  {
+    id: 74,
+    name: "Massagem Relaxante",
+    category: "Beleza",
+    minInvestment: 500,
+    maxInvestment: 2000,
+    materials: [
+      "Mesa de massagem",
+      "Óleos essenciais",
+      "Toalhas",
+      "Produtos de aromaterapia"
+    ],
+    suggestedPrice: "R$ 60–150 por hora",
+    potentialClients: [
+      "Pessoas estressadas",
+      "Profissionais ocupados",
+      "Clientes de bem-estar",
+      "Atletas"
+    ],
+    description: "Serviço com alta demanda no mercado de bem-estar.",
+    image: "💆",
+    monthlyRevenue: "R$ 3.000 - R$ 12.000",
+    profitMargin: "65-75%",
+    payback: "3 a 6 meses"
+  },
+  {
+    id: 75,
+    name: "Limpeza de Pele",
+    category: "Beleza",
+    minInvestment: 300,
+    maxInvestment: 1000,
+    materials: [
+      "Produtos de estética",
+      "Equipamentos",
+      "Móveis",
+      "Produtos de limpeza"
+    ],
+    suggestedPrice: "R$ 80–200 por sessão",
+    potentialClients: [
+      "Mulheres de 20-50 anos",
+      "Clientes de estética",
+      "Noivas",
+      "Adolescentes"
+    ],
+    description: "Serviço com alta margem e clientes recorrentes.",
+    image: "🧖",
+    monthlyRevenue: "R$ 2.500 - R$ 9.000",
+    profitMargin: "60-70%",
+    payback: "3 a 5 meses"
+  },
+
+  // ============================================
+  // 📚 EDUCAÇÃO (NOVOS)
+  // ============================================
+  {
+    id: 76,
+    name: "Aulas de Música",
+    category: "Educação",
+    minInvestment: 100,
+    maxInvestment: 600,
+    materials: [
+      "Instrumento musical",
+      "Material didático",
+      "Internet",
+      "Partituras"
+    ],
+    suggestedPrice: "R$ 40–100 por hora",
+    potentialClients: [
+      "Crianças e adolescentes",
+      "Adultos iniciantes",
+      "Escolas de música",
+      "Idosos"
+    ],
+    description: "Serviço com alta demanda e baixo investimento.",
+    image: "🎵",
+    monthlyRevenue: "R$ 1.500 - R$ 6.000",
+    profitMargin: "80-90%",
+    payback: "1 a 3 meses"
+  },
+  {
+    id: 77,
+    name: "Aulas de Dança",
+    category: "Educação",
+    minInvestment: 100,
+    maxInvestment: 500,
+    materials: [
+      "Espaço para dança",
+      "Música",
+      "Material didático",
+      "Internet"
+    ],
+    suggestedPrice: "R$ 30–80 por hora",
+    potentialClients: [
+      "Crianças e adolescentes",
+      "Adultos",
+      "Casais",
+      "Idosos"
+    ],
+    description: "Baixo investimento com alta demanda e boa margem.",
+    image: "💃",
+    monthlyRevenue: "R$ 1.500 - R$ 5.000",
+    profitMargin: "80-90%",
+    payback: "1 a 3 meses"
+  },
+  {
+    id: 78,
+    name: "Aulas de Programação",
+    category: "Educação",
+    minInvestment: 100,
+    maxInvestment: 500,
+    materials: [
+      "Computador",
+      "Internet",
+      "Material didático",
+      "Plataformas de ensino"
+    ],
+    suggestedPrice: "R$ 50–120 por hora",
+    potentialClients: [
+      "Estudantes",
+      "Profissionais",
+      "Pessoas mudando de carreira",
+      "Crianças (Scratch/Python)"
+    ],
+    description: "Alta demanda com excelente margem de lucro.",
+    image: "💻",
+    monthlyRevenue: "R$ 2.500 - R$ 10.000",
+    profitMargin: "85-95%",
+    payback: "1 a 3 meses"
+  },
+  {
+    id: 79,
+    name: "Aulas de Fotografia",
+    category: "Educação",
+    minInvestment: 100,
+    maxInvestment: 500,
+    materials: [
+      "Câmera ou celular",
+      "Internet",
+      "Material didático",
+      "Softwares de edição"
+    ],
+    suggestedPrice: "R$ 50–120 por hora",
+    potentialClients: [
+      "Iniciantes",
+      "Influenciadores",
+      "Empreendedores",
+      "Jovens"
+    ],
+    description: "Serviço com alta demanda no mercado digital.",
+    image: "📷",
+    monthlyRevenue: "R$ 1.500 - R$ 6.000",
+    profitMargin: "85-95%",
+    payback: "1 a 2 meses"
+  },
+  {
+    id: 80,
+    name: "Aulas de Culinária",
+    category: "Educação",
+    minInvestment: 200,
+    maxInvestment: 800,
+    materials: [
+      "Ingredientes",
+      "Utensílios de cozinha",
+      "Espaço",
+      "Internet"
+    ],
+    suggestedPrice: "R$ 80–200 por aula",
+    potentialClients: [
+      "Adultos",
+      "Casais",
+      "Crianças",
+      "Empresas (team building)"
+    ],
+    description: "Serviço com boa margem e possibilidade de workshops.",
+    image: "🍳",
+    monthlyRevenue: "R$ 2.000 - R$ 8.000",
+    profitMargin: "70-80%",
+    payback: "2 a 4 meses"
+  },
+
+  // ============================================
+  // 🎨 ARTESANATO E PERSONALIZADOS (NOVOS)
+  // ============================================
+  {
+    id: 81,
+    name: "Customização de Roupas",
+    category: "Artesanato",
+    minInvestment: 300,
+    maxInvestment: 1200,
+    materials: [
+      "Máquina de costura",
+      "Tintas e tecidos",
+      "Roupas para customizar",
+      "Ferramentas"
+    ],
+    suggestedPrice: "R$ 40–200 por peça",
+    potentialClients: [
+      "Jovens",
+      "Lojas de moda",
+      "Eventos",
+      "Influenciadores"
+    ],
+    description: "Alta demanda com boa margem de lucro e diferenciação.",
+    image: "👕",
+    monthlyRevenue: "R$ 1.800 - R$ 6.000",
+    profitMargin: "60-70%",
+    payback: "2 a 4 meses"
+  },
+  {
+    id: 82,
+    name: "Sabonetes Artesanais",
+    category: "Artesanato",
+    minInvestment: 200,
+    maxInvestment: 800,
+    materials: [
+      "Base de sabonete",
+      "Essências",
+      "Moldes",
+      "Embalagens"
+    ],
+    suggestedPrice: "R$ 8–25 por unidade",
+    potentialClients: [
+      "Consumidores",
+      "Lojas de produtos naturais",
+      "Feiras",
+      "Presentes"
+    ],
+    description: "Baixo investimento com alta margem de lucro.",
+    image: "🧼",
+    monthlyRevenue: "R$ 1.200 - R$ 4.500",
+    profitMargin: "70-80%",
+    payback: "1 a 3 meses"
+  },
+  {
+    id: 83,
+    name: "Bordados Personalizados",
+    category: "Artesanato",
+    minInvestment: 200,
+    maxInvestment: 800,
+    materials: [
+      "Linhas e agulhas",
+      "Bastidores",
+      "Tecidos",
+      "Máquina de bordar (opcional)"
+    ],
+    suggestedPrice: "R$ 30–150 por peça",
+    potentialClients: [
+      "Empresas (uniformes)",
+      "Lojas de presentes",
+      "Eventos",
+      "Casamentos"
+    ],
+    description: "Produto com alto valor agregado e margem de lucro.",
+    image: "🧵",
+    monthlyRevenue: "R$ 1.500 - R$ 5.000",
+    profitMargin: "65-75%",
+    payback: "2 a 4 meses"
+  },
+  {
+    id: 84,
+    name: "Porta-joias e Caixas Decoradas",
+    category: "Artesanato",
+    minInvestment: 200,
+    maxInvestment: 700,
+    materials: [
+      "Madeira ou MDF",
+      "Tintas e vernizes",
+      "Decorações",
+      "Ferramentas"
+    ],
+    suggestedPrice: "R$ 40–200 por peça",
+    potentialClients: [
+      "Presentes",
+      "Lojas de decoração",
+      "Feiras",
+      "Casamentos"
+    ],
+    description: "Produto com boa margem de lucro e crescente demanda.",
+    image: "💍",
+    monthlyRevenue: "R$ 1.500 - R$ 6.000",
+    profitMargin: "60-70%",
+    payback: "2 a 4 meses"
+  },
+  {
+    id: 85,
+    name: "Bonecos de Pelúcia Artesanais",
+    category: "Artesanato",
+    minInvestment: 200,
+    maxInvestment: 800,
+    materials: [
+      "Tecidos",
+      "Enchimento",
+      "Linhas e agulhas",
+      "Olhos e acessórios"
+    ],
+    suggestedPrice: "R$ 40–200 por boneco",
+    potentialClients: [
+      "Crianças",
+      "Presentes personalizados",
+      "Lojas de brinquedos",
+      "Feiras"
+    ],
+    description: "Produto encantador com alta margem de lucro.",
+    image: "🧸",
+    monthlyRevenue: "R$ 1.500 - R$ 5.000",
+    profitMargin: "70-80%",
+    payback: "2 a 4 meses"
+  },
+
+  // ============================================
+  // 🚗 AUTOMOTIVO (NOVOS)
+  // ============================================
+  {
+    id: 86,
+    name: "Troca de Óleo e Filtros",
+    category: "Automotivo",
+    minInvestment: 500,
+    maxInvestment: 2000,
+    materials: [
+      "Ferramentas",
+      "Óleo e filtros",
+      "Equipamentos",
+      "Transporte"
+    ],
+    suggestedPrice: "R$ 100–250 por serviço",
+    potentialClients: [
+      "Proprietários de veículos",
+      "Frotas",
+      "Condomínios",
+      "Empresas"
+    ],
+    description: "Serviço essencial com demanda constante.",
+    image: "🛢️",
+    monthlyRevenue: "R$ 3.000 - R$ 10.000",
+    profitMargin: "50-60%",
+    payback: "3 a 6 meses"
+  },
+  {
+    id: 87,
+    name: "Revisão de Motos",
+    category: "Automotivo",
+    minInvestment: 500,
+    maxInvestment: 2000,
+    materials: [
+      "Ferramentas",
+      "Peças",
+      "Equipamentos",
+      "Transporte"
+    ],
+    suggestedPrice: "R$ 80–250 por serviço",
+    potentialClients: [
+      "Motociclistas",
+      "Concessionárias",
+      "Eventos",
+      "Entregadores"
+    ],
+    description: "Serviço especializado com boa margem.",
+    image: "🏍️",
+    monthlyRevenue: "R$ 2.500 - R$ 9.000",
+    profitMargin: "50-60%",
+    payback: "3 a 6 meses"
+  },
+  {
+    id: 88,
+    name: "Funilaria e Pintura Automotiva",
+    category: "Automotivo",
+    minInvestment: 2000,
+    maxInvestment: 8000,
+    materials: [
+      "Equipamentos de pintura",
+      "Tintas e materiais",
+      "Ferramentas",
+      "EPIs"
+    ],
+    suggestedPrice: "R$ 300–2.000 por serviço",
+    potentialClients: [
+      "Proprietários de veículos",
+      "Concessionárias",
+      "Seguradoras",
+      "Lojas de veículos"
+    ],
+    description: "Serviço de alto valor agregado com excelente margem.",
+    image: "🎨",
+    monthlyRevenue: "R$ 8.000 - R$ 25.000",
+    profitMargin: "40-50%",
+    payback: "6 a 12 meses"
+  },
+
+  // ============================================
+  // 💰 COMPRA E REVENDA (NOVOS)
+  // ============================================
+  {
+    id: 89,
+    name: "Revenda de Roupas Infantis",
+    category: "Revenda",
+    minInvestment: 200,
+    maxInvestment: 1500,
+    materials: [
+      "Estoque de roupas",
+      "Expositores",
+      "Embalagens",
+      "Marketing"
+    ],
+    suggestedPrice: "Margem de 30–70%",
+    potentialClients: [
+      "Famílias",
+      "Lojas de roupas",
+      "Feiras",
+      "E-commerces"
+    ],
+    description: "Alta demanda com boa margem de lucro.",
+    image: "👶",
+    monthlyRevenue: "R$ 1.800 - R$ 6.000",
+    profitMargin: "30-70%",
+    payback: "2 a 5 meses"
+  },
+  {
+    id: 90,
+    name: "Revenda de Livros",
+    category: "Revenda",
+    minInvestment: 100,
+    maxInvestment: 800,
+    materials: [
+      "Estoque de livros",
+      "Expositores",
+      "Embalagens",
+      "Marketing"
+    ],
+    suggestedPrice: "Margem de 40–80%",
+    potentialClients: [
+      "Estudantes",
+      "Leitores",
+      "Escolas",
+      "Feiras"
+    ],
+    description: "Baixo investimento com boa margem de lucro.",
+    image: "📚",
+    monthlyRevenue: "R$ 1.000 - R$ 3.500",
+    profitMargin: "40-80%",
+    payback: "1 a 3 meses"
+  },
+  {
+    id: 91,
+    name: "Revenda de Artigos Esportivos",
+    category: "Revenda",
+    minInvestment: 300,
+    maxInvestment: 2000,
+    materials: [
+      "Estoque de produtos",
+      "Expositores",
+      "Embalagens",
+      "Marketing"
+    ],
+    suggestedPrice: "Margem de 25–60%",
+    potentialClients: [
+      "Atletas",
+      "Academias",
+      "Escolas",
+      "E-commerces"
+    ],
+    description: "Mercado em crescimento com boa margem.",
+    image: "⚽",
+    monthlyRevenue: "R$ 2.000 - R$ 7.000",
+    profitMargin: "25-60%",
+    payback: "3 a 6 meses"
+  },
+  {
+    id: 92,
+    name: "Revenda de Produtos Naturais",
+    category: "Revenda",
+    minInvestment: 200,
+    maxInvestment: 1500,
+    materials: [
+      "Estoque de produtos",
+      "Catálogos",
+      "Embalagens",
+      "Marketing digital"
+    ],
+    suggestedPrice: "Margem de 30–70%",
+    potentialClients: [
+      "Consumidores conscientes",
+      "Lojas de produtos naturais",
+      "Feiras",
+      "Redes sociais"
+    ],
+    description: "Mercado em crescimento com clientes fiéis.",
+    image: "🌿",
+    monthlyRevenue: "R$ 1.500 - R$ 6.000",
+    profitMargin: "30-70%",
+    payback: "2 a 4 meses"
+  }
 ];
