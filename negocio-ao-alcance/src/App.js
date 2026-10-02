@@ -6,6 +6,7 @@ import { GlobalStyle } from './styles/GlobalStyles';
 import { authService } from './services/firebase';
 import { notificationService } from './utils/notificationService';
 import Navbar from './components/Navbar';
+import InstallPrompt from './components/InstallPrompt';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import BusinessDetail from './pages/BusinessDetail';
@@ -50,6 +51,22 @@ function App() {
     return () => unsubscribe();
   }, []);
 
+  // 📱 REGISTRAR SERVICE WORKER (PWA)
+  useEffect(() => {
+    if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker
+          .register('/service-worker.js')
+          .then((registration) => {
+            console.log('✅ Service Worker registrado:', registration.scope);
+          })
+          .catch((error) => {
+            console.warn('⚠️ Erro ao registrar Service Worker:', error);
+          });
+      });
+    }
+  }, []);
+
   const handleLogin = async (email, password) => {
     const result = await authService.login(email, password);
     if (result.success) {
@@ -85,6 +102,7 @@ function App() {
         <GlobalStyle />
         <AppContainer>
           <Navbar user={user} onLogout={handleLogout} />
+          <InstallPrompt />
           <Routes>
             <Route 
               path="/login" 
