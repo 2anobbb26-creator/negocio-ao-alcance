@@ -23,7 +23,6 @@ const Container = styled.div`
   overflow: hidden;
   animation: ${fadeInUp} 0.6s ease-out;
 
-  /* ✨ BORDA GRADIENTE AZUL → ROXO */
   &::before {
     content: '';
     position: absolute;
@@ -64,7 +63,6 @@ const Title = styled.h2`
   margin-bottom: 8px;
   font-weight: 800;
   letter-spacing: -0.5px;
-  /* 🎨 DEGRADÊ BRANCO → AZUL → ROXO */
   background: linear-gradient(135deg, 
     #ffffff 0%, 
     #d0e0ff 20%, 
@@ -140,7 +138,6 @@ const Input = styled.input`
   }
 `;
 
-// 🔵 BOTÃO ENTRAR - AZUL ESCURO ELEGANTE (SEM NEON)
 const Button = styled.button`
   padding: 16px;
   background: linear-gradient(135deg, #0d1b3e 0%, #142952 50%, #1e3a8a 100%);
@@ -207,6 +204,19 @@ const ErrorMessage = styled.div`
   font-size: 0.9rem;
   text-align: center;
   font-weight: 500;
+  line-height: 1.5;
+`;
+
+const WarningMessage = styled.div`
+  background: rgba(251, 191, 36, 0.1);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  color: #fbbf24;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  text-align: center;
+  font-weight: 500;
+  line-height: 1.5;
 `;
 
 const SuccessMessage = styled.div`
@@ -218,6 +228,7 @@ const SuccessMessage = styled.div`
   font-size: 0.9rem;
   text-align: center;
   font-weight: 500;
+  line-height: 1.5;
 `;
 
 const Login = ({ onLogin, onRegister }) => {
@@ -233,6 +244,7 @@ const Login = ({ onLogin, onRegister }) => {
     confirmPassword: ''
   });
   const [error, setError] = useState('');
+  const [warning, setWarning] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -240,12 +252,14 @@ const Login = ({ onLogin, onRegister }) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
     setError('');
+    setWarning('');
     setSuccess('');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setWarning('');
     setSuccess('');
     setLoading(true);
 
@@ -277,28 +291,39 @@ const Login = ({ onLogin, onRegister }) => {
 
       if (result.success) {
         if (!isLogin) {
-          setSuccess('✅ Cadastro realizado com sucesso! Faça login.');
+          setSuccess('✅ Cadastro realizado! Enviamos um e-mail de verificação. Verifique sua caixa de entrada e o spam.');
           setFormData({ name: '', email: '', phone: '', password: '', confirmPassword: '' });
-          setTimeout(() => navigate('/login'), 2000);
+          // Não redireciona automaticamente — deixa o usuário ver a mensagem
         } else {
           navigate('/');
         }
       } else {
-        let errorMessage = result.error;
-        if (errorMessage.includes('auth/email-already-in-use')) {
-          errorMessage = 'Este email já está cadastrado!';
-        } else if (errorMessage.includes('auth/invalid-email')) {
-          errorMessage = 'Email inválido!';
-        } else if (errorMessage.includes('auth/user-not-found')) {
-          errorMessage = 'Usuário não encontrado!';
-        } else if (errorMessage.includes('auth/wrong-password')) {
-          errorMessage = 'Senha incorreta!';
-        } else if (errorMessage.includes('auth/invalid-credential')) {
-          errorMessage = 'Email ou senha incorretos!';
-        } else if (errorMessage.includes('auth/weak-password')) {
-          errorMessage = 'A senha deve ter pelo menos 6 caracteres!';
+        // 🆕 Tratamento do erro de e-mail não verificado
+        if (result.error === 'EMAIL_NOT_VERIFIED') {
+          setWarning(
+            `📧 Confirme seu e-mail antes de entrar! Enviamos um link para ${formData.email}. ` +
+            `Verifique também a caixa de spam.`
+          );
+        } else {
+          // Tratamento dos erros comuns do Firebase Auth
+          let errorMessage = result.error;
+          if (errorMessage.includes('auth/email-already-in-use')) {
+            errorMessage = 'Este email já está cadastrado!';
+          } else if (errorMessage.includes('auth/invalid-email')) {
+            errorMessage = 'Email inválido!';
+          } else if (errorMessage.includes('auth/user-not-found')) {
+            errorMessage = 'Usuário não encontrado!';
+          } else if (errorMessage.includes('auth/wrong-password')) {
+            errorMessage = 'Senha incorreta!';
+          } else if (errorMessage.includes('auth/invalid-credential')) {
+            errorMessage = 'Email ou senha incorretos!';
+          } else if (errorMessage.includes('auth/weak-password')) {
+            errorMessage = 'A senha deve ter pelo menos 6 caracteres!';
+          } else if (errorMessage.includes('auth/too-many-requests')) {
+            errorMessage = 'Muitas tentativas. Tente novamente mais tarde.';
+          }
+          setError(errorMessage);
         }
-        setError(errorMessage);
       }
     } catch (err) {
       setError('Ocorreu um erro. Tente novamente.');
@@ -383,6 +408,7 @@ const Login = ({ onLogin, onRegister }) => {
         )}
 
         {error && <ErrorMessage>{error}</ErrorMessage>}
+        {warning && <WarningMessage>{warning}</WarningMessage>}
         {success && <SuccessMessage>{success}</SuccessMessage>}
 
         <Button type="submit" disabled={loading}>

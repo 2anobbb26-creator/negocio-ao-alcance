@@ -7,6 +7,7 @@ import { authService } from './services/firebase';
 import { notificationService } from './utils/notificationService';
 import Navbar from './components/Navbar';
 import InstallPrompt from './components/InstallPrompt';
+import EmailVerification from './components/EmailVerification';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import BusinessDetail from './pages/BusinessDetail';
@@ -26,10 +27,24 @@ const PrivateRoute = ({ user, children }) => {
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [needsVerification, setNeedsVerification] = useState(false);
 
   useEffect(() => {
     const unsubscribe = authService.onAuthStateChanged((firebaseUser) => {
       if (firebaseUser) {
+        // 📧 Verifica se e-mail foi confirmado
+        if (!firebaseUser.emailVerified) {
+          console.log('📧 E-mail não verificado:', firebaseUser.email);
+          setUser({
+            ...firebaseUser,
+            name: firebaseUser.displayName || firebaseUser.email?.split('@')[0] || 'Usuário',
+          });
+          setNeedsVerification(true);
+          setLoading(false);
+          return;
+        }
+
+        setNeedsVerification(false);
         setUser({
           ...firebaseUser,
           name: firebaseUser.displayName || firebaseUser.email?.split('@')[0] || 'Usuário',
@@ -44,6 +59,7 @@ function App() {
         }
       } else {
         setUser(null);
+        setNeedsVerification(false);
       }
       setLoading(false);
     });
@@ -69,6 +85,16 @@ function App() {
 
   const handleLogin = async (email, password) => {
     const result = await authService.login(email, password);
+
+    // 🆕 Trata o caso de e-mail não verificado
+    if (!result.success && result.error === 'EMAIL_NOT_VERIFIED') {
+      return {
+        success: false,
+        error: 'EMAIL_NOT_VERIFIED',
+        user: result.user
+      };
+    }
+
     if (result.success) {
       return { success: true };
     }
@@ -86,6 +112,7 @@ function App() {
   const handleLogout = async () => {
     await authService.logout();
     setUser(null);
+    setNeedsVerification(false);
   };
 
   if (loading) {
@@ -93,6 +120,22 @@ function App() {
       <div style={{ color: '#fff', textAlign: 'center', marginTop: '50px', fontSize: '1.2rem' }}>
         Carregando...
       </div>
+    );
+  }
+
+  // 📧 Se e-mail não verificado, mostra tela de verificação
+  if (user && needsVerification) {
+    return (
+      <HelmetProvider>
+        <GlobalStyle />
+        <EmailVerification
+          user={user}
+          onVerified={() => {
+            setNeedsVerification(false);
+            window.location.reload();
+          }}
+        />
+      </HelmetProvider>
     );
   }
 
@@ -104,30 +147,30 @@ function App() {
           <Navbar user={user} onLogout={handleLogout} />
           <InstallPrompt />
           <Routes>
-            <Route 
-              path="/login" 
-              element={user ? <Navigate to="/" replace /> : <Login onLogin={handleLogin} onRegister={handleRegister} />} 
+            <Route
+              path="/login"
+              element={user ? <Navigate to="/" replace /> : <Login onLogin={handleLogin} onRegister={handleRegister} />}
             />
-            <Route 
-              path="/register" 
-              element={user ? <Navigate to="/" replace /> : <Login onLogin={handleLogin} onRegister={handleRegister} />} 
+            <Route
+              path="/register"
+              element={user ? <Navigate to="/" replace /> : <Login onLogin={handleLogin} onRegister={handleRegister} />}
             />
 
             {/* 🔓 ROTAS PÚBLICAS (funcionam sem login) */}
             <Route path="/business/:id" element={<BusinessDetail user={user} />} />
 
             {/* 🔒 ROTAS PRIVADAS */}
-            <Route 
-              path="/" 
-              element={<PrivateRoute user={user}><Home user={user} /></PrivateRoute>} 
+            <Route
+              path="/"
+              element={<PrivateRoute user={user}><Home user={user} /></PrivateRoute>}
             />
-            <Route 
-              path="/perfil" 
-              element={<PrivateRoute user={user}><Perfil /></PrivateRoute>} 
+            <Route
+              path="/perfil"
+              element={<PrivateRoute user={user}><Perfil /></PrivateRoute>}
             />
-            <Route 
-              path="/favoritos" 
-              element={<PrivateRoute user={user}><Favoritos /></PrivateRoute>} 
+            <Route
+              path="/favoritos"
+              element={<PrivateRoute user={user}><Favoritos /></PrivateRoute>}
             />
           </Routes>
         </AppContainer>

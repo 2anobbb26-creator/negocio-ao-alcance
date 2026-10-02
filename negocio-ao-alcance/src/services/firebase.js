@@ -5,7 +5,9 @@ import {
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
-  updateProfile as updateAuthProfile
+  updateProfile as updateAuthProfile,
+  sendEmailVerification,
+  reload
 } from 'firebase/auth';
 import { 
   getFirestore, 
@@ -34,13 +36,24 @@ const auth = getAuth(app);
 const db = getFirestore(app, 'default');
 
 export const authService = {
-  // 📝 REGISTRO
+  // 📝 REGISTRO (com envio de e-mail de verificação)
   async register(email, password, name, phone) {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       
       await updateAuthProfile(user, { displayName: name });
+      
+      // 📧 Envia e-mail de verificação
+      try {
+        await sendEmailVerification(user, {
+          url: 'https://negocio-ao-alcance.web.app/login',
+          handleCodeInApp: false
+        });
+        console.log('📧 E-mail de verificação enviado para:', email);
+      } catch (emailError) {
+        console.warn('⚠️ Erro ao enviar e-mail de verificação:', emailError);
+      }
       
       await setDoc(doc(db, 'users', user.uid), {
         uid: user.uid,
@@ -49,7 +62,8 @@ export const authService = {
         phone: phone || '',
         createdAt: Timestamp.now(),
         favorites: [],
-        searchHistory: []
+        searchHistory: [],
+        emailVerified: false
       });
       
       return { success: true, user };
@@ -59,13 +73,25 @@ export const authService = {
     }
   },
 
-  // 🔑 LOGIN (com auto-criação do documento se não existir)
+  // 🔑 LOGIN (com verificação de e-mail)
   async login(email, password) {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // 🆕 Garante que o documento do usuário existe no Firestore
+      // 🔄 Força atualização do estado (para pegar emailVerified atualizado)
+      await reload(user);
+
+      // 🚫 Bloqueia login se e-mail não verificado
+      if (!user.emailVerified) {
+        return { 
+          success: false, 
+          error: 'EMAIL_NOT_VERIFIED',
+          user: user
+        };
+      }
+
+      // Garante que o documento existe no Firestore
       const userRef = doc(db, 'users', user.uid);
       const userSnap = await getDoc(userRef);
 
@@ -78,8 +104,12 @@ export const authService = {
           phone: '',
           favorites: [],
           searchHistory: [],
-          createdAt: Timestamp.now()
+          createdAt: Timestamp.now(),
+          emailVerified: true
         });
+      } else {
+        // Atualiza o status de verificação no Firestore
+        await updateDoc(userRef, { emailVerified: true });
       }
 
       return { success: true, user };
@@ -163,7 +193,6 @@ export const authService = {
         const userData = userSnap.data();
         favorites = userData.favorites || [];
       } else {
-        // 🆕 Documento não existe — cria ele agora
         console.warn('⚠️ Documento do usuário não existe. Criando...');
         await setDoc(userRef, {
           uid: uid,
@@ -197,7 +226,7 @@ export const authService = {
       
       if (!userSnap.exists()) {
         console.warn('⚠️ Documento não existe, nada a remover');
-        return { success: true }; // nada a remover
+        return { success: true };
       }
       
       const userData = userSnap.data();
@@ -229,6 +258,61 @@ export const authService = {
     } catch (error) {
       console.error('❌ Erro ao buscar favoritos:', error);
       return { success: false, error: error.message, data: [] };
+    }
+  },
+
+  // 📧 REENVIAR E-MAIL DE VERIFICAÇÃO
+  async resendVerificationEmail() {
+    try {
+      const user = auth.currentUser;
+      if (!user) {
+        return { success: false, error: 'Usuário não logado' };
+      }
+
+      if (user.emailVerified) {
+        return { success: false, error: 'E-mail já verificado' };
+      }
+
+      await sendEmailVerification(user, {
+        url: 'https://negocio-ao-alcance.web.app/login',
+        handleCodeInApp: false
+      });
+
+      console.log('📧 E-mail de verificação reenviado para:', user.email);
+      return { success: true };
+    } catch (error) {
+      console.error('❌ Erro ao reenviar e-mail:', error);
+      return { success: false, error: error.message };
+    }
+  },
+
+  // 🔄 RECARREGAR USUÁRIO (verifica se e-mail foi confirmado)
+  async reloadUser() {
+    try {
+      const user = auth.currentUser;
+      if (!user) {
+        return { success: false, error: 'Usuário não logado' };
+      }
+
+      await reload(user);
+
+      // Atualiza o Firestore se agora está verificado
+      if (user.emailVerified) {
+        try {
+          const userRef = doc(db, 'users', user.uid);
+          await updateDoc(userRef, { emailVerified: true });
+        } catch (dbError) {
+          console.warn('⚠️ Erro ao atualizar Firestore:', dbError);
+        }
+      }
+
+      return { 
+        success: true, 
+        emailVerified: user.emailVerified 
+      };
+    } catch (error) {
+      console.error('❌ Erro ao recarregar usuário:', error);
+      return { success: false, error: error.message };
     }
   }
 };
