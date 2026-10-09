@@ -12,11 +12,6 @@ const fadeInUp = keyframes`
   to   { opacity: 1; transform: translateY(0); }
 `;
 
-const gradientFlow = keyframes`
-  0%   { background-position: 0% 50%; }
-  100% { background-position: 300% 50%; }
-`;
-
 const skeleton = keyframes`
   0%   { background-position: -400px 0; }
   100% { background-position: 400px 0; }
@@ -54,17 +49,18 @@ const Header = styled.div`
   justify-content: center;
   text-align: center;
 
+  /* Borda superior estática: branco → azul → roxo */
   &::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  background: linear-gradient(90deg,
-    #ffffff 0%,
-    #7eb8ff 35%,
-    #a855f7 65%,
-    #ffffff 100%);
-}
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg,
+      #ffffff 0%,
+      #7eb8ff 35%,
+      #a855f7 65%,
+      #ffffff 100%);
+  }
 
   &::after {
     content: '';
@@ -79,8 +75,12 @@ const Header = styled.div`
     -webkit-mask-image: radial-gradient(circle at 50% 50%, black 0%, transparent 70%);
   }
 
+  @media (max-width: 900px) {
+    padding: 70px 20px 28px;
+  }
+
   @media (max-width: 480px) {
-    padding: 50px 20px 28px;
+    padding: 60px 20px 28px;
     border-radius: 20px;
     margin-bottom: 24px;
   }
@@ -113,7 +113,6 @@ const Title = styled.h1`
 
   svg {
     -webkit-text-fill-color: initial;
-    color: #f87171;
     width: 40px;
     height: 40px;
   }
@@ -140,56 +139,65 @@ const Title = styled.h1`
 `;
 
 const Subtitle = styled.p`
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: #a8b8d8;
   margin: 0;
   font-weight: 500;
   text-align: center;
-  max-width: 480px;
+  max-width: 520px;
   line-height: 1.5;
 
   @media (max-width: 480px) {
-    font-size: 0.88rem;
+    font-size: 0.95rem;
   }
 `;
 
+// ─── BADGE DE CONTAGEM (canto direito) ─────────────────────
 const CounterBadge = styled.div`
-  position: relative;
-  z-index: 1;
+  position: absolute;
+  top: 50%;
+  right: 30px;
+  transform: translateY(-50%);
+  z-index: 2;
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  margin-top: 20px;
-  padding: 10px 22px;
+  padding: 12px 24px;
   background: linear-gradient(135deg, rgba(74, 140, 247, 0.12), rgba(37, 99, 235, 0.08));
   border: 1px solid rgba(74, 140, 247, 0.25);
   border-radius: 999px;
   box-shadow: 0 4px 20px rgba(37, 99, 235, 0.15);
 
+  @media (max-width: 900px) {
+    position: static;
+    transform: none;
+    margin-top: 20px;
+  }
+
   @media (max-width: 480px) {
-    padding: 8px 16px;
-    margin-top: 14px;
+    padding: 8px 18px;
+    margin-top: 16px;
   }
 `;
 
 const CounterValue = styled.div`
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   font-weight: 800;
   color: #fff;
   line-height: 1;
   letter-spacing: -0.5px;
 
-  @media (max-width: 480px) { font-size: 1.1rem; }
+  @media (max-width: 480px) { font-size: 1.2rem; }
 `;
 
 const CounterLabel = styled.div`
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   color: #7eb8ff;
   text-transform: uppercase;
   letter-spacing: 1.5px;
   font-weight: 700;
 
-  @media (max-width: 480px) { font-size: 0.62rem; }
+  @media (max-width: 480px) { font-size: 0.65rem; }
 `;
 
 // ─── BOTÃO VOLTAR (canto esquerdo) ─────────────────────────
@@ -518,16 +526,16 @@ const Favoritos = () => {
               ? 'Os negócios que você salvou em um só lugar'
               : 'Sua lista pessoal de negócios'}
           </Subtitle>
-
-          {hasFavorites && (
-            <CounterBadge>
-              <CounterValue>{favorites.length}</CounterValue>
-              <CounterLabel>
-                {favorites.length === 1 ? 'Negócio' : 'Negócios'}
-              </CounterLabel>
-            </CounterBadge>
-          )}
         </HeaderLeft>
+
+        {hasFavorites && (
+          <CounterBadge>
+            <CounterValue>{favorites.length}</CounterValue>
+            <CounterLabel>
+              {favorites.length === 1 ? 'Negócio' : 'Negócios'}
+            </CounterLabel>
+          </CounterBadge>
+        )}
       </Header>
 
       {/* CONTEÚDO */}
