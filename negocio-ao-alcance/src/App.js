@@ -127,14 +127,16 @@ function App() {
   if (user && needsVerification) {
     return (
       <HelmetProvider>
-        <GlobalStyle />
-        <EmailVerification
-          user={user}
-          onVerified={() => {
-            setNeedsVerification(false);
-            window.location.reload();
-          }}
-        />
+        <Router>
+          <GlobalStyle />
+          <EmailVerification
+            user={user}
+            onVerified={() => {
+              setNeedsVerification(false);
+              window.location.reload();
+            }}
+          />
+        </Router>
       </HelmetProvider>
     );
   }
