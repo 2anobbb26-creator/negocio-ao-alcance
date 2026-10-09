@@ -16,7 +16,13 @@
       "purpose": "any"
     },
     {
-      "src": "logo512.png",
+      "src": "maskable-icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "maskable"
+    },
+    {
+      "src": "maskable-icon-512.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "maskable"
@@ -25,9 +31,51 @@
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
   "orientation": "portrait",
   "theme_color": "#0a1530",
   "background_color": "#0a1530",
   "lang": "pt-BR",
-  "categories": ["business", "productivity", "education"]
+  "dir": "ltr",
+  "categories": ["business", "productivity", "education", "finance"],
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "Ver Favoritos",
+      "short_name": "Favoritos",
+      "description": "Acessar meus negócios favoritos",
+      "url": "/favoritos",
+      "icons": [{ "src": "logo192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Explorar Negócios",
+      "short_name": "Explorar",
+      "description": "Ver todos os negócios disponíveis",
+      "url": "/",
+      "icons": [{ "src": "logo192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Meu Perfil",
+      "short_name": "Perfil",
+      "description": "Ver e editar meu perfil",
+      "url": "/perfil",
+      "icons": [{ "src": "logo192.png", "sizes": "192x192" }]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshot-mobile.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Home com busca de negócios"
+    },
+    {
+      "src": "screenshot-desktop.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Explorador de negócios"
+    }
+  ]
 }

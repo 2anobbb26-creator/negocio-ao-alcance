@@ -29,6 +29,17 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [needsVerification, setNeedsVerification] = useState(false);
 
+  // ✨ REMOVE A SPLASH SCREEN quando o app carrega
+  useEffect(() => {
+    const splash = document.getElementById('splash-screen');
+    if (splash) {
+      setTimeout(() => {
+        splash.classList.add('hidden');
+        setTimeout(() => splash.remove(), 500);
+      }, 300);
+    }
+  }, []);
+
   useEffect(() => {
     const unsubscribe = authService.onAuthStateChanged((firebaseUser) => {
       if (firebaseUser) {
