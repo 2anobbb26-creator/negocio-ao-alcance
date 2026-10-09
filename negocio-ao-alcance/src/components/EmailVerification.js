@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { authService } from '../services/firebase';
@@ -300,7 +300,6 @@ const PrimaryButton = styled(Button)`
   border: 1px solid rgba(74, 140, 247, 0.3);
 
   &:hover:not(:disabled) {
-    /* ✅ Cor NÃO muda — só sobe levinho */
     transform: translateY(-2px);
     box-shadow: 
       0 6px 18px rgba(37, 99, 235, 0.35),
@@ -355,8 +354,28 @@ const EmailVerification = ({ user, onVerified }) => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
   const [checking, setChecking] = useState(false);
+  const [cooldown, setCooldown] = useState(0);
+
+  // ⏱️ Conta regressiva do cooldown
+  useEffect(() => {
+    if (cooldown <= 0) return;
+
+    const interval = setInterval(() => {
+      setCooldown(prev => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [cooldown]);
 
   const handleResend = async () => {
+    if (cooldown > 0) return;
+
     setLoading(true);
     setMessage(null);
 
@@ -367,10 +386,20 @@ const EmailVerification = ({ user, onVerified }) => {
         type: 'success', 
         text: 'E-mail reenviado! Verifique sua caixa de entrada e o spam.' 
       });
+      // 🆕 Inicia o cooldown de 60 segundos
+      setCooldown(60);
     } else {
+      // 🆕 Tratamento de erro de muitas requisições
+      let errorText = result.error || 'Erro ao reenviar e-mail';
+      
+      if (errorText.includes('too-many-requests')) {
+        errorText = 'Muitas tentativas. Aguarde alguns minutos antes de tentar novamente.';
+        setCooldown(120); // Cooldown maior se o Firebase bloqueou
+      }
+      
       setMessage({ 
         type: 'error', 
-        text: result.error || 'Erro ao reenviar e-mail' 
+        text: errorText
       });
     }
 
@@ -439,11 +468,16 @@ const EmailVerification = ({ user, onVerified }) => {
           )}
         </PrimaryButton>
 
-        <SecondaryButton onClick={handleResend} disabled={loading}>
+        <SecondaryButton 
+          onClick={handleResend} 
+          disabled={loading || cooldown > 0}
+        >
           {loading ? (
             <>
               <Spinner /> Enviando...
             </>
+          ) : cooldown > 0 ? (
+            <>⏳ Aguarde {cooldown}s</>
           ) : (
             <>📧 Reenviar e-mail</>
           )}

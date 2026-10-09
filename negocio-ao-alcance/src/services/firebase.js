@@ -17,7 +17,8 @@ import {
   updateDoc,
   Timestamp,
   setDoc,
-  getDoc
+  getDoc,
+  deleteDoc
 } from 'firebase/firestore';
 
 const firebaseConfig = {
@@ -59,6 +60,31 @@ const validateEmail = (email) => {
     return { valid: false, error: 'Email inválido.' };
   }
   return { valid: true };
+};
+
+// ─── TRADUÇÃO DE ERROS DO FIREBASE PARA PT-BR ──────────────
+const translateAuthError = (error) => {
+  const code = error.code || '';
+  const messages = {
+    'auth/email-already-in-use': 'Este e-mail já está cadastrado. Faça login ou use outro e-mail.',
+    'auth/invalid-email': 'E-mail inválido. Verifique e tente novamente.',
+    'auth/weak-password': 'A senha é muito fraca. Use pelo menos 6 caracteres.',
+    'auth/user-not-found': 'Usuário não encontrado.',
+    'auth/wrong-password': 'Senha incorreta.',
+    'auth/invalid-credential': 'E-mail ou senha incorretos.',
+    'auth/too-many-requests': 'Muitas tentativas. Aguarde alguns minutos antes de tentar novamente.',
+    'auth/network-request-failed': 'Erro de conexão. Verifique sua internet.',
+    'auth/requires-recent-login': 'Por segurança, faça login novamente antes desta ação.',
+    'auth/user-disabled': 'Esta conta foi desabilitada.',
+    'auth/operation-not-allowed': 'Operação não permitida. Contate o suporte.',
+    'auth/missing-email': 'Por favor, informe um e-mail.',
+    'auth/missing-password': 'Por favor, informe uma senha.',
+    'auth/internal-error': 'Erro interno. Tente novamente em alguns instantes.',
+    'auth/popup-closed-by-user': 'Operação cancelada.',
+    'auth/cancelled-popup-request': 'Operação cancelada.',
+  };
+
+  return messages[code] || error.message || 'Ocorreu um erro. Tente novamente.';
 };
 
 export const authService = {
@@ -112,7 +138,7 @@ export const authService = {
       return { success: true, user };
     } catch (error) {
       console.error('❌ Erro no registro:', error.code, error.message);
-      return { success: false, error: error.message };
+      return { success: false, error: translateAuthError(error) };
     }
   },
 
@@ -154,7 +180,7 @@ export const authService = {
       return { success: true, user };
     } catch (error) {
       console.error('❌ Erro no login:', error.code, error.message);
-      return { success: false, error: error.message };
+      return { success: false, error: translateAuthError(error) };
     }
   },
 
@@ -164,7 +190,7 @@ export const authService = {
       await signOut(auth);
       return { success: true };
     } catch (error) {
-      return { success: false, error: error.message };
+      return { success: false, error: translateAuthError(error) };
     }
   },
 
@@ -183,7 +209,7 @@ export const authService = {
       }
       return { success: false, error: 'Usuário não encontrado' };
     } catch (error) {
-      return { success: false, error: error.message };
+      return { success: false, error: translateAuthError(error) };
     }
   },
 
@@ -194,7 +220,7 @@ export const authService = {
       await updateDoc(docRef, data);
       return { success: true };
     } catch (error) {
-      return { success: false, error: error.message };
+      return { success: false, error: translateAuthError(error) };
     }
   },
 
@@ -215,7 +241,7 @@ export const authService = {
       return { success: true };
     } catch (error) {
       console.error('❌ Erro ao atualizar perfil:', error);
-      return { success: false, error: error.message };
+      return { success: false, error: translateAuthError(error) };
     }
   },
 
@@ -252,7 +278,7 @@ export const authService = {
       return { success: true };
     } catch (error) {
       console.error('❌ Erro ao adicionar favorito:', error);
-      return { success: false, error: error.message };
+      return { success: false, error: translateAuthError(error) };
     }
   },
 
@@ -278,7 +304,7 @@ export const authService = {
       return { success: true };
     } catch (error) {
       console.error('❌ Erro ao remover favorito:', error);
-      return { success: false, error: error.message };
+      return { success: false, error: translateAuthError(error) };
     }
   },
 
@@ -296,7 +322,7 @@ export const authService = {
       return { success: true, data: userData.favorites || [] };
     } catch (error) {
       console.error('❌ Erro ao buscar favoritos:', error);
-      return { success: false, error: error.message, data: [] };
+      return { success: false, error: translateAuthError(error), data: [] };
     }
   },
 
@@ -321,7 +347,11 @@ export const authService = {
       return { success: true };
     } catch (error) {
       console.error('❌ Erro ao reenviar e-mail:', error);
-      return { success: false, error: error.message };
+      return {
+        success: false,
+        error: translateAuthError(error),
+        code: error.code
+      };
     }
   },
 
@@ -350,12 +380,18 @@ export const authService = {
       };
     } catch (error) {
       console.error('❌ Erro ao recarregar usuário:', error);
-      return { success: false, error: error.message };
+      return { success: false, error: translateAuthError(error) };
     }
   },
 
   // 🔑 ENVIAR EMAIL DE REDEFINIÇÃO DE SENHA
   async resetPassword(email) {
+    // 🔐 Validação de email
+    const emailValidation = validateEmail(email);
+    if (!emailValidation.valid) {
+      return { success: false, error: emailValidation.error };
+    }
+
     try {
       await sendPasswordResetEmail(auth, email, {
         url: 'https://negocio-ao-alcance.web.app/login',
@@ -365,11 +401,11 @@ export const authService = {
       return { success: true };
     } catch (error) {
       console.error('❌ Erro ao enviar redefinição:', error);
-      return { success: false, error: error.message };
+      return { success: false, error: translateAuthError(error) };
     }
   },
 
-  // 🗑️ EXCLUIR CONTA DO USUÁRIO
+  // 🗑️ EXCLUIR CONTA DO USUÁRIO (com limpeza do Firestore)
   async deleteAccount() {
     try {
       const user = auth.currentUser;
@@ -377,20 +413,23 @@ export const authService = {
         return { success: false, error: 'Usuário não autenticado' };
       }
 
+      // 1️⃣ Apaga o documento do Firestore PRIMEIRO
+      try {
+        const userRef = doc(db, 'users', user.uid);
+        await deleteDoc(userRef);
+        console.log('🗑️ Documento do Firestore apagado');
+      } catch (dbError) {
+        console.warn('⚠️ Erro ao apagar documento do Firestore:', dbError);
+        // Continua mesmo se falhar
+      }
+
+      // 2️⃣ Depois apaga o usuário do Authentication
       await deleteUser(user);
       console.log('✅ Conta excluída com sucesso');
       return { success: true };
     } catch (error) {
       console.error('❌ Erro ao excluir conta:', error);
-
-      if (error.code === 'auth/requires-recent-login') {
-        return {
-          success: false,
-          error: 'Por segurança, faça login novamente antes de excluir a conta.'
-        };
-      }
-
-      return { success: false, error: error.message };
+      return { success: false, error: translateAuthError(error) };
     }
   }
 };
