@@ -7,6 +7,8 @@ import {
   onAuthStateChanged,
   updateProfile as updateAuthProfile,
   sendEmailVerification,
+  sendPasswordResetEmail,
+  deleteUser,
   reload
 } from 'firebase/auth';
 import { 
@@ -312,6 +314,47 @@ export const authService = {
       };
     } catch (error) {
       console.error('❌ Erro ao recarregar usuário:', error);
+      return { success: false, error: error.message };
+    }
+  },
+
+  // 🔑 ENVIAR EMAIL DE REDEFINIÇÃO DE SENHA
+  async resetPassword(email) {
+    try {
+      await sendPasswordResetEmail(auth, email, {
+        url: 'https://negocio-ao-alcance.web.app/login',
+        handleCodeInApp: false
+      });
+      console.log('📧 Email de redefinição enviado para:', email);
+      return { success: true };
+    } catch (error) {
+      console.error('❌ Erro ao enviar redefinição:', error);
+      return { success: false, error: error.message };
+    }
+  },
+
+  // 🗑️ EXCLUIR CONTA DO USUÁRIO
+  async deleteAccount() {
+    try {
+      const user = auth.currentUser;
+      if (!user) {
+        return { success: false, error: 'Usuário não autenticado' };
+      }
+
+      await deleteUser(user);
+      console.log('✅ Conta excluída com sucesso');
+      return { success: true };
+    } catch (error) {
+      console.error('❌ Erro ao excluir conta:', error);
+      
+      // Erro comum: precisa reautenticar se login foi há muito tempo
+      if (error.code === 'auth/requires-recent-login') {
+        return { 
+          success: false, 
+          error: 'Por segurança, faça login novamente antes de excluir a conta.'
+        };
+      }
+      
       return { success: false, error: error.message };
     }
   }

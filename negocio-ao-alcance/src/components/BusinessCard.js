@@ -28,6 +28,7 @@ const Card = styled.div`
   position: relative;
   overflow: hidden;
 
+  /* Borda superior: branco → azul → roxo */
   &::before {
     content: '';
     position: absolute;
@@ -36,16 +37,13 @@ const Card = styled.div`
     right: 0;
     height: 3px;
     background: linear-gradient(90deg,
-      #4a8cf7 0%,
-      #7eb8ff 20%,
-      #a855f7 45%,
-      #ffffff 60%,
-      #a855f7 75%,
-      #7eb8ff 90%,
-      #4a8cf7 100%
+      #ffffff 0%,
+      #7eb8ff 35%,
+      #a855f7 65%,
+      #ffffff 100%
     );
     background-size: 300% auto;
-    opacity: 0.7;
+    opacity: 0.85;
     transition: opacity 0.4s ease;
     animation: ${borderFlow} 4s linear infinite;
   }
@@ -56,11 +54,22 @@ const Card = styled.div`
     border-color: rgba(74, 140, 247, 0.3);
     background: rgba(255, 255, 255, 0.05);
 
-    &::before {
-      opacity: 1;
-      height: 4px;
-    }
-  }
+   &::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg,
+    #ffffff 0%,
+    #7eb8ff 35%,
+    #a855f7 65%,
+    #ffffff 100%
+  );
+  opacity: 0.85;
+  transition: opacity 0.4s ease;
+}
 
   @media (max-width: 480px) {
     padding: 18px;
