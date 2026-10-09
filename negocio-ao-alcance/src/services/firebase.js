@@ -1,18 +1,20 @@
 import { initializeApp } from 'firebase/app';
-import { 
-  getAuth, 
-  createUserWithEmailAndPassword, 
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
   updateProfile as updateAuthProfile,
   sendEmailVerification,
+  sendPasswordResetEmail,
+  deleteUser,
   reload
 } from 'firebase/auth';
-import { 
-  getFirestore, 
-  doc, 
-  updateDoc, 
+import {
+  getFirestore,
+  doc,
+  updateDoc,
   Timestamp,
   setDoc,
   getDoc
@@ -32,18 +34,59 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 // ✅ CORREÇÃO: passar 'default' como segundo argumento
-// porque o banco no console se chama "default" (sem parênteses)
 const db = getFirestore(app, 'default');
 
+// ─── VALIDAÇÃO DE SENHA ────────────────────────────────────
+const validatePassword = (password) => {
+  if (!password || password.length < 6) {
+    return { valid: false, error: 'A senha deve ter pelo menos 6 caracteres.' };
+  }
+  if (!/[a-zA-Z]/.test(password)) {
+    return { valid: false, error: 'A senha precisa ter pelo menos 1 letra.' };
+  }
+  if (!/[0-9]/.test(password)) {
+    return { valid: false, error: 'A senha precisa ter pelo menos 1 número.' };
+  }
+  return { valid: true };
+};
+
+const validateEmail = (email) => {
+  if (!email || !email.trim()) {
+    return { valid: false, error: 'Por favor, informe um email.' };
+  }
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!regex.test(email)) {
+    return { valid: false, error: 'Email inválido.' };
+  }
+  return { valid: true };
+};
+
 export const authService = {
-  // 📝 REGISTRO (com envio de e-mail de verificação)
+  // 📝 REGISTRO (com validação + envio de e-mail)
   async register(email, password, name, phone) {
+    // 🔐 Validação de email
+    const emailValidation = validateEmail(email);
+    if (!emailValidation.valid) {
+      return { success: false, error: emailValidation.error };
+    }
+
+    // 🔐 Validação de nome
+    if (!name || name.trim().length < 3) {
+      return { success: false, error: 'O nome deve ter pelo menos 3 caracteres.' };
+    }
+
+    // 🔐 Validação de senha
+    const passwordValidation = validatePassword(password);
+    if (!passwordValidation.valid) {
+      return { success: false, error: passwordValidation.error };
+    }
+
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-      
+
       await updateAuthProfile(user, { displayName: name });
-      
+
       // 📧 Envia e-mail de verificação
       try {
         await sendEmailVerification(user, {
@@ -54,7 +97,7 @@ export const authService = {
       } catch (emailError) {
         console.warn('⚠️ Erro ao enviar e-mail de verificação:', emailError);
       }
-      
+
       await setDoc(doc(db, 'users', user.uid), {
         uid: user.uid,
         name: name,
@@ -65,7 +108,7 @@ export const authService = {
         searchHistory: [],
         emailVerified: false
       });
-      
+
       return { success: true, user };
     } catch (error) {
       console.error('❌ Erro no registro:', error.code, error.message);
@@ -79,19 +122,16 @@ export const authService = {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // 🔄 Força atualização do estado (para pegar emailVerified atualizado)
       await reload(user);
 
-      // 🚫 Bloqueia login se e-mail não verificado
       if (!user.emailVerified) {
-        return { 
-          success: false, 
+        return {
+          success: false,
           error: 'EMAIL_NOT_VERIFIED',
           user: user
         };
       }
 
-      // Garante que o documento existe no Firestore
       const userRef = doc(db, 'users', user.uid);
       const userSnap = await getDoc(userRef);
 
@@ -108,7 +148,6 @@ export const authService = {
           emailVerified: true
         });
       } else {
-        // Atualiza o status de verificação no Firestore
         await updateDoc(userRef, { emailVerified: true });
       }
 
@@ -180,15 +219,15 @@ export const authService = {
     }
   },
 
-  // ⭐ ADICIONAR FAVORITO (com auto-criação do documento)
+  // ⭐ ADICIONAR FAVORITO
   async addFavorite(uid, businessId) {
     try {
       console.log('⭐ Adicionando favorito:', uid, businessId);
       const userRef = doc(db, 'users', uid);
       const userSnap = await getDoc(userRef);
-      
+
       let favorites = [];
-      
+
       if (userSnap.exists()) {
         const userData = userSnap.data();
         favorites = userData.favorites || [];
@@ -201,7 +240,7 @@ export const authService = {
           createdAt: Timestamp.now()
         });
       }
-      
+
       if (!favorites.includes(businessId)) {
         favorites.push(businessId);
         await updateDoc(userRef, { favorites });
@@ -209,7 +248,7 @@ export const authService = {
       } else {
         console.log('ℹ️ Favorito já estava na lista');
       }
-      
+
       return { success: true };
     } catch (error) {
       console.error('❌ Erro ao adicionar favorito:', error);
@@ -223,19 +262,19 @@ export const authService = {
       console.log('❌ Removendo favorito:', uid, businessId);
       const userRef = doc(db, 'users', uid);
       const userSnap = await getDoc(userRef);
-      
+
       if (!userSnap.exists()) {
         console.warn('⚠️ Documento não existe, nada a remover');
         return { success: true };
       }
-      
+
       const userData = userSnap.data();
       const favorites = userData.favorites || [];
-      
+
       const newFavorites = favorites.filter(id => id !== businessId);
       await updateDoc(userRef, { favorites: newFavorites });
       console.log('✅ Favorito removido:', newFavorites);
-      
+
       return { success: true };
     } catch (error) {
       console.error('❌ Erro ao remover favorito:', error);
@@ -248,11 +287,11 @@ export const authService = {
     try {
       const userRef = doc(db, 'users', uid);
       const userSnap = await getDoc(userRef);
-      
+
       if (!userSnap.exists()) {
         return { success: true, data: [] };
       }
-      
+
       const userData = userSnap.data();
       return { success: true, data: userData.favorites || [] };
     } catch (error) {
@@ -286,7 +325,7 @@ export const authService = {
     }
   },
 
-  // 🔄 RECARREGAR USUÁRIO (verifica se e-mail foi confirmado)
+  // 🔄 RECARREGAR USUÁRIO
   async reloadUser() {
     try {
       const user = auth.currentUser;
@@ -296,7 +335,6 @@ export const authService = {
 
       await reload(user);
 
-      // Atualiza o Firestore se agora está verificado
       if (user.emailVerified) {
         try {
           const userRef = doc(db, 'users', user.uid);
@@ -306,12 +344,52 @@ export const authService = {
         }
       }
 
-      return { 
-        success: true, 
-        emailVerified: user.emailVerified 
+      return {
+        success: true,
+        emailVerified: user.emailVerified
       };
     } catch (error) {
       console.error('❌ Erro ao recarregar usuário:', error);
+      return { success: false, error: error.message };
+    }
+  },
+
+  // 🔑 ENVIAR EMAIL DE REDEFINIÇÃO DE SENHA
+  async resetPassword(email) {
+    try {
+      await sendPasswordResetEmail(auth, email, {
+        url: 'https://negocio-ao-alcance.web.app/login',
+        handleCodeInApp: false
+      });
+      console.log('📧 Email de redefinição enviado para:', email);
+      return { success: true };
+    } catch (error) {
+      console.error('❌ Erro ao enviar redefinição:', error);
+      return { success: false, error: error.message };
+    }
+  },
+
+  // 🗑️ EXCLUIR CONTA DO USUÁRIO
+  async deleteAccount() {
+    try {
+      const user = auth.currentUser;
+      if (!user) {
+        return { success: false, error: 'Usuário não autenticado' };
+      }
+
+      await deleteUser(user);
+      console.log('✅ Conta excluída com sucesso');
+      return { success: true };
+    } catch (error) {
+      console.error('❌ Erro ao excluir conta:', error);
+
+      if (error.code === 'auth/requires-recent-login') {
+        return {
+          success: false,
+          error: 'Por segurança, faça login novamente antes de excluir a conta.'
+        };
+      }
+
       return { success: false, error: error.message };
     }
   }

@@ -45,14 +45,6 @@ const Logo = styled(Link)`
   }
 `;
 
-const LogoIcon = styled.span`
-  font-size: 1.6rem;
-
-  @media (max-width: 768px) {
-    font-size: 1.3rem;
-  }
-`;
-
 /* 🆕 Botão hambúrguer (visível só no mobile) */
 const MenuButton = styled.button`
   display: none;
@@ -282,7 +274,6 @@ const Navbar = ({ user, onLogout }) => {
     <>
       <Nav>
         <Logo to={user ? "/" : "/login"}>
-          <LogoIcon>🚀</LogoIcon>
           Negócio ao Alcance
         </Logo>
 
