@@ -11,6 +11,12 @@ const slideUp = keyframes`
   to   { opacity: 1; transform: translateY(0); }
 `;
 
+// ─── URL BASE DO APP ───────────────────────────────────────
+// Usa a variável de ambiente (produção) ou cai pra localhost (dev)
+const APP_URL =
+  process.env.REACT_APP_APP_URL ||
+  (typeof window !== 'undefined' ? window.location.origin : '');
+
 const IconButton = styled.button`
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -282,7 +288,8 @@ const ShareButton = ({ business }) => {
   const [open, setOpen] = useState(false);
   const [toast, setToast] = useState('');
 
-  const shareUrl = `${window.location.origin}/business/${business.id}`;
+  // 🌐 URL final (produção ou localhost como fallback)
+  const shareUrl = `${APP_URL}/business/${business.id}`;
   const shareTitle = `Conheça: ${business.name}`;
   const shareText = `💰 ${business.name}\n${business.description}\n\nVeja mais em: ${shareUrl}`;
 
