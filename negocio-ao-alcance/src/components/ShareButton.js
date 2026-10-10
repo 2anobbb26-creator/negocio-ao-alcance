@@ -7,16 +7,21 @@ const fadeIn = keyframes`
 `;
 
 const slideUp = keyframes`
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(20px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 `;
 
-// ─── URL BASE DO APP ───────────────────────────────────────
-// Usa a variável de ambiente (produção) ou cai pra localhost (dev)
+const glowPulse = keyframes`
+  0%, 100% { opacity: 0.5; }
+  50%      { opacity: 1; }
+`;
+
+// ─── URL BASE ──────────────────────────────────────────────
 const APP_URL =
   process.env.REACT_APP_APP_URL ||
   (typeof window !== 'undefined' ? window.location.origin : '');
 
+// ─── BOTÃO DE ÍCONE ────────────────────────────────────────
 const IconButton = styled.button`
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -58,168 +63,78 @@ const IconButton = styled.button`
   }
 `;
 
+// ─── OVERLAY ───────────────────────────────────────────────
 const Overlay = styled.div`
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.75);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   z-index: 999;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: 16px;
   animation: ${fadeIn} 0.2s ease-out;
+  overflow-y: auto;
 `;
 
+// ─── MODAL ─────────────────────────────────────────────────
 const Modal = styled.div`
   background: linear-gradient(145deg, #0d1b3e 0%, #0a1530 100%);
   border: 1px solid rgba(74, 140, 247, 0.25);
-  border-radius: 22px;
+  border-radius: 24px;
   padding: 24px;
   max-width: 420px;
   width: 100%;
   position: relative;
-  animation: ${slideUp} 0.3s ease-out;
+  animation: ${slideUp} 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.5),
+    0 0 60px rgba(74, 140, 247, 0.1);
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+
+  /* Barra de scroll sutil */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(74, 140, 247, 0.3);
+    border-radius: 3px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 20px;
+    border-radius: 20px;
+  }
+`;
+
+// ─── HEADER DO MODAL ───────────────────────────────────────
+const ModalHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  position: relative;
 `;
 
 const ModalTitle = styled.h3`
   color: #e8eef7;
   font-size: 1.1rem;
-  margin: 0 0 20px 0;
-  font-weight: 800;
-  text-align: center;
-`;
-
-const PreviewCard = styled.div`
-  background: linear-gradient(135deg, #0a1530 0%, #0d1b3e 50%, #142952 100%);
-  border: 1px solid rgba(74, 140, 247, 0.3);
-  border-radius: 18px;
-  padding: 24px;
-  margin-bottom: 20px;
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #ffffff 0%, #7eb8ff 50%, #a855f7 100%);
-  }
-`;
-
-const PreviewEmoji = styled.div`
-  font-size: 3rem;
-  text-align: center;
-  margin-bottom: 12px;
-`;
-
-const PreviewName = styled.h4`
-  color: #e8eef7;
-  font-size: 1.15rem;
-  margin: 0 0 6px 0;
-  font-weight: 800;
-  text-align: center;
-  line-height: 1.3;
-`;
-
-const PreviewCategory = styled.div`
-  display: inline-block;
-  padding: 3px 12px;
-  background: rgba(74, 140, 247, 0.15);
-  border-radius: 20px;
-  font-size: 0.62rem;
-  color: #a8b8d8;
-  border: 1px solid rgba(74, 140, 247, 0.2);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin: 0 auto 12px;
-  display: block;
-  text-align: center;
-  width: fit-content;
-`;
-
-const PreviewDescription = styled.p`
-  color: #a8b8d8;
-  font-size: 0.8rem;
-  line-height: 1.5;
-  text-align: center;
   margin: 0;
-`;
-
-const PreviewBranding = styled.div`
-  text-align: center;
-  margin-top: 16px;
-  padding-top: 14px;
-  border-top: 1px dashed rgba(74, 140, 247, 0.2);
-  font-size: 0.7rem;
-  color: #7eb8ff;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-`;
-
-const ActionsRow = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-bottom: 8px;
-
-  @media (max-width: 480px) {
-    gap: 6px;
-  }
-`;
-
-const ActionBtn = styled.button`
-  padding: 12px 8px;
-  border-radius: 12px;
-  border: 1px solid ${props => props.$color || 'rgba(74, 140, 247, 0.3)'};
-  background: ${props => props.$bg || 'rgba(74, 140, 247, 0.1)'};
-  color: ${props => props.$textColor || '#7eb8ff'};
-  font-family: inherit;
-  font-size: 0.7rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  letter-spacing: 0.3px;
-  text-transform: uppercase;
-
-  svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  &:hover {
-    transform: translateY(-2px);
-    filter: brightness(1.3);
-  }
-
-  &:active {
-    transform: translateY(0) scale(0.97);
-  }
-
-  @media (max-width: 480px) {
-    padding: 10px 6px;
-    font-size: 0.62rem;
-
-    svg {
-      width: 18px;
-      height: 18px;
-    }
-  }
+  font-weight: 800;
+  letter-spacing: -0.3px;
 `;
 
 const CloseButton = styled.button`
   position: absolute;
-  top: 14px;
-  right: 14px;
-  background: none;
-  border: none;
+  top: -4px;
+  right: -4px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   color: #a8b8d8;
   cursor: pointer;
   width: 32px;
@@ -228,15 +143,258 @@ const CloseButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
+  font-size: 1rem;
   transition: all 0.2s;
+  padding: 0;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.12);
     color: #fff;
   }
 `;
 
+// ─── PREVIEW CARD (mais bonito) ────────────────────────────
+const PreviewCard = styled.div`
+  background: linear-gradient(135deg, #0a1530 0%, #0d1b3e 40%, #142952 100%);
+  border: 1px solid rgba(74, 140, 247, 0.3);
+  border-radius: 20px;
+  padding: 24px 20px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+
+  /* Linha gradiente no topo */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #ffffff 0%, #7eb8ff 50%, #a855f7 100%);
+  }
+
+  /* Glow de fundo */
+  &::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle,
+      rgba(74, 140, 247, 0.08) 0%,
+      transparent 60%);
+    pointer-events: none;
+    animation: ${glowPulse} 4s ease-in-out infinite;
+  }
+
+  /* Grid pattern tech */
+  background-image:
+    linear-gradient(135deg, #0a1530 0%, #0d1b3e 40%, #142952 100%),
+    linear-gradient(rgba(74, 140, 247, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(74, 140, 247, 0.04) 1px, transparent 1px);
+  background-size: 100% 100%, 24px 24px, 24px 24px;
+  background-blend-mode: normal, overlay, overlay;
+`;
+
+const PreviewEmoji = styled.div`
+  font-size: 2.8rem;
+  text-align: center;
+  margin-bottom: 10px;
+  filter: drop-shadow(0 4px 12px rgba(74, 140, 247, 0.4));
+  position: relative;
+  z-index: 1;
+`;
+
+const PreviewName = styled.h4`
+  color: #ffffff;
+  font-size: 1.2rem;
+  margin: 0 0 8px 0;
+  font-weight: 800;
+  text-align: center;
+  line-height: 1.25;
+  letter-spacing: -0.4px;
+  position: relative;
+  z-index: 1;
+`;
+
+const PreviewCategory = styled.span`
+  display: block;
+  padding: 4px 14px;
+  background: rgba(74, 140, 247, 0.15);
+  border-radius: 999px;
+  font-size: 0.62rem;
+  color: #a8ccff;
+  border: 1px solid rgba(74, 140, 247, 0.3);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0 auto 14px;
+  width: fit-content;
+  position: relative;
+  z-index: 1;
+`;
+
+const PreviewDivider = styled.div`
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(74, 140, 247, 0.3) 50%,
+    transparent 100%);
+  margin: 0 20px 14px;
+  position: relative;
+  z-index: 1;
+`;
+
+const PreviewDescription = styled.p`
+  color: #a8b8d8;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  text-align: center;
+  margin: 0 0 16px;
+  padding: 0 8px;
+  position: relative;
+  z-index: 1;
+
+  /* Limita a 3 linhas */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+`;
+
+const PreviewBranding = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(74, 140, 247, 0.25);
+  font-size: 0.68rem;
+  color: #7eb8ff;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 1;
+
+  &::before {
+    content: '';
+    width: 16px;
+    height: 1px;
+    background: #7eb8ff;
+    opacity: 0.5;
+  }
+
+  &::after {
+    content: '';
+    width: 16px;
+    height: 1px;
+    background: #7eb8ff;
+    opacity: 0.5;
+  }
+`;
+
+// ─── AÇÕES ─────────────────────────────────────────────────
+const ActionsRow = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 10px;
+
+  @media (max-width: 480px) {
+    gap: 8px;
+  }
+`;
+
+const ActionBtn = styled.button`
+  padding: 14px 8px 12px;
+  border-radius: 14px;
+  border: 1px solid ${props => props.$color || 'rgba(74, 140, 247, 0.3)'};
+  background: ${props => props.$bg || 'rgba(74, 140, 247, 0.1)'};
+  color: ${props => props.$textColor || '#7eb8ff'};
+  font-family: inherit;
+  font-size: 0.68rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: ${props => props.$textColor || '#7eb8ff'};
+    opacity: 0;
+    transition: opacity 0.25s;
+    z-index: 0;
+  }
+
+  svg {
+    width: 22px;
+    height: 22px;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.25s ease;
+  }
+
+  span {
+    position: relative;
+    z-index: 1;
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+    border-color: ${props => props.$textColor || '#7eb8ff'};
+    box-shadow: 0 8px 20px ${props => props.$color || 'rgba(74, 140, 247, 0.3)'};
+
+    svg {
+      transform: scale(1.15);
+    }
+  }
+
+  &:active {
+    transform: translateY(-1px) scale(0.97);
+  }
+
+  @media (max-width: 480px) {
+    padding: 12px 6px 10px;
+    font-size: 0.6rem;
+    gap: 6px;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+`;
+
+const ShareNativeBtn = styled(ActionBtn)`
+  grid-column: 1 / -1;
+  flex-direction: row;
+  justify-content: center;
+  padding: 14px 20px;
+  font-size: 0.78rem;
+  gap: 10px;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 12px 16px;
+    font-size: 0.72rem;
+  }
+`;
+
+// ─── TOAST ─────────────────────────────────────────────────
 const Toast = styled.div`
   position: fixed;
   bottom: 30px;
@@ -248,9 +406,13 @@ const Toast = styled.div`
   border-radius: 12px;
   font-size: 0.9rem;
   font-weight: 700;
-  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.5);
   z-index: 1001;
   animation: ${slideUp} 0.3s ease-out;
+
+  @media (max-width: 768px) {
+    bottom: calc(80px + env(safe-area-inset-bottom, 0));
+  }
 `;
 
 // ─── ÍCONES SVG ────────────────────────────────────────────
@@ -288,7 +450,6 @@ const ShareButton = ({ business }) => {
   const [open, setOpen] = useState(false);
   const [toast, setToast] = useState('');
 
-  // 🌐 URL final (produção ou localhost como fallback)
   const shareUrl = `${APP_URL}/business/${business.id}`;
   const shareTitle = `Conheça: ${business.name}`;
   const shareText = `💰 ${business.name}\n${business.description}\n\nVeja mais em: ${shareUrl}`;
@@ -367,15 +528,17 @@ const ShareButton = ({ business }) => {
       {open && (
         <Overlay onClick={() => setOpen(false)}>
           <Modal onClick={(e) => e.stopPropagation()}>
-            <CloseButton onClick={() => setOpen(false)}>✕</CloseButton>
+            <ModalHeader>
+              <ModalTitle>Compartilhar</ModalTitle>
+              <CloseButton onClick={() => setOpen(false)} aria-label="Fechar">✕</CloseButton>
+            </ModalHeader>
 
-            <ModalTitle>Compartilhar</ModalTitle>
-
-            {/* Preview do card */}
+            {/* Preview Card */}
             <PreviewCard>
               <PreviewEmoji>{business.image}</PreviewEmoji>
               <PreviewName>{business.name}</PreviewName>
               <PreviewCategory>{business.category}</PreviewCategory>
+              <PreviewDivider />
               <PreviewDescription>{business.description}</PreviewDescription>
               <PreviewBranding>Negócio ao Alcance</PreviewBranding>
             </PreviewCard>
@@ -389,7 +552,7 @@ const ShareButton = ({ business }) => {
                 $textColor="#25d366"
               >
                 <WhatsappIcon />
-                WhatsApp
+                <span>WhatsApp</span>
               </ActionBtn>
 
               <ActionBtn
@@ -399,7 +562,7 @@ const ShareButton = ({ business }) => {
                 $textColor="#e8eef7"
               >
                 <TwitterIcon />
-                Twitter
+                <span>Twitter</span>
               </ActionBtn>
 
               <ActionBtn
@@ -409,22 +572,21 @@ const ShareButton = ({ business }) => {
                 $textColor="#7eb8ff"
               >
                 <LinkIcon />
-                Copiar
+                <span>Copiar</span>
               </ActionBtn>
             </ActionsRow>
 
             {typeof navigator.share === 'function' && (
               <ActionsRow style={{ gridTemplateColumns: '1fr' }}>
-                <ActionBtn
+                <ShareNativeBtn
                   onClick={handleNativeShare}
                   $bg="linear-gradient(135deg, #1e3a8a, #2563eb)"
                   $color="rgba(74, 140, 247, 0.6)"
                   $textColor="#fff"
-                  style={{ padding: '14px', flexDirection: 'row', fontSize: '0.8rem' }}
                 >
                   <ShareIcon />
-                  Compartilhar via...
-                </ActionBtn>
+                  <span>Compartilhar via...</span>
+                </ShareNativeBtn>
               </ActionsRow>
             )}
           </Modal>

@@ -61,21 +61,5 @@
       "url": "/perfil",
       "icons": [{ "src": "logo192.png", "sizes": "192x192" }]
     }
-  ],
-  "screenshots": [
-    {
-      "src": "screenshot-mobile.png",
-      "sizes": "1080x1920",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Home com busca de negócios"
-    },
-    {
-      "src": "screenshot-desktop.png",
-      "sizes": "1920x1080",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Explorador de negócios"
-    }
   ]
 }
