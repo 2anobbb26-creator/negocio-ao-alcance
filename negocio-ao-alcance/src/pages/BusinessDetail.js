@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import styled, { keyframes } from 'styled-components';
@@ -6,6 +6,9 @@ import { businessData } from '../data/businessData';
 import { businessSteps } from '../data/businessSteps';
 import ShareButton from '../components/ShareButton';
 import { useToast } from '../components/Toast';
+import { auth } from '../services/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import { normalizeStep } from '../utils/normalizeBusiness';
 
 // ─── ANIMAÇÕES ─────────────────────────────────────────────
 const fadeInUp = keyframes`
@@ -99,7 +102,6 @@ const Breadcrumb = styled.div`
 
   @media (max-width: 480px) {
     font-size: 0.72rem;
-
     span.current { max-width: 140px; }
   }
 `;
@@ -123,21 +125,11 @@ const Card = styled.div`
     top: 0; left: 0; right: 0;
     height: 3px;
     background: linear-gradient(90deg,
-      #ffffff 0%,
-      #7eb8ff 35%,
-      #a855f7 65%,
-      #ffffff 100%);
+      #ffffff 0%, #7eb8ff 35%, #a855f7 65%, #ffffff 100%);
   }
 
-  @media (max-width: 768px) {
-    padding: 28px;
-    border-radius: 22px;
-  }
-
-  @media (max-width: 480px) {
-    padding: 22px 18px;
-    border-radius: 20px;
-  }
+  @media (max-width: 768px) { padding: 28px; border-radius: 22px; }
+  @media (max-width: 480px) { padding: 22px 18px; border-radius: 20px; }
 `;
 
 // ─── HEADER DO NEGÓCIO ─────────────────────────────────────
@@ -150,9 +142,7 @@ const Header = styled.div`
   border-bottom: 1px solid rgba(74, 140, 247, 0.12);
   position: relative;
 
-  @media (max-width: 768px) {
-    gap: 16px;
-  }
+  @media (max-width: 768px) { gap: 16px; }
 
   @media (max-width: 480px) {
     flex-direction: column;
@@ -197,29 +187,14 @@ const EmojiWrapper = styled.div`
     z-index: -1;
   }
 
-  &::after {
-    content: '';
-    position: absolute;
-    inset: -12px;
-    border-radius: 36px;
-    background: radial-gradient(circle, rgba(74, 140, 247, 0.18) 0%, transparent 70%);
-    pointer-events: none;
-    animation: ${glowPulse} 4s ease-in-out infinite;
-    z-index: -2;
-  }
-
   @media (max-width: 768px) {
-    width: 84px;
-    height: 84px;
-    font-size: 2.8rem;
-    border-radius: 22px;
+    width: 84px; height: 84px;
+    font-size: 2.8rem; border-radius: 22px;
   }
 
   @media (max-width: 480px) {
-    width: 76px;
-    height: 76px;
-    font-size: 2.4rem;
-    border-radius: 20px;
+    width: 76px; height: 76px;
+    font-size: 2.4rem; border-radius: 20px;
   }
 `;
 
@@ -235,9 +210,7 @@ const Name = styled.h1`
   letter-spacing: -0.7px;
   line-height: 1.15;
   background: linear-gradient(135deg,
-    #ffffff 0%,
-    #d0e0ff 40%,
-    #7eb8ff 100%);
+    #ffffff 0%, #d0e0ff 40%, #7eb8ff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -260,8 +233,6 @@ const Category = styled.span`
   text-transform: uppercase;
   letter-spacing: 1px;
 
-  svg { width: 12px; height: 12px; }
-
   @media (max-width: 480px) { font-size: 0.62rem; padding: 4px 12px; }
 `;
 
@@ -269,10 +240,7 @@ const ShareWrapper = styled.div`
   flex-shrink: 0;
   margin-top: 4px;
 
-  @media (max-width: 480px) {
-    order: -1;
-    margin-top: 0;
-  }
+  @media (max-width: 480px) { order: -1; margin-top: 0; }
 `;
 
 // ─── DESCRIÇÃO ─────────────────────────────────────────────
@@ -289,12 +257,7 @@ const Description = styled.p`
   border: 1px solid rgba(74, 140, 247, 0.18);
   border-left: 3px solid #7eb8ff;
   font-weight: 500;
-
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
   letter-spacing: 0.15px;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 
   @media (max-width: 480px) {
     font-size: 0.92rem;
@@ -303,21 +266,15 @@ const Description = styled.p`
   }
 `;
 
-// ─── GRID DE STATS ─────────────────────────────────────────
+// ─── STATS ─────────────────────────────────────────────────
 const StatsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 14px;
   margin-bottom: 30px;
 
-  @media (max-width: 640px) {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  @media (max-width: 480px) {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
+  @media (max-width: 640px) { grid-template-columns: 1fr 1fr; }
+  @media (max-width: 480px) { grid-template-columns: 1fr; gap: 10px; }
 `;
 
 const StatCard = styled.div`
@@ -333,10 +290,8 @@ const StatCard = styled.div`
   &::before {
     content: '';
     position: absolute;
-    top: -30px;
-    right: -30px;
-    width: 100px;
-    height: 100px;
+    top: -30px; right: -30px;
+    width: 100px; height: 100px;
     background: radial-gradient(circle,
       ${p => p.$glow || 'rgba(74, 140, 247, 0.15)'} 0%,
       transparent 70%);
@@ -349,9 +304,7 @@ const StatCard = styled.div`
     box-shadow: 0 10px 28px ${p => p.$glow || 'rgba(74, 140, 247, 0.15)'};
   }
 
-  @media (max-width: 480px) {
-    padding: 16px 14px;
-  }
+  @media (max-width: 480px) { padding: 16px 14px; }
 `;
 
 const StatIconBox = styled.div`
@@ -365,22 +318,7 @@ const StatIconBox = styled.div`
   background: ${p => p.$bg || 'rgba(74, 140, 247, 0.15)'};
   border: 1px solid ${p => p.$border || 'rgba(74, 140, 247, 0.25)'};
 
-  svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  @media (max-width: 480px) {
-    width: 38px;
-    height: 38px;
-    border-radius: 12px;
-    margin-bottom: 10px;
-
-    svg {
-      width: 18px;
-      height: 18px;
-    }
-  }
+  svg { width: 20px; height: 20px; }
 `;
 
 const StatLabel = styled.div`
@@ -402,7 +340,7 @@ const StatValue = styled.div`
   @media (max-width: 480px) { font-size: 1rem; }
 `;
 
-// ─── TÍTULOS DE SEÇÃO ──────────────────────────────────────
+// ─── TÍTULOS ───────────────────────────────────────────────
 const SectionTitle = styled.h3`
   color: #e8eef7;
   font-size: 1.15rem;
@@ -428,13 +366,10 @@ const SectionSubtitle = styled.p`
   position: relative;
   z-index: 1;
 
-  @media (max-width: 480px) {
-    font-size: 0.78rem;
-    margin-bottom: 18px;
-  }
+  @media (max-width: 480px) { font-size: 0.78rem; margin-bottom: 18px; }
 `;
 
-// ─── SEÇÃO GENÉRICA (base) ─────────────────────────────────
+// ─── BASE SECTION ──────────────────────────────────────────
 const BaseSection = styled.div`
   border-radius: 22px;
   padding: 30px;
@@ -442,16 +377,8 @@ const BaseSection = styled.div`
   position: relative;
   overflow: hidden;
 
-  @media (max-width: 768px) {
-    padding: 24px;
-    border-radius: 18px;
-  }
-
-  @media (max-width: 480px) {
-    padding: 20px 16px;
-    margin-bottom: 22px;
-    border-radius: 16px;
-  }
+  @media (max-width: 768px) { padding: 24px; border-radius: 18px; }
+  @media (max-width: 480px) { padding: 20px 16px; margin-bottom: 22px; border-radius: 16px; }
 `;
 
 // ─── CALCULADORA ───────────────────────────────────────────
@@ -460,19 +387,6 @@ const CalculatorSection = styled(BaseSection)`
     rgba(74, 140, 247, 0.07) 0%,
     rgba(168, 85, 247, 0.04) 100%);
   border: 1px solid rgba(74, 140, 247, 0.15);
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: -40px;
-    right: -40px;
-    width: 220px;
-    height: 220px;
-    background: radial-gradient(circle,
-      rgba(74, 140, 247, 0.12) 0%,
-      transparent 70%);
-    pointer-events: none;
-  }
 `;
 
 const CalcGrid = styled.div`
@@ -483,10 +397,7 @@ const CalcGrid = styled.div`
   position: relative;
   z-index: 1;
 
-  @media (max-width: 640px) {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
+  @media (max-width: 640px) { grid-template-columns: 1fr; gap: 12px; }
 `;
 
 const CalcField = styled.div`
@@ -527,16 +438,10 @@ const CalcInput = styled.input`
     background: rgba(10, 21, 48, 0.75);
   }
 
-  &::placeholder {
-    color: #556677;
-    font-weight: 400;
-  }
+  &::placeholder { color: #556677; font-weight: 400; }
 
   &::-webkit-outer-spin-button,
-  &::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
+  &::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
   -moz-appearance: textfield;
 `;
 
@@ -550,9 +455,7 @@ const CalcResult = styled.div`
   position: relative;
   z-index: 1;
 
-  @media (max-width: 480px) {
-    padding: 18px 14px;
-  }
+  @media (max-width: 480px) { padding: 18px 14px; }
 `;
 
 const ResultLabel = styled.div`
@@ -594,15 +497,10 @@ const ResultGrid = styled.div`
   padding-top: 18px;
   border-top: 1px solid rgba(74, 222, 128, 0.15);
 
-  @media (max-width: 480px) {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
+  @media (max-width: 480px) { grid-template-columns: 1fr; gap: 10px; }
 `;
 
-const ResultItem = styled.div`
-  text-align: center;
-`;
+const ResultItem = styled.div`text-align: center;`;
 
 const ResultItemLabel = styled.div`
   color: #a8b8d8;
@@ -621,195 +519,68 @@ const ResultItemValue = styled.div`
   @media (max-width: 480px) { font-size: 0.95rem; }
 `;
 
-// ─── PASSO A PASSO ─────────────────────────────────────────
-const StepsSection = styled(BaseSection)`
+// ─── PREVIEW DOS PASSOS ────────────────────────────────────
+const PreviewSection = styled(BaseSection)`
   background: linear-gradient(135deg,
     rgba(74, 140, 247, 0.05) 0%,
     rgba(168, 85, 247, 0.03) 100%);
   border: 1px solid rgba(74, 140, 247, 0.15);
-
-  &::before {
-    content: '';
-    position: absolute;
-    bottom: -40px;
-    left: -40px;
-    width: 220px;
-    height: 220px;
-    background: radial-gradient(circle,
-      rgba(168, 85, 247, 0.08) 0%,
-      transparent 70%);
-    pointer-events: none;
-  }
 `;
 
-const StepsList = styled.div`
+const PreviewList = styled.div`
   display: flex;
   flex-direction: column;
-  position: relative;
-  z-index: 1;
-  margin-top: 8px;
+  gap: 8px;
+  margin-bottom: 18px;
 `;
 
-const StepItem = styled.div`
+const PreviewStep = styled.div`
   display: flex;
   align-items: flex-start;
-  gap: 16px;
-  padding: 12px 10px;
-  position: relative;
-  cursor: ${p => p.$locked ? 'not-allowed' : 'pointer'};
+  gap: 12px;
+  padding: 12px 14px;
+  background: rgba(74, 140, 247, 0.05);
+  border: 1px solid rgba(74, 140, 247, 0.12);
   border-radius: 12px;
-  transition: all 0.25s ease;
-  user-select: none;
-  opacity: ${p => p.$locked ? 0.45 : 1};
+  color: #cbd9ee;
+  font-size: 0.87rem;
+  line-height: 1.5;
 
-  &:hover {
-    background: ${p => p.$locked
-      ? 'transparent'
-      : 'rgba(74, 140, 247, 0.06)'};
-    transform: ${p => p.$locked ? 'none' : 'translateX(4px)'};
-  }
-
-  &:active {
-    transform: ${p => p.$locked ? 'none' : 'translateX(2px) scale(0.99)'};
-  }
+  @media (max-width: 480px) { font-size: 0.82rem; padding: 10px 12px; }
 `;
 
-const StepNumber = styled.div`
-  width: 38px;
-  height: 38px;
+const PreviewNumber = styled.div`
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
+  background: rgba(74, 140, 247, 0.18);
+  border: 1px solid rgba(74, 140, 247, 0.4);
+  color: #7eb8ff;
+  font-size: 0.72rem;
+  font-weight: 800;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.9rem;
-  font-weight: 800;
   flex-shrink: 0;
-  position: relative;
-  z-index: 1;
-  transition: all 0.3s ease;
-
-  background: ${p => p.$done
-    ? 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)'
-    : p.$locked
-      ? 'rgba(255, 255, 255, 0.03)'
-      : 'rgba(74, 140, 247, 0.15)'};
-
-  border: 2px solid ${p => p.$done
-    ? 'rgba(34, 197, 94, 0.6)'
-    : p.$locked
-      ? 'rgba(255, 255, 255, 0.08)'
-      : 'rgba(74, 140, 247, 0.3)'};
-
-  color: ${p => p.$done
-    ? '#fff'
-    : p.$locked
-      ? '#4a5a6e'
-      : '#7eb8ff'};
-
-  box-shadow: ${p => p.$done
-    ? '0 4px 14px rgba(34, 197, 94, 0.35)'
-    : 'none'};
-
-  svg {
-    width: 16px;
-    height: 16px;
-    stroke-width: 2.5;
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 2px;
-    height: 26px;
-    background: ${p => p.$done
-      ? 'linear-gradient(180deg, #22c55e 0%, rgba(74, 140, 247, 0.2) 100%)'
-      : 'rgba(74, 140, 247, 0.15)'};
-    transition: background 0.3s ease;
-  }
-
-  ${p => p.$last && `
-    &::after { display: none; }
-  `}
+  margin-top: 1px;
 `;
 
-const StepContent = styled.div`
-  flex: 1;
-  padding-top: 8px;
-  min-width: 0;
-`;
-
-const StepTitle = styled.div`
-  color: ${p => p.$done
-    ? '#a8b8d8'
-    : p.$locked
-      ? '#5a6a7e'
-      : '#e8eef7'};
-
-  font-size: 0.95rem;
+const PreviewMore = styled.div`
+  text-align: center;
+  color: #8899aa;
+  font-size: 0.8rem;
   font-weight: 600;
-  text-decoration: ${p => p.$done ? 'line-through' : 'none'};
-  text-decoration-thickness: 1.5px;
-  text-decoration-color: rgba(168, 184, 216, 0.5);
-  transition: all 0.3s ease;
-  line-height: 1.5;
-
-  @media (max-width: 480px) {
-    font-size: 0.88rem;
-  }
+  padding: 8px;
+  font-style: italic;
 `;
 
-const StepProgress = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 22px;
-  padding: 14px 18px;
-  background: rgba(74, 140, 247, 0.08);
-  border-radius: 14px;
-  border: 1px solid rgba(74, 140, 247, 0.15);
-  position: relative;
-  z-index: 1;
-`;
-
-const ProgressBar = styled.div`
-  flex: 1;
-  height: 8px;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 4px;
-  overflow: hidden;
-  position: relative;
-`;
-
-const ProgressFill = styled.div`
-  height: 100%;
-  width: ${p => p.$percent}%;
-  background: linear-gradient(90deg, #4a8cf7 0%, #22c55e 100%);
-  border-radius: 4px;
-  transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
-`;
-
-const ProgressText = styled.div`
-  color: #7eb8ff;
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.5px;
-  min-width: 48px;
-  text-align: right;
-`;
-
-// ─── GRID FINAL ────────────────────────────────────────────
+// ─── GRID INFO ─────────────────────────────────────────────
 const InfoGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   gap: 20px;
 
-  @media (min-width: 768px) {
-    grid-template-columns: 1fr 1fr;
-  }
+  @media (min-width: 768px) { grid-template-columns: 1fr 1fr; }
 `;
 
 const InfoBox = styled(BaseSection)`
@@ -824,13 +595,8 @@ const InfoBox = styled(BaseSection)`
     background: rgba(74, 140, 247, 0.06);
   }
 
-  @media (max-width: 768px) {
-    padding: 20px;
-  }
-
-  @media (max-width: 480px) {
-    padding: 18px 16px;
-  }
+  @media (max-width: 768px) { padding: 20px; }
+  @media (max-width: 480px) { padding: 18px 16px; }
 `;
 
 const InfoHeader = styled.div`
@@ -839,12 +605,7 @@ const InfoHeader = styled.div`
   gap: 10px;
   margin-bottom: 16px;
 
-  svg {
-    color: #7eb8ff;
-    width: 18px;
-    height: 18px;
-    flex-shrink: 0;
-  }
+  svg { color: #7eb8ff; width: 18px; height: 18px; flex-shrink: 0; }
 
   h3 {
     color: #e8eef7;
@@ -895,32 +656,141 @@ const ListItem = styled.li`
   }
 `;
 
-const PriceTag = styled.div`
+// ─── CTA PRINCIPAL (o botão "quero começar") ───────────────
+const CTAWrapper = styled(BaseSection)`
+  margin-top: 28px;
+  margin-bottom: 0;
   background: linear-gradient(135deg,
-    rgba(74, 222, 128, 0.1) 0%,
-    rgba(34, 197, 94, 0.06) 100%);
-  padding: 20px 22px;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  font-weight: 800;
-  color: #86efac;
-  border: 1px solid rgba(74, 222, 128, 0.25);
-  font-size: 1.15rem;
-  justify-content: center;
-  text-align: center;
+    rgba(37, 99, 235, 0.12) 0%,
+    rgba(124, 92, 255, 0.08) 100%);
+  border: 1px solid rgba(74, 140, 247, 0.3);
+  padding: 32px 28px;
+  position: relative;
+  overflow: hidden;
 
-  svg {
-    width: 24px;
-    height: 24px;
-    flex-shrink: 0;
-    color: #86efac;
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%; right: -20%;
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, rgba(74, 140, 247, 0.2), transparent 70%);
+    pointer-events: none;
   }
 
+  @media (max-width: 480px) { padding: 24px 20px; }
+`;
+
+const CTATitle = styled.h3`
+  color: #e8eef7;
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin: 0 0 8px;
+  position: relative;
+  z-index: 1;
+
+  @media (max-width: 480px) { font-size: 1.05rem; }
+`;
+
+const CTASubtitle = styled.p`
+  color: #a8b8d8;
+  font-size: 0.87rem;
+  line-height: 1.55;
+  margin: 0 0 20px;
+  position: relative;
+  z-index: 1;
+
+  @media (max-width: 480px) { font-size: 0.8rem; }
+`;
+
+const CTAButton = styled.button`
+  width: 100%;
+  padding: 20px 28px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+
+  background: linear-gradient(135deg, #2563eb 0%, #4f7cff 50%, #7c5cff 100%);
+  background-size: 200% 100%;
+  color: #fff;
+  text-align: left;
+
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  box-shadow:
+    0 12px 32px -8px rgba(37, 99, 235, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+
+  transition: all 0.3s ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 20% 50%,
+      rgba(255, 255, 255, 0.15), transparent 60%);
+    pointer-events: none;
+  }
+
+  .label {
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hint {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.75);
+    z-index: 1;
+  }
+
+  &:hover {
+    background-position: 100% 50%;
+    transform: translateY(-2px);
+    box-shadow:
+      0 16px 40px -8px rgba(37, 99, 235, 0.8),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+
+  &:active { transform: translateY(0) scale(0.99); }
+
   @media (max-width: 480px) {
-    font-size: 1rem;
-    padding: 16px 18px;
+    padding: 16px 20px;
+
+    .label { font-size: 0.95rem; }
+    .hint { font-size: 0.75rem; }
+  }
+`;
+
+const LoginHint = styled.div`
+  margin-top: 14px;
+  padding: 12px 16px;
+  background: rgba(251, 191, 36, 0.06);
+  border: 1px solid rgba(251, 191, 36, 0.25);
+  border-radius: 10px;
+  color: #fbbf24;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+
+  a {
+    color: #fbbf24;
+    text-decoration: underline;
+    font-weight: 800;
+
+    &:hover { color: #fde047; }
   }
 `;
 
@@ -932,18 +802,8 @@ const NotFound = styled.div`
   border-radius: 24px;
   border: 1px solid rgba(255, 255, 255, 0.06);
 
-  h2 {
-    color: #e8eef7;
-    font-size: 1.8rem;
-    margin-bottom: 12px;
-    font-weight: 800;
-  }
-
-  p {
-    color: #a8b8d8;
-    margin-bottom: 24px;
-    font-size: 0.95rem;
-  }
+  h2 { color: #e8eef7; font-size: 1.8rem; margin-bottom: 12px; font-weight: 800; }
+  p  { color: #a8b8d8; margin-bottom: 24px; font-size: 0.95rem; }
 
   @media (max-width: 480px) {
     padding: 50px 24px;
@@ -1068,19 +928,6 @@ const TargetIcon = () => (
   </svg>
 );
 
-const CheckIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="20 6 9 17 4 12" />
-  </svg>
-);
-
-const LockIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-  </svg>
-);
-
 // ─── COMPONENTE ────────────────────────────────────────────
 const BusinessDetail = () => {
   const { id } = useParams();
@@ -1089,16 +936,20 @@ const BusinessDetail = () => {
 
   const [business, setBusiness] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [currentUser, setCurrentUser] = useState(null);
 
   // Estados da calculadora
   const [precoServico, setPrecoServico] = useState('');
   const [clientesDia, setClientesDia] = useState('');
   const [diasMes, setDiasMes] = useState('22');
 
-  // Estados do passo a passo
-  const [completedSteps, setCompletedSteps] = useState({});
+  // ─── Auth ────────────────────────────────────────────────
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => setCurrentUser(user));
+    return () => unsubscribe();
+  }, []);
 
-  // Carrega dados com um pequeno delay pra skeleton
+  // ─── Carrega business ────────────────────────────────────
   useEffect(() => {
     setLoading(true);
     const found = businessData.find(b => b.id === parseInt(id));
@@ -1108,62 +959,56 @@ const BusinessDetail = () => {
     }, 250);
   }, [id]);
 
-  // Carrega passos concluídos do localStorage quando o negócio muda
+  // ─── Scroll to top ao trocar de negócio ──────────────────
   useEffect(() => {
-    if (!business) return;
-    const saved = localStorage.getItem(`steps_${business.id}`);
-    if (saved) {
-      try {
-        setCompletedSteps(JSON.parse(saved));
-      } catch {
-        setCompletedSteps({});
-      }
-    } else {
-      setCompletedSteps({});
-    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [id]);
+
+  // ─── Preview dos passos (normalizados) ───────────────────
+  const previewSteps = useMemo(() => {
+    if (!business) return [];
+    const raw = businessSteps[business.name] || [];
+    return raw
+      .slice(0, 2)
+      .map((s, i) => normalizeStep(s, i));
   }, [business]);
 
-  // ─── HELPERS ─────────────────────────────────────────────
-  const steps = business ? (businessSteps[business.name] || []) : [];
-  const completedCount = Object.values(completedSteps).filter(Boolean).length;
+  const totalSteps = business ? (businessSteps[business.name] || []).length : 0;
 
-  // Alterna um passo (só permite avançar em ordem)
-  const toggleStep = (index) => {
-    // Se estiver tentando marcar, precisa que o anterior esteja feito
-    if (!completedSteps[index]) {
-      const previousDone = index === 0 || completedSteps[index - 1];
-      if (!previousDone) return; // bloqueado
-    }
-
-    let newState = { ...completedSteps };
-
-    if (newState[index]) {
-      // Desmarcando: desmarca este e todos os posteriores
-      for (let i = index; i < steps.length; i++) {
-        delete newState[i];
-      }
-    } else {
-      // Marcando: só marca este
-      newState[index] = true;
-    }
-
-    setCompletedSteps(newState);
-    if (business) {
-      localStorage.setItem(`steps_${business.id}`, JSON.stringify(newState));
-    }
-
-    // 🎯 Toast de feedback ao concluir um passo
-    if (newState[index]) {
-      const done = Object.values(newState).filter(Boolean).length;
-      if (done === steps.length) {
-        showToast('🎉 Parabéns! Você completou todos os passos!', 'success', 4000);
-      } else {
-        showToast(`✅ Passo ${index + 1} concluído!`, 'success', 1800);
-      }
-    }
+  // ─── Helpers ─────────────────────────────────────────────
+  const formatInvestment = (min, max) => {
+    if (min === max) return `R$ ${min.toLocaleString('pt-BR')}`;
+    return `R$ ${min.toLocaleString('pt-BR')} - R$ ${max.toLocaleString('pt-BR')}`;
   };
 
-  // ─── SKELETON ────────────────────────────────────────────
+  const formatCurrency = (value) => {
+    return value.toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+  };
+
+  const calcularFaturamento = () => {
+    const preco = parseFloat(precoServico.replace(',', '.')) || 0;
+    const clientes = parseInt(clientesDia) || 0;
+    const dias = parseInt(diasMes) || 0;
+    const faturamento = preco * clientes * dias;
+
+    let margem = 0;
+    if (business?.profitMargin) {
+      const margemStr = business.profitMargin.replace('%', '').split('-');
+      const min = parseFloat(margemStr[0]) || 0;
+      const max = margemStr[1] ? parseFloat(margemStr[1]) : min;
+      margem = (min + max) / 2 / 100;
+    }
+
+    const lucro = faturamento * margem;
+    return { faturamento, lucro, margem: margem * 100 };
+  };
+
+  // ─── Loading ─────────────────────────────────────────────
   if (loading) {
     return (
       <Container>
@@ -1187,7 +1032,7 @@ const BusinessDetail = () => {
     );
   }
 
-  // ─── NOT FOUND ───────────────────────────────────────────
+  // ─── Not found ───────────────────────────────────────────
   if (!business) {
     return (
       <Container>
@@ -1206,65 +1051,28 @@ const BusinessDetail = () => {
     );
   }
 
-  // ─── HELPERS ─────────────────────────────────────────────
-  const formatInvestment = (min, max) => {
-    if (min === max) return `R$ ${min.toLocaleString('pt-BR')}`;
-    return `R$ ${min.toLocaleString('pt-BR')} - R$ ${max.toLocaleString('pt-BR')}`;
-  };
-
-  const formatCurrency = (value) => {
-    return value.toLocaleString('pt-BR', {
-      style: 'currency',
-      currency: 'BRL',
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    });
-  };
-
-  const calcularFaturamento = () => {
-    const preco = parseFloat(precoServico.replace(',', '.')) || 0;
-    const clientes = parseInt(clientesDia) || 0;
-    const dias = parseInt(diasMes) || 0;
-    const faturamento = preco * clientes * dias;
-
-    let margem = 0;
-    if (business.profitMargin) {
-      const margemStr = business.profitMargin.replace('%', '').split('-');
-      const min = parseFloat(margemStr[0]) || 0;
-      const max = margemStr[1] ? parseFloat(margemStr[1]) : min;
-      margem = (min + max) / 2 / 100;
-    }
-
-    const lucro = faturamento * margem;
-    return { faturamento, lucro, margem: margem * 100 };
-  };
-
   const resultado = calcularFaturamento();
   const mostrarResultado = precoServico && clientesDia && diasMes;
 
   const shareUrl = `${window.location.origin}/business/${business.id}`;
   const previewImage = `${window.location.origin}/preview.jpg`;
 
-  // ─── RENDER ──────────────────────────────────────────────
   return (
     <Container>
       <Helmet>
         <title>{business.name} | Negócio ao Alcance</title>
         <meta name="description" content={business.description} />
-
         <meta property="og:type" content="website" />
         <meta property="og:title" content={`${business.name} | Negócio ao Alcance`} />
         <meta property="og:description" content={business.description} />
         <meta property="og:image" content={previewImage} />
         <meta property="og:url" content={shareUrl} />
         <meta property="og:site_name" content="Negócio ao Alcance" />
-
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={`${business.name} | Negócio ao Alcance`} />
         <meta name="twitter:description" content={business.description} />
       </Helmet>
 
-      {/* BREADCRUMB */}
       <Breadcrumb>
         <Link to="/">
           <HomeIcon />
@@ -1295,7 +1103,7 @@ const BusinessDetail = () => {
         {/* DESCRIÇÃO */}
         <Description>{business.description}</Description>
 
-        {/* STATS COM CORES PRÓPRIAS */}
+        {/* STATS */}
         <StatsGrid>
           <StatCard
             $bg="rgba(74, 222, 128, 0.06)"
@@ -1419,60 +1227,32 @@ const BusinessDetail = () => {
           )}
         </CalculatorSection>
 
-        {/* 🎯 PASSO A PASSO */}
-        {steps.length > 0 && (
-          <StepsSection>
+        {/* PREVIEW DO ROTEIRO */}
+        {previewSteps.length > 0 && (
+          <PreviewSection>
             <SectionTitle>
               <TargetIcon />
               Como começar
             </SectionTitle>
             <SectionSubtitle>
-              Siga este roteiro pra tirar seu negócio do papel. Conclua cada etapa pra desbloquear a próxima:
+              Uma prévia do que você precisa fazer. O roteiro completo está no seu plano personalizado:
             </SectionSubtitle>
 
-            <StepsList>
-              {steps.map((step, index) => {
-                const isDone = !!completedSteps[index];
-                const isLocked = !isDone && index > 0 && !completedSteps[index - 1];
+            <PreviewList>
+              {previewSteps.map((step, index) => (
+                <PreviewStep key={index}>
+                  <PreviewNumber>{index + 1}</PreviewNumber>
+                  <span>{step.title}</span>
+                </PreviewStep>
+              ))}
+            </PreviewList>
 
-                return (
-                  <StepItem
-                    key={index}
-                    $locked={isLocked}
-                    onClick={() => !isLocked && toggleStep(index)}
-                    role="button"
-                    tabIndex={isLocked ? -1 : 0}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' && !isLocked) toggleStep(index);
-                    }}
-                    aria-disabled={isLocked}
-                  >
-                    <StepNumber
-                      $done={isDone}
-                      $locked={isLocked}
-                      $last={index === steps.length - 1}
-                    >
-                      {isDone ? <CheckIcon /> : isLocked ? <LockIcon /> : index + 1}
-                    </StepNumber>
-                    <StepContent>
-                      <StepTitle $done={isDone} $locked={isLocked}>
-                        {step}
-                      </StepTitle>
-                    </StepContent>
-                  </StepItem>
-                );
-              })}
-            </StepsList>
-
-            <StepProgress>
-              <ProgressBar>
-                <ProgressFill $percent={(completedCount / steps.length) * 100} />
-              </ProgressBar>
-              <ProgressText>
-                {completedCount}/{steps.length}
-              </ProgressText>
-            </StepProgress>
-          </StepsSection>
+            {totalSteps > previewSteps.length && (
+              <PreviewMore>
+                + {totalSteps - previewSteps.length} etapa{totalSteps - previewSteps.length > 1 ? 's' : ''} no plano completo
+              </PreviewMore>
+            )}
+          </PreviewSection>
         )}
 
         {/* GRID FINAL */}
@@ -1502,23 +1282,38 @@ const BusinessDetail = () => {
           </InfoBox>
         </InfoGrid>
 
-        {/* PREÇO SUGERIDO (largura total) */}
-        <BaseSection
-          style={{
-            marginTop: '20px',
-            background: 'rgba(74, 222, 128, 0.04)',
-            border: '1px solid rgba(74, 222, 128, 0.15)',
-          }}
-        >
-          <InfoHeader>
-            <MoneyIcon />
-            <h3>Preço Sugerido</h3>
-          </InfoHeader>
-          <PriceTag>
-            <MoneyIcon />
-            {business.suggestedPrice}
-          </PriceTag>
-        </BaseSection>
+        {/* ─── CTA FINAL ─────────────────────────────────── */}
+        <CTAWrapper>
+          <CTATitle>Pronto para começar?</CTATitle>
+          <CTASubtitle>
+            Acesse o roteiro completo, os materiais detalhados com faixa de preço,
+            e uma tabela de quanto cobrar em cada nível.
+          </CTASubtitle>
+
+          <CTAButton
+            onClick={() => {
+              if (!currentUser) {
+                showToast('🔒 Faça login para acessar seu plano', 'warning', 2500);
+                setTimeout(() => navigate('/login'), 800);
+                return;
+              }
+              navigate(`/business/${business.id}/comecar`);
+            }}
+          >
+            <div className="label">
+              🚀 Quero fazer esse serviço
+            </div>
+            <div className="hint">
+              Ver roteiro, materiais e orçamento detalhado
+            </div>
+          </CTAButton>
+
+          {!currentUser && (
+            <LoginHint>
+              Você precisa estar logado. <Link to="/login">Entrar agora →</Link>
+            </LoginHint>
+          )}
+        </CTAWrapper>
       </Card>
     </Container>
   );

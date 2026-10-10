@@ -8,13 +8,11 @@ import { notificationService } from './utils/notificationService';
 import Navbar from './components/Navbar';
 import InstallPrompt from './components/InstallPrompt';
 
-// ─── IMPORTS NORMAIS (não-lazy) ────────────────────────────
-// Navbar e InstallPrompt ficam fora porque aparecem em todas as páginas
-
-// ─── IMPORTS LAZY (só baixam quando o usuário entra) ──────
+// ─── IMPORTS LAZY ──────────────────────────────────────────
 const Home = React.lazy(() => import('./pages/Home'));
 const Login = React.lazy(() => import('./pages/Login'));
 const BusinessDetail = React.lazy(() => import('./pages/BusinessDetail'));
+const BusinessStart = React.lazy(() => import('./pages/BusinessStart')); // 🆕
 const Perfil = React.lazy(() => import('./pages/Perfil'));
 const Favoritos = React.lazy(() => import('./pages/Favoritos'));
 const EmailVerification = React.lazy(() => import('./components/EmailVerification'));
@@ -46,7 +44,7 @@ const PageWrapper = styled.div`
   will-change: opacity, transform;
 `;
 
-// ─── FALLBACK DE SUSPENSE (SKELETON) ──────────────────────
+// ─── FALLBACK ──────────────────────────────────────────────
 const SuspenseFallback = styled.div`
   min-height: 60vh;
   display: flex;
@@ -71,14 +69,13 @@ const FallbackCard = styled.div`
   border: 1px solid rgba(255, 255, 255, 0.04);
 `;
 
-// ─── FALLBACK SIMPLES PRA SUSPENSE ────────────────────────
 const LazyFallback = () => (
   <SuspenseFallback>
     <FallbackCard />
   </SuspenseFallback>
 );
 
-// ─── TRANSIÇÃO DE PÁGINA ──────────────────────────────────
+// ─── TRANSIÇÃO ─────────────────────────────────────────────
 const PageTransition = ({ children }) => {
   const location = useLocation();
   return <PageWrapper key={location.pathname}>{children}</PageWrapper>;
@@ -89,7 +86,7 @@ const PrivateRoute = ({ user, children }) => {
   return user ? children : <Navigate to="/login" replace />;
 };
 
-// ─── CONTEÚDO DAS ROTAS ────────────────────────────────────
+// ─── ROTAS ─────────────────────────────────────────────────
 const AppRoutes = ({ user, handleLogin, handleRegister }) => {
   const location = useLocation();
 
@@ -108,6 +105,7 @@ const AppRoutes = ({ user, handleLogin, handleRegister }) => {
 
           {/* 🔓 ROTAS PÚBLICAS */}
           <Route path="/business/:id" element={<BusinessDetail user={user} />} />
+          <Route path="/business/:id/comecar" element={<BusinessStart user={user} />} /> {/* 🆕 */}
 
           {/* 🔒 ROTAS PRIVADAS */}
           <Route
@@ -128,7 +126,7 @@ const AppRoutes = ({ user, handleLogin, handleRegister }) => {
   );
 };
 
-// ─── APP PRINCIPAL ─────────────────────────────────────────
+// ─── APP ───────────────────────────────────────────────────
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -148,7 +146,6 @@ function App() {
     const unsubscribe = authService.onAuthStateChanged((firebaseUser) => {
       if (firebaseUser) {
         if (!firebaseUser.emailVerified) {
-          console.log('📧 E-mail não verificado:', firebaseUser.email);
           setUser({
             ...firebaseUser,
             name: firebaseUser.displayName || firebaseUser.email?.split('@')[0] || 'Usuário',
@@ -186,12 +183,8 @@ function App() {
       window.addEventListener('load', () => {
         navigator.serviceWorker
           .register('/service-worker.js')
-          .then((registration) => {
-            console.log('✅ Service Worker registrado:', registration.scope);
-          })
-          .catch((error) => {
-            console.warn('⚠️ Erro ao registrar Service Worker:', error);
-          });
+          .then((registration) => console.log('✅ SW:', registration.scope))
+          .catch((error) => console.warn('⚠️ SW erro:', error));
       });
     }
   }, []);

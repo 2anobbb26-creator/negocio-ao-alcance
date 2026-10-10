@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import styled, { keyframes } from 'styled-components';
 import { businessData, categories } from '../data/businessData';
 import BusinessCard from '../components/BusinessCard';
-import SearchBar from '../components/SearchBar';
-import FilterButtons from '../components/FilterButtons';
+import { useToast } from '../components/Toast';
 
 // 🎨 ANIMAÇÕES
 const fadeInUp = keyframes`
@@ -53,17 +52,9 @@ const Container = styled.div`
   z-index: 1;
   animation: ${fadeInUp} 0.8s ease-out;
 
-  @media (max-width: 768px) {
-    padding: 20px;
-  }
-
-  @media (max-width: 480px) {
-    padding: 16px;
-  }
-
-  @media (max-width: 360px) {
-    padding: 12px;
-  }
+  @media (max-width: 768px) { padding: 20px; }
+  @media (max-width: 480px) { padding: 16px; }
+  @media (max-width: 360px) { padding: 12px; }
 `;
 
 // 🌟 BACKGROUND DECORATIVO
@@ -102,19 +93,12 @@ const BackgroundDecor = styled.div`
   }
 
   @media (max-width: 480px) {
-    &::before {
-      width: 350px;
-      height: 350px;
-    }
-
-    &::after {
-      width: 300px;
-      height: 300px;
-    }
+    &::before { width: 350px; height: 350px; }
+    &::after { width: 300px; height: 300px; }
   }
 `;
 
-//  HEADER PRINCIPAL
+// 🎯 HEADER PRINCIPAL
 const Header = styled.header`
   text-align: center;
   margin-bottom: 40px;
@@ -131,17 +115,17 @@ const Header = styled.header`
     inset: 0;
     border-radius: 28px;
     padding: 1px;
-    background: linear-gradient(135deg, 
-      rgba(74, 140, 247, 0.4) 0%, 
-      rgba(126, 184, 255, 0.3) 25%, 
-      rgba(168, 85, 247, 0.35) 50%, 
-      rgba(126, 184, 255, 0.3) 75%, 
+    background: linear-gradient(135deg,
+      rgba(74, 140, 247, 0.4) 0%,
+      rgba(126, 184, 255, 0.3) 25%,
+      rgba(168, 85, 247, 0.35) 50%,
+      rgba(126, 184, 255, 0.3) 75%,
       rgba(74, 140, 247, 0.4) 100%
     );
     background-size: 300% 300%;
-    animation: borderShimmer 6s linear infinite;
-    -webkit-mask: 
-      linear-gradient(#fff 0 0) content-box, 
+    animation: ${shimmer} 6s linear infinite;
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
       linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
@@ -155,7 +139,7 @@ const Header = styled.header`
     left: -50%;
     width: 200%;
     height: 200%;
-    background: 
+    background:
       radial-gradient(ellipse at 30% 50%, rgba(74, 140, 247, 0.04), transparent 60%),
       radial-gradient(ellipse at 70% 50%, rgba(102, 126, 234, 0.03), transparent 60%);
     animation: ${float} 10s ease-in-out infinite;
@@ -168,9 +152,7 @@ const Header = styled.header`
     margin-bottom: 32px;
     border-radius: 24px;
 
-    &::before {
-      border-radius: 24px;
-    }
+    &::before { border-radius: 24px; }
   }
 
   @media (max-width: 480px) {
@@ -178,9 +160,7 @@ const Header = styled.header`
     margin-bottom: 24px;
     border-radius: 20px;
 
-    &::before {
-      border-radius: 20px;
-    }
+    &::before { border-radius: 20px; }
   }
 
   @media (max-width: 360px) {
@@ -197,32 +177,26 @@ const Title = styled.h1`
   font-weight: 900;
   position: relative;
   z-index: 1;
-  background: linear-gradient(135deg, 
-    #ffffff 0%, 
-    #d0e0ff 15%, 
-    #7eb8ff 35%, 
-    #4a8cf7 55%, 
-    #7c5cf7 75%, 
-    #a855f7 90%, 
+  background: linear-gradient(135deg,
+    #ffffff 0%,
+    #d0e0ff 15%,
+    #7eb8ff 35%,
+    #4a8cf7 55%,
+    #7c5cf7 75%,
+    #a855f7 90%,
     #c084fc 100%
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 
-  @media (max-width: 768px) {
-    font-size: 3rem;
-  }
-
+  @media (max-width: 768px) { font-size: 3rem; }
   @media (max-width: 480px) {
     font-size: 2.2rem;
     letter-spacing: -0.5px;
     margin-bottom: 14px;
   }
-
-  @media (max-width: 360px) {
-    font-size: 1.85rem;
-  }
+  @media (max-width: 360px) { font-size: 1.85rem; }
 `;
 
 const Subtitle = styled.p`
@@ -248,7 +222,6 @@ const Subtitle = styled.p`
     letter-spacing: 1.5px;
     padding: 10px 16px;
   }
-
   @media (max-width: 360px) {
     font-size: 0.68rem;
     letter-spacing: 1px;
@@ -273,19 +246,333 @@ const GradientLine = styled.div`
   }
 `;
 
+// ─── 🔍 BARRA DE BUSCA ─────────────────────────────────────
+const SearchContainer = styled.div`
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  animation: ${fadeInUp} 0.8s ease-out;
+  animation-delay: 0.2s;
+  animation-fill-mode: both;
+  position: relative;
+  z-index: 2;
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+    gap: 10px;
+  }
+`;
+
+const SearchInputWrapper = styled.div`
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+`;
+
+const SearchIcon = styled.div`
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #7eb8ff;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  transition: color 0.25s ease;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
+const SearchInput = styled.input`
+  width: 100%;
+  padding: 18px 52px 18px 54px;
+  background: rgba(10, 21, 48, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1.5px solid rgba(74, 140, 247, 0.2);
+  border-radius: 16px;
+  color: #e8eef7;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+
+  &::placeholder {
+    color: #556677;
+    font-weight: 400;
+  }
+
+  &:hover {
+    border-color: rgba(74, 140, 247, 0.35);
+    background: rgba(10, 21, 48, 0.7);
+  }
+
+  &:focus {
+    border-color: rgba(74, 140, 247, 0.65);
+    background: rgba(10, 21, 48, 0.85);
+    box-shadow:
+      0 0 0 4px rgba(74, 140, 247, 0.12),
+      0 8px 32px rgba(74, 140, 247, 0.15);
+
+    & + ${SearchIcon} {
+      color: #a8ccff;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 16px 48px 16px 48px;
+    font-size: 0.92rem;
+    border-radius: 14px;
+  }
+`;
+
+const ClearButton = styled.button`
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #a8b8d8;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  padding: 0;
+  z-index: 1;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    stroke-width: 2.5;
+  }
+
+  &:hover {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #f87171;
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  &:active {
+    transform: translateY(-50%) scale(0.95);
+  }
+`;
+
+const SearchButton = styled.button`
+  padding: 18px 32px;
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #3b82f6 100%);
+  border: 1px solid rgba(74, 140, 247, 0.5);
+  border-radius: 16px;
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow:
+    0 4px 20px rgba(37, 99, 235, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  &:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #3b82f6 50%, #60a5fa 100%);
+    transform: translateY(-2px);
+    border-color: rgba(74, 140, 247, 0.7);
+    box-shadow:
+      0 8px 32px rgba(37, 99, 235, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  }
+
+  &:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  @media (max-width: 640px) {
+    padding: 16px 24px;
+    justify-content: center;
+    width: 100%;
+  }
+
+  @media (max-width: 480px) {
+    padding: 14px 20px;
+    font-size: 0.88rem;
+    border-radius: 14px;
+  }
+`;
+
+// ─── 💡 SUGESTÕES RÁPIDAS ──────────────────────────────────
+const QuickSuggestions = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 32px;
+  animation: ${fadeInUp} 0.8s ease-out;
+  animation-delay: 0.25s;
+  animation-fill-mode: both;
+  position: relative;
+  z-index: 2;
+  align-items: center;
+
+  @media (max-width: 480px) {
+    margin-bottom: 24px;
+    gap: 6px;
+  }
+`;
+
+const SuggestionsLabel = styled.span`
+  font-size: 0.78rem;
+  color: #7a8a9e;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-right: 4px;
+
+  @media (max-width: 480px) {
+    font-size: 0.7rem;
+    width: 100%;
+    margin-bottom: 4px;
+  }
+`;
+
+const SuggestionChip = styled.button`
+  padding: 8px 16px;
+  background: rgba(74, 140, 247, 0.08);
+  border: 1px solid rgba(74, 140, 247, 0.18);
+  border-radius: 999px;
+  color: #a8ccff;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+
+  &:hover {
+    background: rgba(74, 140, 247, 0.18);
+    border-color: rgba(74, 140, 247, 0.4);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(74, 140, 247, 0.2);
+  }
+
+  &:active {
+    transform: translateY(0) scale(0.97);
+  }
+
+  @media (max-width: 480px) {
+    padding: 6px 12px;
+    font-size: 0.75rem;
+  }
+`;
+
+// 🎯 FILTROS DE CATEGORIA
+const FilterContainer = styled.div`
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+  animation: ${fadeInUp} 0.8s ease-out;
+  animation-delay: 0.3s;
+  animation-fill-mode: both;
+  position: relative;
+  z-index: 2;
+
+  @media (max-width: 480px) {
+    gap: 6px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 8px;
+    margin-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(74, 140, 247, 0.3);
+      border-radius: 2px;
+    }
+  }
+`;
+
+const FilterChip = styled.button`
+  padding: 10px 20px;
+  background: ${p => p.$active
+    ? 'linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%)'
+    : 'rgba(255, 255, 255, 0.04)'};
+  border: 1px solid ${p => p.$active
+    ? 'rgba(74, 140, 247, 0.6)'
+    : 'rgba(255, 255, 255, 0.08)'};
+  border-radius: 999px;
+  color: ${p => p.$active ? '#fff' : '#a8b8d8'};
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: ${p => p.$active
+    ? '0 6px 20px rgba(37, 99, 235, 0.4)'
+    : 'none'};
+
+  &:hover {
+    background: ${p => p.$active
+      ? 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)'
+      : 'rgba(74, 140, 247, 0.12)'};
+    border-color: ${p => p.$active
+      ? 'rgba(74, 140, 247, 0.8)'
+      : 'rgba(74, 140, 247, 0.3)'};
+    color: #fff;
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0) scale(0.97);
+  }
+
+  @media (max-width: 480px) {
+    padding: 8px 16px;
+    font-size: 0.78rem;
+  }
+`;
+
 // 📋 RESULTS HEADER
 const ResultsHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 40px;
+  margin-top: 32px;
   padding: 0 8px;
   flex-wrap: wrap;
   gap: 16px;
   animation: ${slideInLeft} 0.6s ease-out;
 
   @media (max-width: 768px) {
-    margin-top: 32px;
+    margin-top: 28px;
     gap: 12px;
     padding: 0;
   }
@@ -293,47 +580,42 @@ const ResultsHeader = styled.div`
   @media (max-width: 480px) {
     flex-direction: column;
     align-items: flex-start;
-    margin-top: 24px;
+    margin-top: 22px;
     gap: 10px;
   }
 `;
 
 const ResultsTitle = styled.h2`
   color: #fff;
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   font-weight: 700;
   letter-spacing: -0.5px;
   display: flex;
   align-items: center;
   gap: 10px;
   flex-wrap: wrap;
+  margin: 0;
 
   span {
-    background: linear-gradient(135deg, #4a8cf7, #a855f7);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
+  background: linear-gradient(135deg, #ffffff 0%, #b8d4ff 40%, #4f7cff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 
-  @media (max-width: 768px) {
-    font-size: 1.35rem;
-  }
-
+  @media (max-width: 768px) { font-size: 1.3rem; }
   @media (max-width: 480px) {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     gap: 6px;
   }
-
-  @media (max-width: 360px) {
-    font-size: 1rem;
-  }
+  @media (max-width: 360px) { font-size: 1rem; }
 `;
 
 const ResultsCount = styled.p`
   color: #8899aa;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   background: rgba(255, 255, 255, 0.05);
-  padding: 8px 20px;
+  padding: 8px 18px;
   border-radius: 24px;
   border: 1px solid rgba(255, 255, 255, 0.06);
   font-weight: 600;
@@ -341,8 +623,13 @@ const ResultsCount = styled.p`
   margin: 0;
   white-space: nowrap;
 
+  span {
+    color: #7eb8ff;
+    font-weight: 800;
+  }
+
   @media (max-width: 480px) {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     padding: 6px 14px;
   }
 
@@ -357,18 +644,18 @@ const ResultsContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 24px;
-  margin-top: 32px;
+  margin-top: 28px;
 
   @media (max-width: 768px) {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 20px;
-    margin-top: 24px;
+    margin-top: 22px;
   }
 
   @media (max-width: 480px) {
     grid-template-columns: 1fr;
     gap: 16px;
-    margin-top: 20px;
+    margin-top: 18px;
   }
 
   @media (max-width: 360px) {
@@ -379,7 +666,7 @@ const ResultsContainer = styled.div`
 // 🚫 NO RESULTS
 const NoResults = styled.div`
   text-align: center;
-  padding: 80px 40px;
+  padding: 70px 40px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%);
   backdrop-filter: blur(20px);
   border-radius: 24px;
@@ -389,8 +676,8 @@ const NoResults = styled.div`
 
   h3 {
     color: #fff;
-    font-size: 1.8rem;
-    margin-bottom: 16px;
+    font-size: 1.7rem;
+    margin-bottom: 14px;
     font-weight: 700;
   }
 
@@ -398,158 +685,154 @@ const NoResults = styled.div`
     color: #8899aa;
     max-width: 450px;
     margin: 0 auto 12px;
-    font-size: 1rem;
+    font-size: 0.98rem;
     line-height: 1.6;
   }
 
   @media (max-width: 768px) {
     padding: 60px 28px;
-
-    h3 {
-      font-size: 1.5rem;
-    }
-
-    p {
-      font-size: 0.95rem;
-    }
+    h3 { font-size: 1.4rem; }
+    p { font-size: 0.92rem; }
   }
 
   @media (max-width: 480px) {
     padding: 48px 20px;
     border-radius: 18px;
-
-    h3 {
-      font-size: 1.25rem;
-      margin-bottom: 12px;
-    }
-
-    p {
-      font-size: 0.88rem;
-    }
-  }
-
-  @media (max-width: 360px) {
-    padding: 36px 16px;
-
-    h3 {
-      font-size: 1.1rem;
-    }
+    h3 { font-size: 1.2rem; margin-bottom: 12px; }
+    p { font-size: 0.85rem; }
   }
 `;
 
-// 🎨 DIVIDER
-const Divider = styled.div`
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(74, 140, 247, 0.3), transparent);
-  margin: 40px 0;
-  border: none;
+const ClearFiltersBtn = styled.button`
+  margin-top: 20px;
+  padding: 12px 28px;
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+  border: 1px solid rgba(74, 140, 247, 0.5);
+  border-radius: 12px;
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 
-  @media (max-width: 768px) {
-    margin: 32px 0;
+  svg { width: 16px; height: 16px; }
+
+  &:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
   }
 
-  @media (max-width: 480px) {
-    margin: 24px 0;
+  &:active {
+    transform: translateY(0) scale(0.98);
   }
 `;
 
-// 🎯 ANIMAÇÕES EM CASCATA
-const SearchWrapper = styled.div`
-  animation: ${fadeInUp} 0.8s ease-out;
-  animation-delay: 0.2s;
-  animation-fill-mode: both;
-`;
+// ─── ÍCONES SVG ────────────────────────────────────────────
+const SearchIconSVG = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="11" cy="11" r="8" />
+    <path d="m21 21-4.35-4.35" />
+  </svg>
+);
 
-const FilterWrapper = styled.div`
-  animation: ${fadeInUp} 0.8s ease-out;
-  animation-delay: 0.3s;
-  animation-fill-mode: both;
-`;
+const XIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="18" y1="6" x2="6" y2="18" />
+    <line x1="6" y1="6" x2="18" y2="18" />
+  </svg>
+);
+
+const SparklesIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6L5.6 18.4" opacity="0.3" />
+    <path d="M12 2l1.5 4.5L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1.5z" />
+  </svg>
+);
 
 const Home = ({ user }) => {
-  const [budget, setBudget] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('Todos');
-  const [filteredResults, setFilteredResults] = useState([]);
-  const [hasSearched, setHasSearched] = useState(false);
+  const { showToast } = useToast();
 
-  useEffect(() => {
-    console.log('📦 Total de serviços:', businessData.length);
-    setFilteredResults(businessData);
-    setHasSearched(false);
-  }, []);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('Todos');
+  const [appliedSearch, setAppliedSearch] = useState('');
+
+  // ─── FILTRO EM TEMPO REAL ──────────────────────────────────
+  const filteredResults = useMemo(() => {
+    let results = businessData;
+
+    // 1) Filtro por categoria
+    if (selectedCategory !== 'Todos') {
+      results = results.filter(item => item.category === selectedCategory);
+    }
+
+    // 2) Filtro por texto (nome, categoria, descrição ou valor)
+    if (appliedSearch.trim()) {
+      const term = appliedSearch.toLowerCase().trim();
+      const termAsNumber = parseFloat(term.replace(/[^\d.,]/g, '').replace(',', '.'));
+
+      results = results.filter(item => {
+        // Busca por nome
+        const matchName = item.name.toLowerCase().includes(term);
+
+        // Busca por categoria
+        const matchCategory = item.category.toLowerCase().includes(term);
+
+        // Busca por descrição
+        const matchDescription = item.description?.toLowerCase().includes(term);
+
+        // Busca por valor (se o termo for numérico)
+        const matchValue = !isNaN(termAsNumber)
+          ? item.minInvestment <= termAsNumber ||
+            (item.maxInvestment && item.maxInvestment >= termAsNumber) ||
+            item.minInvestment >= termAsNumber
+          : false;
+
+        return matchName || matchCategory || matchDescription || matchValue;
+      });
+    }
+
+    return results;
+  }, [appliedSearch, selectedCategory]);
 
   const handleSearch = () => {
-    if (!budget || budget === '') {
-      setFilteredResults(businessData);
-      setHasSearched(false);
-      return;
+    setAppliedSearch(searchTerm);
+    if (searchTerm.trim()) {
+      showToast(`🔍 Buscando por "${searchTerm}"`, 'info', 1500);
     }
-
-    const cleanBudget = budget.replace(/\./g, '').replace(',', '.');
-    const budgetValue = parseFloat(cleanBudget);
-
-    if (isNaN(budgetValue) || budgetValue <= 0) {
-      alert('Por favor, insira um valor válido.');
-      return;
-    }
-
-    const results = businessData.filter(item => item.minInvestment === budgetValue);
-
-    let finalResults = results;
-    if (selectedCategory !== 'Todos') {
-      finalResults = results.filter(item => item.category === selectedCategory);
-    }
-
-    setFilteredResults(finalResults);
-    setHasSearched(true);
   };
 
-  const handleBudgetChange = (e) => {
-    const value = e.target.value.replace(/\D/g, '');
-    if (value) {
-      const number = parseFloat(value);
-      setBudget(number.toLocaleString('pt-BR'));
-    } else {
-      setBudget('');
-      setFilteredResults(businessData);
-      setHasSearched(false);
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
     }
+  };
+
+  const handleClear = () => {
+    setSearchTerm('');
+    setAppliedSearch('');
+    setSelectedCategory('Todos');
+    showToast('🧹 Busca limpa', 'info', 1500);
   };
 
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
-
-    if (category === 'Todos') {
-      setFilteredResults(businessData);
-      setHasSearched(false);
-      setBudget('');
-      return;
-    }
-
-    let results = businessData.filter(item => item.category === category);
-
-    if (budget && budget !== '' && hasSearched) {
-      const cleanBudget = budget.replace(/\./g, '').replace(',', '.');
-      const budgetValue = parseFloat(cleanBudget);
-      if (!isNaN(budgetValue) && budgetValue > 0) {
-        results = results.filter(item => item.minInvestment >= budgetValue);
-      }
-    }
-
-    setFilteredResults(results);
-    setHasSearched(true);
   };
 
-  const clearSearch = () => {
-    setBudget('');
-    setSelectedCategory('Todos');
-    setFilteredResults(businessData);
-    setHasSearched(false);
+  const handleSuggestionClick = (term) => {
+    setSearchTerm(term);
+    setAppliedSearch(term);
   };
 
-  const minInvestment = businessData.length > 0
-    ? Math.min(...businessData.map(item => item.minInvestment))
-    : 0;
+  const hasFilters = appliedSearch.trim() !== '' || selectedCategory !== 'Todos';
+
+  // Sugestões rápidas
+const suggestions = ['Estética', 'Edição de vídeo', 'Artesanato', 'Fotografia', '200'];
 
   return (
     <>
@@ -557,7 +840,6 @@ const Home = ({ user }) => {
         <title>Negócio ao Alcance | Descubra oportunidades de negócio</title>
         <meta name="description" content="Descubra oportunidades de negócio que cabem no seu bolso! Explore serviços, calcule faturamento e encontre o negócio ideal para você." />
 
-        {/* Open Graph */}
         <meta property="og:type" content="website" />
         <meta property="og:title" content="Negócio ao Alcance | Descubra oportunidades" />
         <meta property="og:description" content="Descubra oportunidades de negócio que cabem no seu bolso!" />
@@ -567,7 +849,6 @@ const Home = ({ user }) => {
         <meta property="og:url" content={window.location.origin} />
         <meta property="og:site_name" content="Negócio ao Alcance" />
 
-        {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Negócio ao Alcance" />
         <meta name="twitter:description" content="Descubra oportunidades de negócio que cabem no seu bolso!" />
@@ -579,43 +860,82 @@ const Home = ({ user }) => {
         <Header>
           <Title>Negócio ao Alcance</Title>
           <GradientLine />
-          <Subtitle>Descubra oportunidades de negócio que cabem no seu bolso!</Subtitle>
+          <Subtitle>Descubra oportunidades que cabem no seu bolso!</Subtitle>
         </Header>
 
-        <SearchWrapper>
-          <SearchBar
-            budget={budget}
-            onBudgetChange={handleBudgetChange}
-            onSearch={handleSearch}
-            onClear={clearSearch}
-            hasSearched={hasSearched}
-            placeholder="Digite o valor mínimo (ex: 100) - serviços a partir deste valor"
-          />
-        </SearchWrapper>
+        {/* 🔍 BARRA DE BUSCA */}
+        <SearchContainer>
+          <SearchInputWrapper>
+            <SearchIcon>
+              <SearchIconSVG />
+            </SearchIcon>
+            <SearchInput
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="Buscar negócio, categoria ou valor..."
+              aria-label="Buscar negócios"
+            />
+            {searchTerm && (
+              <ClearButton
+                onClick={() => {
+                  setSearchTerm('');
+                  setAppliedSearch('');
+                }}
+                title="Limpar busca"
+                aria-label="Limpar busca"
+              >
+                <XIcon />
+              </ClearButton>
+            )}
+          </SearchInputWrapper>
 
-        <FilterWrapper>
-          <FilterButtons
-            categories={categories}
-            selectedCategory={selectedCategory}
-            onCategoryChange={handleCategoryChange}
-          />
-        </FilterWrapper>
+          <SearchButton onClick={handleSearch}>
+            <SearchIconSVG />
+            BUSCAR
+          </SearchButton>
+        </SearchContainer>
 
-        <Divider />
+        {/* 💡 SUGESTÕES RÁPIDAS */}
+        <QuickSuggestions>
+          <SuggestionsLabel>💡 Tente:</SuggestionsLabel>
+          {suggestions.map(s => (
+            <SuggestionChip key={s} onClick={() => handleSuggestionClick(s)}>
+              {s}
+            </SuggestionChip>
+          ))}
+        </QuickSuggestions>
 
+        {/* 🏷️ FILTROS DE CATEGORIA */}
+        <FilterContainer>
+          {categories.map(cat => (
+            <FilterChip
+              key={cat}
+              $active={selectedCategory === cat}
+              onClick={() => handleCategoryChange(cat)}
+            >
+              {cat === 'Todos' && '✨ '}
+              {cat}
+            </FilterChip>
+          ))}
+        </FilterContainer>
+
+        {/* 📊 RESULTS */}
         <ResultsHeader>
           <ResultsTitle>
-            {selectedCategory === 'Todos' && !hasSearched ? (
-              <>✨ Todos os serviços disponíveis</>
-            ) : hasSearched && budget ? (
-              <>📊 Resultados para <span>R$ {budget}</span></>
+            {hasFilters ? (
+              <>📊 Resultados da busca</>
             ) : (
               <>✨ Todos os serviços disponíveis</>
             )}
-            {selectedCategory !== 'Todos' && ` • ${selectedCategory}`}
+            {selectedCategory !== 'Todos' && (
+              <span> • {selectedCategory}</span>
+            )}
           </ResultsTitle>
           <ResultsCount>
-            {filteredResults.length} {filteredResults.length === 1 ? 'negócio encontrado' : 'negócios encontrados'}
+            <span>{filteredResults.length}</span>{' '}
+            {filteredResults.length === 1 ? 'negócio encontrado' : 'negócios encontrados'}
           </ResultsCount>
         </ResultsHeader>
 
@@ -632,13 +952,14 @@ const Home = ({ user }) => {
             <NoResults>
               <h3>😕 Nenhum negócio encontrado</h3>
               <p>
-                {budget && hasSearched
-                  ? `Nenhum serviço encontrado com investimento a partir de R$ ${budget}. Tente um valor menor!`
-                  : 'Nenhum serviço encontrado nesta categoria.'}
+                {appliedSearch
+                  ? `Não encontramos nada para "${appliedSearch}". Tente outra palavra.`
+                  : 'Nenhum negócio nesta categoria.'}
               </p>
-              <p style={{ marginTop: '12px', color: '#4a8cf7', fontWeight: '600' }}>
-                💡 Dica: Existem serviços a partir de R$ {minInvestment.toLocaleString('pt-BR')}
-              </p>
+              <ClearFiltersBtn onClick={handleClear}>
+                <XIcon />
+                Limpar filtros
+              </ClearFiltersBtn>
             </NoResults>
           )}
         </ResultsContainer>
