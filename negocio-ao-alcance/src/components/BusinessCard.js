@@ -10,23 +10,24 @@ const fadeIn = keyframes`
   to { opacity: 1; transform: translateY(0); }
 `;
 
-const borderFlow = keyframes`
-  0% { background-position: 0% 50%; }
-  100% { background-position: 300% 50%; }
-`;
-
 const Card = styled.div`
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(20px);
   border-radius: 16px;
   padding: 24px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: 
+    transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    box-shadow 0.35s ease,
+    border-color 0.35s ease,
+    background 0.35s ease;
   border: 1px solid rgba(255, 255, 255, 0.06);
   color: #e0e0e0;
   animation: ${fadeIn} 0.5s ease-out;
   position: relative;
   overflow: hidden;
+  transform-style: preserve-3d;
+  will-change: transform;
 
   /* Borda superior: branco → azul → roxo */
   &::before {
@@ -42,34 +43,46 @@ const Card = styled.div`
       #a855f7 65%,
       #ffffff 100%
     );
-    background-size: 300% auto;
     opacity: 0.85;
     transition: opacity 0.4s ease;
-    animation: ${borderFlow} 4s linear infinite;
   }
 
   &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-    border-color: rgba(74, 140, 247, 0.3);
+    /* 🎴 Efeito 3D: inclina levemente + sobe + dá zoom */
+    transform: 
+      perspective(1000px)
+      rotateX(2deg)
+      rotateY(-2deg)
+      translateY(-8px)
+      scale(1.02);
+
+    box-shadow:
+      0 24px 48px rgba(0, 0, 0, 0.4),
+      0 0 30px rgba(74, 140, 247, 0.15);
+
+    border-color: rgba(74, 140, 247, 0.35);
     background: rgba(255, 255, 255, 0.05);
 
-   &::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg,
-    #ffffff 0%,
-    #7eb8ff 35%,
-    #a855f7 65%,
-    #ffffff 100%
-  );
-  opacity: 0.85;
-  transition: opacity 0.4s ease;
-}
+    &::before {
+      opacity: 1;
+      height: 4px;
+    }
+  }
+
+  &:active {
+    transform: 
+      perspective(1000px)
+      rotateX(1deg)
+      rotateY(-1deg)
+      translateY(-4px)
+      scale(1.01);
+  }
+
+  @media (max-width: 768px) {
+    &:hover {
+      transform: translateY(-4px);
+    }
+  }
 
   @media (max-width: 480px) {
     padding: 18px;
