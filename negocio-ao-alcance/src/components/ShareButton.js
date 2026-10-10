@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import ReactDOM from 'react-dom';
 import styled, { keyframes } from 'styled-components';
+import { useToast } from './Toast';
 
 const fadeIn = keyframes`
   from { opacity: 0; }
@@ -66,36 +68,47 @@ const IconButton = styled.button`
 // ─── OVERLAY ───────────────────────────────────────────────
 const Overlay = styled.div`
   position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  z-index: 999;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(10, 15, 35, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 99999;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 16px;
-  animation: ${fadeIn} 0.2s ease-out;
+  padding: 20px;
+  animation: ${fadeIn} 0.25s ease-out;
   overflow-y: auto;
+  overflow-x: hidden;
+
+  @media (max-width: 768px) {
+    align-items: flex-start;
+    padding: 16px;
+    padding-top: 40px;
+    padding-bottom: calc(16px + env(safe-area-inset-bottom, 0));
+  }
 `;
 
 // ─── MODAL ─────────────────────────────────────────────────
 const Modal = styled.div`
   background: linear-gradient(145deg, #0d1b3e 0%, #0a1530 100%);
-  border: 1px solid rgba(74, 140, 247, 0.25);
-  border-radius: 24px;
-  padding: 24px;
-  max-width: 420px;
+  border: 1px solid rgba(74, 140, 247, 0.3);
+  border-radius: 28px;
+  padding: 32px;
+  max-width: 500px;
   width: 100%;
   position: relative;
   animation: ${slideUp} 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   box-shadow:
-    0 24px 60px rgba(0, 0, 0, 0.5),
-    0 0 60px rgba(74, 140, 247, 0.1);
-  max-height: calc(100vh - 32px);
-  overflow-y: auto;
+    0 30px 80px rgba(0, 0, 0, 0.6),
+    0 0 80px rgba(74, 140, 247, 0.2);
+  margin: auto;
 
-  /* Barra de scroll sutil */
   &::-webkit-scrollbar {
     width: 6px;
   }
@@ -105,9 +118,11 @@ const Modal = styled.div`
     border-radius: 3px;
   }
 
-  @media (max-width: 480px) {
-    padding: 20px;
-    border-radius: 20px;
+  @media (max-width: 768px) {
+    padding: 24px 20px;
+    border-radius: 22px;
+    max-width: 100%;
+    margin: 0;
   }
 `;
 
@@ -133,27 +148,39 @@ const CloseButton = styled.button`
   position: absolute;
   top: -4px;
   right: -4px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   color: #a8b8d8;
   cursor: pointer;
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
+  font-size: 1.2rem;
   transition: all 0.2s;
   padding: 0;
+  z-index: 10;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.15);
     color: #fff;
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  @media (max-width: 768px) {
+    width: 44px;
+    height: 44px;
+    font-size: 1.3rem;
   }
 `;
 
-// ─── PREVIEW CARD (mais bonito) ────────────────────────────
+// ─── PREVIEW CARD ──────────────────────────────────────────
 const PreviewCard = styled.div`
   background: linear-gradient(135deg, #0a1530 0%, #0d1b3e 40%, #142952 100%);
   border: 1px solid rgba(74, 140, 247, 0.3);
@@ -163,7 +190,6 @@ const PreviewCard = styled.div`
   position: relative;
   overflow: hidden;
 
-  /* Linha gradiente no topo */
   &::before {
     content: '';
     position: absolute;
@@ -172,7 +198,6 @@ const PreviewCard = styled.div`
     background: linear-gradient(90deg, #ffffff 0%, #7eb8ff 50%, #a855f7 100%);
   }
 
-  /* Glow de fundo */
   &::after {
     content: '';
     position: absolute;
@@ -187,7 +212,6 @@ const PreviewCard = styled.div`
     animation: ${glowPulse} 4s ease-in-out infinite;
   }
 
-  /* Grid pattern tech */
   background-image:
     linear-gradient(135deg, #0a1530 0%, #0d1b3e 40%, #142952 100%),
     linear-gradient(rgba(74, 140, 247, 0.04) 1px, transparent 1px),
@@ -254,8 +278,6 @@ const PreviewDescription = styled.p`
   padding: 0 8px;
   position: relative;
   z-index: 1;
-
-  /* Limita a 3 linhas */
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -277,15 +299,7 @@ const PreviewBranding = styled.div`
   position: relative;
   z-index: 1;
 
-  &::before {
-    content: '';
-    width: 16px;
-    height: 1px;
-    background: #7eb8ff;
-    opacity: 0.5;
-  }
-
-  &::after {
+  &::before, &::after {
     content: '';
     width: 16px;
     height: 1px;
@@ -326,16 +340,6 @@ const ActionBtn = styled.button`
   position: relative;
   overflow: hidden;
 
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: ${props => props.$textColor || '#7eb8ff'};
-    opacity: 0;
-    transition: opacity 0.25s;
-    z-index: 0;
-  }
-
   svg {
     width: 22px;
     height: 22px;
@@ -354,9 +358,7 @@ const ActionBtn = styled.button`
     border-color: ${props => props.$textColor || '#7eb8ff'};
     box-shadow: 0 8px 20px ${props => props.$color || 'rgba(74, 140, 247, 0.3)'};
 
-    svg {
-      transform: scale(1.15);
-    }
+    svg { transform: scale(1.15); }
   }
 
   &:active {
@@ -394,27 +396,6 @@ const ShareNativeBtn = styled(ActionBtn)`
   }
 `;
 
-// ─── TOAST ─────────────────────────────────────────────────
-const Toast = styled.div`
-  position: fixed;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: linear-gradient(135deg, #1e3a8a, #2563eb);
-  color: #fff;
-  padding: 12px 24px;
-  border-radius: 12px;
-  font-size: 0.9rem;
-  font-weight: 700;
-  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.5);
-  z-index: 1001;
-  animation: ${slideUp} 0.3s ease-out;
-
-  @media (max-width: 768px) {
-    bottom: calc(80px + env(safe-area-inset-bottom, 0));
-  }
-`;
-
 // ─── ÍCONES SVG ────────────────────────────────────────────
 const ShareIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -447,21 +428,16 @@ const LinkIcon = () => (
 
 // ─── COMPONENTE ────────────────────────────────────────────
 const ShareButton = ({ business }) => {
+  const { showToast } = useToast();
   const [open, setOpen] = useState(false);
-  const [toast, setToast] = useState('');
 
   const shareUrl = `${APP_URL}/business/${business.id}`;
   const shareTitle = `Conheça: ${business.name}`;
   const shareText = `💰 ${business.name}\n${business.description}\n\nVeja mais em: ${shareUrl}`;
 
-  const showToast = (msg) => {
-    setToast(msg);
-    setTimeout(() => setToast(''), 2500);
-  };
-
   const handleShareWhatsApp = () => {
     window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`, '_blank');
-    showToast('Abrindo WhatsApp...');
+    showToast('📤 Abrindo WhatsApp...', 'info');
   };
 
   const handleShareTwitter = () => {
@@ -469,7 +445,7 @@ const ShareButton = ({ business }) => {
       `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareTitle)}&url=${encodeURIComponent(shareUrl)}`,
       '_blank'
     );
-    showToast('Abrindo Twitter...');
+    showToast('📤 Abrindo Twitter...', 'info');
   };
 
   const handleCopyLink = async () => {
@@ -483,11 +459,11 @@ const ShareButton = ({ business }) => {
         setOpen(false);
       } else {
         await navigator.clipboard.writeText(shareUrl);
-        showToast('Link copiado! 📋');
+        showToast('📋 Link copiado!', 'success');
       }
     } catch (err) {
       if (err.name !== 'AbortError') {
-        showToast('Link copiado! 📋');
+        showToast('📋 Link copiado!', 'success');
         await navigator.clipboard.writeText(shareUrl).catch(() => {});
       }
     }
@@ -525,7 +501,7 @@ const ShareButton = ({ business }) => {
         <ShareIcon />
       </IconButton>
 
-      {open && (
+      {open && ReactDOM.createPortal(
         <Overlay onClick={() => setOpen(false)}>
           <Modal onClick={(e) => e.stopPropagation()}>
             <ModalHeader>
@@ -533,7 +509,6 @@ const ShareButton = ({ business }) => {
               <CloseButton onClick={() => setOpen(false)} aria-label="Fechar">✕</CloseButton>
             </ModalHeader>
 
-            {/* Preview Card */}
             <PreviewCard>
               <PreviewEmoji>{business.image}</PreviewEmoji>
               <PreviewName>{business.name}</PreviewName>
@@ -543,7 +518,6 @@ const ShareButton = ({ business }) => {
               <PreviewBranding>Negócio ao Alcance</PreviewBranding>
             </PreviewCard>
 
-            {/* Ações */}
             <ActionsRow>
               <ActionBtn
                 onClick={handleShareWhatsApp}
@@ -590,10 +564,9 @@ const ShareButton = ({ business }) => {
               </ActionsRow>
             )}
           </Modal>
-        </Overlay>
+        </Overlay>,
+        document.body
       )}
-
-      {toast && <Toast>{toast}</Toast>}
     </>
   );
 };

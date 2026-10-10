@@ -4,6 +4,7 @@ import styled, { keyframes } from 'styled-components';
 import { auth, authService } from '../services/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import ShareButton from './ShareButton';
+import { useToast } from './Toast';
 
 const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(20px); }
@@ -29,7 +30,6 @@ const Card = styled.div`
   transform-style: preserve-3d;
   will-change: transform;
 
-  /* Borda superior: branco → azul → roxo */
   &::before {
     content: '';
     position: absolute;
@@ -48,7 +48,6 @@ const Card = styled.div`
   }
 
   &:hover {
-    /* 🎴 Efeito 3D: inclina levemente + sobe + dá zoom */
     transform: 
       perspective(1000px)
       rotateX(2deg)
@@ -303,6 +302,7 @@ const DetailButton = styled.button`
 
 const BusinessCard = ({ business, style }) => {
   const navigate = useNavigate();
+  const { showToast } = useToast();
   const [favorited, setFavorited] = useState(false);
   const [loading, setLoading] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
@@ -326,11 +326,10 @@ const BusinessCard = ({ business, style }) => {
     e.stopPropagation();
 
     if (!currentUser) {
-      alert('Faça login para favoritar!');
+      showToast('Faça login para favoritar!', 'warning');
       return;
     }
 
-    console.log('🔘 Clique no coração');
     setLoading(true);
 
     const storageKey = `favorites_${currentUser.uid}`;
@@ -340,7 +339,7 @@ const BusinessCard = ({ business, style }) => {
       const newFavorites = savedFavorites.filter(id => id !== business.id);
       localStorage.setItem(storageKey, JSON.stringify(newFavorites));
       setFavorited(false);
-      console.log('💔 Removido do localStorage');
+      showToast('💔 Removido dos favoritos', 'info');
 
       authService.removeFavorite(currentUser.uid, business.id)
         .catch(err => console.warn('⚠️ Firestore erro:', err));
@@ -350,7 +349,7 @@ const BusinessCard = ({ business, style }) => {
         localStorage.setItem(storageKey, JSON.stringify(savedFavorites));
       }
       setFavorited(true);
-      console.log('❤️ Adicionado ao localStorage');
+      showToast('❤️ Adicionado aos favoritos!', 'success');
 
       authService.addFavorite(currentUser.uid, business.id)
         .catch(err => console.warn('⚠️ Firestore erro:', err));

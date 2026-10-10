@@ -5,6 +5,7 @@ import styled, { keyframes } from 'styled-components';
 import { businessData } from '../data/businessData';
 import { businessSteps } from '../data/businessSteps';
 import ShareButton from '../components/ShareButton';
+import { useToast } from '../components/Toast';
 
 // ─── ANIMAÇÕES ─────────────────────────────────────────────
 const fadeInUp = keyframes`
@@ -18,13 +19,18 @@ const slideIn = keyframes`
 `;
 
 const glowPulse = keyframes`
-  0%, 100% { opacity: 0.4; }
-  50%      { opacity: 0.8; }
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50%      { opacity: 0.7; transform: scale(1.05); }
 `;
 
 const shimmer = keyframes`
   0%   { background-position: -400px 0; }
   100% { background-position: 400px 0; }
+`;
+
+const ringRotate = keyframes`
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 `;
 
 // ─── CONTAINER ─────────────────────────────────────────────
@@ -38,13 +44,13 @@ const Container = styled.div`
   &::before {
     content: '';
     position: absolute;
-    inset: -60px -20px;
+    inset: -80px -40px;
     background-image:
-      linear-gradient(rgba(74, 140, 247, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(74, 140, 247, 0.03) 1px, transparent 1px);
-    background-size: 32px 32px;
-    mask-image: radial-gradient(circle at 50% 20%, black 0%, transparent 70%);
-    -webkit-mask-image: radial-gradient(circle at 50% 20%, black 0%, transparent 70%);
+      linear-gradient(rgba(74, 140, 247, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(74, 140, 247, 0.035) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at 50% 15%, black 0%, transparent 75%);
+    -webkit-mask-image: radial-gradient(circle at 50% 15%, black 0%, transparent 75%);
     pointer-events: none;
     z-index: 0;
   }
@@ -82,24 +88,34 @@ const Breadcrumb = styled.div`
 
   span.sep { color: #4a5a6e; }
 
-  span.current { color: #e8eef7; font-weight: 700; }
+  span.current {
+    color: #e8eef7;
+    font-weight: 700;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 
   @media (max-width: 480px) {
     font-size: 0.72rem;
+
+    span.current { max-width: 140px; }
   }
 `;
 
 // ─── CARD ──────────────────────────────────────────────────
 const Card = styled.div`
   background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-radius: 24px;
-  padding: 36px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 26px;
+  padding: 40px;
   position: relative;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.07);
   overflow: hidden;
   z-index: 1;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
 
   &::before {
     content: '';
@@ -114,13 +130,13 @@ const Card = styled.div`
   }
 
   @media (max-width: 768px) {
-    padding: 24px;
-    border-radius: 20px;
+    padding: 28px;
+    border-radius: 22px;
   }
 
   @media (max-width: 480px) {
-    padding: 20px 16px;
-    border-radius: 18px;
+    padding: 22px 18px;
+    border-radius: 20px;
   }
 `;
 
@@ -130,8 +146,9 @@ const Header = styled.div`
   align-items: flex-start;
   gap: 24px;
   margin-bottom: 28px;
-  padding-bottom: 24px;
+  padding-bottom: 26px;
   border-bottom: 1px solid rgba(74, 140, 247, 0.12);
+  position: relative;
 
   @media (max-width: 768px) {
     gap: 16px;
@@ -142,7 +159,7 @@ const Header = styled.div`
     align-items: center;
     text-align: center;
     gap: 14px;
-    padding-bottom: 20px;
+    padding-bottom: 22px;
   }
 `;
 
@@ -154,36 +171,55 @@ const EmojiWrapper = styled.div`
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg,
-    rgba(74, 140, 247, 0.12) 0%,
-    rgba(168, 85, 247, 0.08) 100%);
-  border-radius: 22px;
-  border: 1px solid rgba(74, 140, 247, 0.2);
+    rgba(74, 140, 247, 0.15) 0%,
+    rgba(168, 85, 247, 0.1) 100%);
+  border-radius: 24px;
+  border: 1px solid rgba(74, 140, 247, 0.25);
   flex-shrink: 0;
   position: relative;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 32px;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      rgba(74, 140, 247, 0.3) 90deg,
+      transparent 180deg,
+      rgba(168, 85, 247, 0.3) 270deg,
+      transparent 360deg
+    );
+    animation: ${ringRotate} 8s linear infinite;
+    pointer-events: none;
+    z-index: -1;
+  }
 
   &::after {
     content: '';
     position: absolute;
-    inset: -6px;
-    border-radius: 26px;
-    background: radial-gradient(circle, rgba(74, 140, 247, 0.15) 0%, transparent 70%);
+    inset: -12px;
+    border-radius: 36px;
+    background: radial-gradient(circle, rgba(74, 140, 247, 0.18) 0%, transparent 70%);
     pointer-events: none;
     animation: ${glowPulse} 4s ease-in-out infinite;
+    z-index: -2;
   }
 
   @media (max-width: 768px) {
     width: 84px;
     height: 84px;
     font-size: 2.8rem;
-    border-radius: 20px;
+    border-radius: 22px;
   }
 
   @media (max-width: 480px) {
     width: 76px;
     height: 76px;
     font-size: 2.4rem;
-    border-radius: 18px;
+    border-radius: 20px;
   }
 `;
 
@@ -247,10 +283,10 @@ const Description = styled.p`
   margin: 0 0 28px 0;
   padding: 20px 22px;
   background: linear-gradient(135deg,
-    rgba(74, 140, 247, 0.12) 0%,
-    rgba(255, 255, 255, 0.05) 100%);
+    rgba(74, 140, 247, 0.1) 0%,
+    rgba(255, 255, 255, 0.04) 100%);
   border-radius: 14px;
-  border: 1px solid rgba(74, 140, 247, 0.2);
+  border: 1px solid rgba(74, 140, 247, 0.18);
   border-left: 3px solid #7eb8ff;
   font-weight: 500;
 
@@ -272,7 +308,7 @@ const StatsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 14px;
-  margin-bottom: 28px;
+  margin-bottom: 30px;
 
   @media (max-width: 640px) {
     grid-template-columns: 1fr 1fr;
@@ -285,20 +321,32 @@ const StatsGrid = styled.div`
 `;
 
 const StatCard = styled.div`
-  background: rgba(74, 140, 247, 0.06);
-  border-radius: 16px;
-  padding: 18px 16px;
-  border: 1px solid rgba(74, 140, 247, 0.12);
+  background: ${p => p.$bg || 'rgba(74, 140, 247, 0.06)'};
+  border-radius: 18px;
+  padding: 20px 16px;
+  border: 1px solid ${p => p.$border || 'rgba(74, 140, 247, 0.12)'};
   text-align: center;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
 
+  &::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle,
+      ${p => p.$glow || 'rgba(74, 140, 247, 0.15)'} 0%,
+      transparent 70%);
+    pointer-events: none;
+  }
+
   &:hover {
-    background: rgba(74, 140, 247, 0.1);
-    border-color: rgba(74, 140, 247, 0.3);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(74, 140, 247, 0.15);
+    transform: translateY(-4px);
+    border-color: ${p => p.$borderHover || 'rgba(74, 140, 247, 0.35)'};
+    box-shadow: 0 10px 28px ${p => p.$glow || 'rgba(74, 140, 247, 0.15)'};
   }
 
   @media (max-width: 480px) {
@@ -307,32 +355,41 @@ const StatCard = styled.div`
 `;
 
 const StatIconBox = styled.div`
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  margin: 0 auto 10px;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  margin: 0 auto 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
-  background: ${props => props.$bg || 'rgba(74, 140, 247, 0.15)'};
-  border: 1px solid ${props => props.$border || 'rgba(74, 140, 247, 0.2)'};
+  background: ${p => p.$bg || 'rgba(74, 140, 247, 0.15)'};
+  border: 1px solid ${p => p.$border || 'rgba(74, 140, 247, 0.25)'};
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
 
   @media (max-width: 480px) {
-    width: 36px;
-    height: 36px;
-    font-size: 1.05rem;
-    margin-bottom: 8px;
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
   }
 `;
 
 const StatLabel = styled.div`
   color: #a8b8d8;
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   text-transform: uppercase;
-  letter-spacing: 1.2px;
+  letter-spacing: 1.3px;
   font-weight: 700;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 `;
 
 const StatValue = styled.div`
@@ -340,11 +397,12 @@ const StatValue = styled.div`
   font-size: 1.1rem;
   font-weight: 800;
   letter-spacing: -0.3px;
+  line-height: 1.2;
 
   @media (max-width: 480px) { font-size: 1rem; }
 `;
 
-// ─── SEÇÕES GENÉRICAS ──────────────────────────────────────
+// ─── TÍTULOS DE SEÇÃO ──────────────────────────────────────
 const SectionTitle = styled.h3`
   color: #e8eef7;
   font-size: 1.15rem;
@@ -357,7 +415,7 @@ const SectionTitle = styled.h3`
   position: relative;
   z-index: 1;
 
-  svg { color: #7eb8ff; width: 20px; height: 20px; }
+  svg { color: #7eb8ff; width: 20px; height: 20px; flex-shrink: 0; }
 
   @media (max-width: 480px) { font-size: 1rem; }
 `;
@@ -376,34 +434,44 @@ const SectionSubtitle = styled.p`
   }
 `;
 
-// ─── CALCULADORA ───────────────────────────────────────────
-const CalculatorSection = styled.div`
-  background: linear-gradient(135deg,
-    rgba(74, 140, 247, 0.06) 0%,
-    rgba(168, 85, 247, 0.04) 100%);
-  border-radius: 20px;
-  padding: 28px;
-  border: 1px solid rgba(74, 140, 247, 0.15);
+// ─── SEÇÃO GENÉRICA (base) ─────────────────────────────────
+const BaseSection = styled.div`
+  border-radius: 22px;
+  padding: 30px;
   margin-bottom: 28px;
   position: relative;
   overflow: hidden;
+
+  @media (max-width: 768px) {
+    padding: 24px;
+    border-radius: 18px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 20px 16px;
+    margin-bottom: 22px;
+    border-radius: 16px;
+  }
+`;
+
+// ─── CALCULADORA ───────────────────────────────────────────
+const CalculatorSection = styled(BaseSection)`
+  background: linear-gradient(135deg,
+    rgba(74, 140, 247, 0.07) 0%,
+    rgba(168, 85, 247, 0.04) 100%);
+  border: 1px solid rgba(74, 140, 247, 0.15);
 
   &::before {
     content: '';
     position: absolute;
     top: -40px;
     right: -40px;
-    width: 200px;
-    height: 200px;
+    width: 220px;
+    height: 220px;
     background: radial-gradient(circle,
-      rgba(74, 140, 247, 0.1) 0%,
+      rgba(74, 140, 247, 0.12) 0%,
       transparent 70%);
     pointer-events: none;
-  }
-
-  @media (max-width: 480px) {
-    padding: 20px 16px;
-    margin-bottom: 22px;
   }
 `;
 
@@ -502,7 +570,6 @@ const ResultValue = styled.div`
   font-weight: 900;
   letter-spacing: -0.8px;
   line-height: 1;
-  position: relative;
 
   @media (max-width: 480px) { font-size: 1.8rem; }
 `;
@@ -555,33 +622,23 @@ const ResultItemValue = styled.div`
 `;
 
 // ─── PASSO A PASSO ─────────────────────────────────────────
-const StepsSection = styled.div`
+const StepsSection = styled(BaseSection)`
   background: linear-gradient(135deg,
     rgba(74, 140, 247, 0.05) 0%,
     rgba(168, 85, 247, 0.03) 100%);
-  border-radius: 20px;
-  padding: 28px;
   border: 1px solid rgba(74, 140, 247, 0.15);
-  margin-bottom: 28px;
-  position: relative;
-  overflow: hidden;
 
   &::before {
     content: '';
     position: absolute;
-    top: -40px;
-    right: -40px;
-    width: 200px;
-    height: 200px;
+    bottom: -40px;
+    left: -40px;
+    width: 220px;
+    height: 220px;
     background: radial-gradient(circle,
-      rgba(74, 140, 247, 0.08) 0%,
+      rgba(168, 85, 247, 0.08) 0%,
       transparent 70%);
     pointer-events: none;
-  }
-
-  @media (max-width: 480px) {
-    padding: 20px 16px;
-    margin-bottom: 22px;
   }
 `;
 
@@ -590,33 +647,36 @@ const StepsList = styled.div`
   flex-direction: column;
   position: relative;
   z-index: 1;
-  margin-top: 20px;
+  margin-top: 8px;
 `;
 
 const StepItem = styled.div`
   display: flex;
   align-items: flex-start;
   gap: 16px;
-  padding: 12px 8px;
+  padding: 12px 10px;
   position: relative;
-  cursor: pointer;
+  cursor: ${p => p.$locked ? 'not-allowed' : 'pointer'};
   border-radius: 12px;
   transition: all 0.25s ease;
   user-select: none;
+  opacity: ${p => p.$locked ? 0.45 : 1};
 
   &:hover {
-    background: rgba(74, 140, 247, 0.06);
-    transform: translateX(3px);
+    background: ${p => p.$locked
+      ? 'transparent'
+      : 'rgba(74, 140, 247, 0.06)'};
+    transform: ${p => p.$locked ? 'none' : 'translateX(4px)'};
   }
 
   &:active {
-    transform: translateX(1px) scale(0.99);
+    transform: ${p => p.$locked ? 'none' : 'translateX(2px) scale(0.99)'};
   }
 `;
 
 const StepNumber = styled.div`
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -630,16 +690,30 @@ const StepNumber = styled.div`
 
   background: ${p => p.$done
     ? 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)'
-    : 'rgba(74, 140, 247, 0.15)'};
+    : p.$locked
+      ? 'rgba(255, 255, 255, 0.03)'
+      : 'rgba(74, 140, 247, 0.15)'};
+
   border: 2px solid ${p => p.$done
     ? 'rgba(34, 197, 94, 0.6)'
-    : 'rgba(74, 140, 247, 0.3)'};
-  color: ${p => p.$done ? '#fff' : '#7eb8ff'};
+    : p.$locked
+      ? 'rgba(255, 255, 255, 0.08)'
+      : 'rgba(74, 140, 247, 0.3)'};
+
+  color: ${p => p.$done
+    ? '#fff'
+    : p.$locked
+      ? '#4a5a6e'
+      : '#7eb8ff'};
+
+  box-shadow: ${p => p.$done
+    ? '0 4px 14px rgba(34, 197, 94, 0.35)'
+    : 'none'};
 
   svg {
     width: 16px;
     height: 16px;
-    stroke-width: 3;
+    stroke-width: 2.5;
   }
 
   &::after {
@@ -649,7 +723,7 @@ const StepNumber = styled.div`
     left: 50%;
     transform: translateX(-50%);
     width: 2px;
-    height: 24px;
+    height: 26px;
     background: ${p => p.$done
       ? 'linear-gradient(180deg, #22c55e 0%, rgba(74, 140, 247, 0.2) 100%)'
       : 'rgba(74, 140, 247, 0.15)'};
@@ -663,12 +737,17 @@ const StepNumber = styled.div`
 
 const StepContent = styled.div`
   flex: 1;
-  padding-top: 6px;
+  padding-top: 8px;
   min-width: 0;
 `;
 
 const StepTitle = styled.div`
-  color: ${p => p.$done ? '#a8b8d8' : '#e8eef7'};
+  color: ${p => p.$done
+    ? '#a8b8d8'
+    : p.$locked
+      ? '#5a6a7e'
+      : '#e8eef7'};
+
   font-size: 0.95rem;
   font-weight: 600;
   text-decoration: ${p => p.$done ? 'line-through' : 'none'};
@@ -685,11 +764,11 @@ const StepTitle = styled.div`
 const StepProgress = styled.div`
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-top: 20px;
-  padding: 12px 16px;
+  gap: 12px;
+  margin-top: 22px;
+  padding: 14px 18px;
   background: rgba(74, 140, 247, 0.08);
-  border-radius: 12px;
+  border-radius: 14px;
   border: 1px solid rgba(74, 140, 247, 0.15);
   position: relative;
   z-index: 1;
@@ -697,9 +776,9 @@ const StepProgress = styled.div`
 
 const ProgressBar = styled.div`
   flex: 1;
-  height: 6px;
+  height: 8px;
   background: rgba(255, 255, 255, 0.08);
-  border-radius: 3px;
+  border-radius: 4px;
   overflow: hidden;
   position: relative;
 `;
@@ -708,22 +787,22 @@ const ProgressFill = styled.div`
   height: 100%;
   width: ${p => p.$percent}%;
   background: linear-gradient(90deg, #4a8cf7 0%, #22c55e 100%);
-  border-radius: 3px;
+  border-radius: 4px;
   transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  box-shadow: 0 0 8px rgba(34, 197, 94, 0.4);
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
 `;
 
 const ProgressText = styled.div`
   color: #7eb8ff;
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0.5px;
-  min-width: 40px;
+  min-width: 48px;
   text-align: right;
 `;
 
-// ─── SEÇÕES (Materiais, Clientes, Preço) ───────────────────
-const SectionsGrid = styled.div`
+// ─── GRID FINAL ────────────────────────────────────────────
+const InfoGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   gap: 20px;
@@ -733,11 +812,11 @@ const SectionsGrid = styled.div`
   }
 `;
 
-const Section = styled.div`
+const InfoBox = styled(BaseSection)`
+  margin-bottom: 0;
   background: rgba(74, 140, 247, 0.04);
-  border-radius: 16px;
-  padding: 20px;
   border: 1px solid rgba(74, 140, 247, 0.1);
+  padding: 24px;
   transition: all 0.3s ease;
 
   &:hover {
@@ -745,16 +824,20 @@ const Section = styled.div`
     background: rgba(74, 140, 247, 0.06);
   }
 
+  @media (max-width: 768px) {
+    padding: 20px;
+  }
+
   @media (max-width: 480px) {
-    padding: 16px;
+    padding: 18px 16px;
   }
 `;
 
-const SectionHeader = styled.div`
+const InfoHeader = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 
   svg {
     color: #7eb8ff;
@@ -778,11 +861,11 @@ const List = styled.ul`
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 `;
 
 const ListItem = styled.li`
-  padding: 10px 12px 10px 32px;
+  padding: 12px 14px 12px 34px;
   position: relative;
   color: #c8d8e8;
   font-weight: 500;
@@ -798,7 +881,7 @@ const ListItem = styled.li`
     color: #7eb8ff;
     font-weight: 900;
     position: absolute;
-    left: 12px;
+    left: 14px;
     top: 50%;
     transform: translateY(-50%);
     font-size: 0.9rem;
@@ -806,33 +889,38 @@ const ListItem = styled.li`
 
   &:hover {
     background: rgba(74, 140, 247, 0.1);
-    border-color: rgba(74, 140, 247, 0.2);
+    border-color: rgba(74, 140, 247, 0.25);
     color: #e8eef7;
-    transform: translateX(3px);
+    transform: translateX(4px);
   }
 `;
 
 const PriceTag = styled.div`
   background: linear-gradient(135deg,
     rgba(74, 222, 128, 0.1) 0%,
-    rgba(34, 197, 94, 0.08) 100%);
-  padding: 16px 20px;
-  border-radius: 14px;
+    rgba(34, 197, 94, 0.06) 100%);
+  padding: 20px 22px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   font-weight: 800;
   color: #86efac;
   border: 1px solid rgba(74, 222, 128, 0.25);
-  font-size: 1.05rem;
+  font-size: 1.15rem;
   justify-content: center;
   text-align: center;
 
-  svg { width: 22px; height: 22px; flex-shrink: 0; }
+  svg {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    color: #86efac;
+  }
 
   @media (max-width: 480px) {
-    font-size: 0.95rem;
-    padding: 14px 16px;
+    font-size: 1rem;
+    padding: 16px 18px;
   }
 `;
 
@@ -986,10 +1074,18 @@ const CheckIcon = () => (
   </svg>
 );
 
+const LockIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+  </svg>
+);
+
 // ─── COMPONENTE ────────────────────────────────────────────
 const BusinessDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   const [business, setBusiness] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -1027,12 +1123,43 @@ const BusinessDetail = () => {
     }
   }, [business]);
 
-  // Alterna um passo e salva no localStorage
+  // ─── HELPERS ─────────────────────────────────────────────
+  const steps = business ? (businessSteps[business.name] || []) : [];
+  const completedCount = Object.values(completedSteps).filter(Boolean).length;
+
+  // Alterna um passo (só permite avançar em ordem)
   const toggleStep = (index) => {
-    const newState = { ...completedSteps, [index]: !completedSteps[index] };
+    // Se estiver tentando marcar, precisa que o anterior esteja feito
+    if (!completedSteps[index]) {
+      const previousDone = index === 0 || completedSteps[index - 1];
+      if (!previousDone) return; // bloqueado
+    }
+
+    let newState = { ...completedSteps };
+
+    if (newState[index]) {
+      // Desmarcando: desmarca este e todos os posteriores
+      for (let i = index; i < steps.length; i++) {
+        delete newState[i];
+      }
+    } else {
+      // Marcando: só marca este
+      newState[index] = true;
+    }
+
     setCompletedSteps(newState);
     if (business) {
       localStorage.setItem(`steps_${business.id}`, JSON.stringify(newState));
+    }
+
+    // 🎯 Toast de feedback ao concluir um passo
+    if (newState[index]) {
+      const done = Object.values(newState).filter(Boolean).length;
+      if (done === steps.length) {
+        showToast('🎉 Parabéns! Você completou todos os passos!', 'success', 4000);
+      } else {
+        showToast(`✅ Passo ${index + 1} concluído!`, 'success', 1800);
+      }
     }
   };
 
@@ -1043,7 +1170,7 @@ const BusinessDetail = () => {
         <SkeletonBox $w="180px" $h="14px" $mb="20px" />
         <Card>
           <Header>
-            <SkeletonBox $w="100px" $h="100px" $radius="22px" />
+            <SkeletonBox $w="100px" $h="100px" $radius="24px" />
             <div style={{ flex: 1 }}>
               <SkeletonBox $w="70%" $h="28px" $mb="12px" />
               <SkeletonBox $w="100px" $h="24px" $radius="999px" />
@@ -1051,9 +1178,9 @@ const BusinessDetail = () => {
           </Header>
           <SkeletonBox $w="100%" $h="80px" $mb="24px" />
           <StatsGrid>
-            <SkeletonBox $w="100%" $h="110px" $radius="16px" />
-            <SkeletonBox $w="100%" $h="110px" $radius="16px" />
-            <SkeletonBox $w="100%" $h="110px" $radius="16px" />
+            <SkeletonBox $w="100%" $h="130px" $radius="18px" />
+            <SkeletonBox $w="100%" $h="130px" $radius="18px" />
+            <SkeletonBox $w="100%" $h="130px" $radius="18px" />
           </StatsGrid>
         </Card>
       </Container>
@@ -1115,10 +1242,6 @@ const BusinessDetail = () => {
   const resultado = calcularFaturamento();
   const mostrarResultado = precoServico && clientesDia && diasMes;
 
-  // Passos do negócio atual
-  const steps = businessSteps[business.name] || [];
-  const completedCount = Object.values(completedSteps).filter(Boolean).length;
-
   const shareUrl = `${window.location.origin}/business/${business.id}`;
   const previewImage = `${window.location.origin}/preview.jpg`;
 
@@ -1172,26 +1295,41 @@ const BusinessDetail = () => {
         {/* DESCRIÇÃO */}
         <Description>{business.description}</Description>
 
-        {/* STATS */}
+        {/* STATS COM CORES PRÓPRIAS */}
         <StatsGrid>
-          <StatCard>
-            <StatIconBox $bg="rgba(74, 222, 128, 0.12)" $border="rgba(74, 222, 128, 0.25)">
+          <StatCard
+            $bg="rgba(74, 222, 128, 0.06)"
+            $border="rgba(74, 222, 128, 0.18)"
+            $borderHover="rgba(74, 222, 128, 0.4)"
+            $glow="rgba(74, 222, 128, 0.2)"
+          >
+            <StatIconBox $bg="rgba(74, 222, 128, 0.15)" $border="rgba(74, 222, 128, 0.3)">
               <MoneyIcon style={{ color: '#86efac' }} />
             </StatIconBox>
             <StatLabel>Investimento</StatLabel>
             <StatValue>{formatInvestment(business.minInvestment, business.maxInvestment)}</StatValue>
           </StatCard>
 
-          <StatCard>
-            <StatIconBox $bg="rgba(251, 191, 36, 0.12)" $border="rgba(251, 191, 36, 0.25)">
+          <StatCard
+            $bg="rgba(251, 191, 36, 0.06)"
+            $border="rgba(251, 191, 36, 0.18)"
+            $borderHover="rgba(251, 191, 36, 0.4)"
+            $glow="rgba(251, 191, 36, 0.2)"
+          >
+            <StatIconBox $bg="rgba(251, 191, 36, 0.15)" $border="rgba(251, 191, 36, 0.3)">
               <ChartIcon style={{ color: '#fbbf24' }} />
             </StatIconBox>
             <StatLabel>Margem de Lucro</StatLabel>
             <StatValue>{business.profitMargin}</StatValue>
           </StatCard>
 
-          <StatCard>
-            <StatIconBox $bg="rgba(96, 165, 250, 0.12)" $border="rgba(96, 165, 250, 0.25)">
+          <StatCard
+            $bg="rgba(96, 165, 250, 0.06)"
+            $border="rgba(96, 165, 250, 0.18)"
+            $borderHover="rgba(96, 165, 250, 0.4)"
+            $glow="rgba(96, 165, 250, 0.2)"
+          >
+            <StatIconBox $bg="rgba(96, 165, 250, 0.15)" $border="rgba(96, 165, 250, 0.3)">
               <ClockIcon style={{ color: '#60a5fa' }} />
             </StatIconBox>
             <StatLabel>Retorno</StatLabel>
@@ -1289,38 +1427,46 @@ const BusinessDetail = () => {
               Como começar
             </SectionTitle>
             <SectionSubtitle>
-              Siga este roteiro pra tirar seu negócio do papel. Toque em cada passo pra marcar como concluído:
+              Siga este roteiro pra tirar seu negócio do papel. Conclua cada etapa pra desbloquear a próxima:
             </SectionSubtitle>
 
             <StepsList>
-              {steps.map((step, index) => (
-                <StepItem
-                  key={index}
-                  onClick={() => toggleStep(index)}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => e.key === 'Enter' && toggleStep(index)}
-                >
-                  <StepNumber
-                    $done={completedSteps[index]}
-                    $last={index === steps.length - 1}
+              {steps.map((step, index) => {
+                const isDone = !!completedSteps[index];
+                const isLocked = !isDone && index > 0 && !completedSteps[index - 1];
+
+                return (
+                  <StepItem
+                    key={index}
+                    $locked={isLocked}
+                    onClick={() => !isLocked && toggleStep(index)}
+                    role="button"
+                    tabIndex={isLocked ? -1 : 0}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && !isLocked) toggleStep(index);
+                    }}
+                    aria-disabled={isLocked}
                   >
-                    {completedSteps[index] ? <CheckIcon /> : index + 1}
-                  </StepNumber>
-                  <StepContent>
-                    <StepTitle $done={completedSteps[index]}>
-                      {step}
-                    </StepTitle>
-                  </StepContent>
-                </StepItem>
-              ))}
+                    <StepNumber
+                      $done={isDone}
+                      $locked={isLocked}
+                      $last={index === steps.length - 1}
+                    >
+                      {isDone ? <CheckIcon /> : isLocked ? <LockIcon /> : index + 1}
+                    </StepNumber>
+                    <StepContent>
+                      <StepTitle $done={isDone} $locked={isLocked}>
+                        {step}
+                      </StepTitle>
+                    </StepContent>
+                  </StepItem>
+                );
+              })}
             </StepsList>
 
             <StepProgress>
               <ProgressBar>
-                <ProgressFill
-                  $percent={(completedCount / steps.length) * 100}
-                />
+                <ProgressFill $percent={(completedCount / steps.length) * 100} />
               </ProgressBar>
               <ProgressText>
                 {completedCount}/{steps.length}
@@ -1329,43 +1475,50 @@ const BusinessDetail = () => {
           </StepsSection>
         )}
 
-        {/* SEÇÕES FINAIS EM GRID */}
-        <SectionsGrid>
-          <Section>
-            <SectionHeader>
+        {/* GRID FINAL */}
+        <InfoGrid>
+          <InfoBox>
+            <InfoHeader>
               <PackageIcon />
               <h3>Materiais Necessários</h3>
-            </SectionHeader>
+            </InfoHeader>
             <List>
               {business.materials.map((material, index) => (
                 <ListItem key={index}>{material}</ListItem>
               ))}
             </List>
-          </Section>
+          </InfoBox>
 
-          <Section>
-            <SectionHeader>
+          <InfoBox>
+            <InfoHeader>
               <UsersIcon />
               <h3>Potenciais Clientes</h3>
-            </SectionHeader>
+            </InfoHeader>
             <List>
               {business.potentialClients.map((client, index) => (
                 <ListItem key={index}>{client}</ListItem>
               ))}
             </List>
-          </Section>
+          </InfoBox>
+        </InfoGrid>
 
-          <Section style={{ gridColumn: '1 / -1' }}>
-            <SectionHeader>
-              <MoneyIcon />
-              <h3>Preço Sugerido</h3>
-            </SectionHeader>
-            <PriceTag>
-              <MoneyIcon />
-              {business.suggestedPrice}
-            </PriceTag>
-          </Section>
-        </SectionsGrid>
+        {/* PREÇO SUGERIDO (largura total) */}
+        <BaseSection
+          style={{
+            marginTop: '20px',
+            background: 'rgba(74, 222, 128, 0.04)',
+            border: '1px solid rgba(74, 222, 128, 0.15)',
+          }}
+        >
+          <InfoHeader>
+            <MoneyIcon />
+            <h3>Preço Sugerido</h3>
+          </InfoHeader>
+          <PriceTag>
+            <MoneyIcon />
+            {business.suggestedPrice}
+          </PriceTag>
+        </BaseSection>
       </Card>
     </Container>
   );
