@@ -6,7 +6,7 @@ import { businessData } from '../data/businessData';
 import { businessSteps } from '../data/businessSteps';
 import ShareButton from '../components/ShareButton';
 import { useToast } from '../components/Toast';
-import { auth } from '../services/firebase';
+import { auth, authService } from '../services/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { normalizeStep } from '../utils/normalizeBusiness';
 
@@ -21,19 +21,9 @@ const slideIn = keyframes`
   to   { opacity: 1; transform: translateX(0); }
 `;
 
-const glowPulse = keyframes`
-  0%, 100% { opacity: 0.4; transform: scale(1); }
-  50%      { opacity: 0.7; transform: scale(1.05); }
-`;
-
 const shimmer = keyframes`
   0%   { background-position: -400px 0; }
   100% { background-position: 400px 0; }
-`;
-
-const ringRotate = keyframes`
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
 `;
 
 // ─── CONTAINER ─────────────────────────────────────────────
@@ -43,20 +33,6 @@ const Container = styled.div`
   padding: 20px;
   animation: ${fadeInUp} 0.6s ease-out;
   position: relative;
-
-  &::before {
-    content: '';
-    position: absolute;
-    inset: -80px -40px;
-    background-image:
-      linear-gradient(rgba(74, 140, 247, 0.035) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(74, 140, 247, 0.035) 1px, transparent 1px);
-    background-size: 36px 36px;
-    mask-image: radial-gradient(circle at 50% 15%, black 0%, transparent 75%);
-    -webkit-mask-image: radial-gradient(circle at 50% 15%, black 0%, transparent 75%);
-    pointer-events: none;
-    z-index: 0;
-  }
 
   @media (max-width: 480px) {
     margin: 16px auto;
@@ -73,8 +49,6 @@ const Breadcrumb = styled.div`
   font-weight: 600;
   color: #7a8a9e;
   margin-bottom: 20px;
-  position: relative;
-  z-index: 1;
   flex-wrap: wrap;
   animation: ${slideIn} 0.4s ease-out;
 
@@ -106,17 +80,15 @@ const Breadcrumb = styled.div`
   }
 `;
 
-// ─── CARD ──────────────────────────────────────────────────
+// ─── CARD PRINCIPAL ────────────────────────────────────────
 const Card = styled.div`
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
   border-radius: 26px;
   padding: 40px;
   position: relative;
   border: 1px solid rgba(255, 255, 255, 0.07);
   overflow: hidden;
-  z-index: 1;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
 
   &::before {
@@ -132,69 +104,51 @@ const Card = styled.div`
   @media (max-width: 480px) { padding: 22px 18px; border-radius: 20px; }
 `;
 
-// ─── HEADER DO NEGÓCIO ─────────────────────────────────────
+// ─── HEADER (reformulado) ──────────────────────────────────
 const Header = styled.div`
   display: flex;
   align-items: flex-start;
   gap: 24px;
-  margin-bottom: 28px;
-  padding-bottom: 26px;
+  margin-bottom: 26px;
+  padding-bottom: 24px;
   border-bottom: 1px solid rgba(74, 140, 247, 0.12);
-  position: relative;
 
-  @media (max-width: 768px) { gap: 16px; }
+  @media (max-width: 768px) { gap: 18px; }
 
   @media (max-width: 480px) {
     flex-direction: column;
     align-items: center;
     text-align: center;
     gap: 14px;
-    padding-bottom: 22px;
+    padding-bottom: 20px;
   }
 `;
 
+// ⭐ SEM efeito/glow — só uma caixa simples
 const EmojiWrapper = styled.div`
-  font-size: 3.4rem;
-  width: 100px;
-  height: 100px;
+  font-size: 3rem;
+  width: 88px;
+  height: 88px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg,
-    rgba(74, 140, 247, 0.15) 0%,
-    rgba(168, 85, 247, 0.1) 100%);
-  border-radius: 24px;
-  border: 1px solid rgba(74, 140, 247, 0.25);
+  background: rgba(74, 140, 247, 0.08);
+  border-radius: 20px;
+  border: 1px solid rgba(74, 140, 247, 0.18);
   flex-shrink: 0;
-  position: relative;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-
-  &::before {
-    content: '';
-    position: absolute;
-    inset: -8px;
-    border-radius: 32px;
-    background: conic-gradient(
-      from 0deg,
-      transparent 0deg,
-      rgba(74, 140, 247, 0.3) 90deg,
-      transparent 180deg,
-      rgba(168, 85, 247, 0.3) 270deg,
-      transparent 360deg
-    );
-    animation: ${ringRotate} 8s linear infinite;
-    pointer-events: none;
-    z-index: -1;
-  }
 
   @media (max-width: 768px) {
-    width: 84px; height: 84px;
-    font-size: 2.8rem; border-radius: 22px;
+    width: 76px;
+    height: 76px;
+    font-size: 2.5rem;
+    border-radius: 18px;
   }
 
   @media (max-width: 480px) {
-    width: 76px; height: 76px;
-    font-size: 2.4rem; border-radius: 20px;
+    width: 68px;
+    height: 68px;
+    font-size: 2.2rem;
+    border-radius: 16px;
   }
 `;
 
@@ -204,10 +158,10 @@ const HeaderContent = styled.div`
 `;
 
 const Name = styled.h1`
-  font-size: 2.2rem;
-  margin: 0 0 10px 0;
+  font-size: 2rem;
+  margin: 0 0 12px 0;
   font-weight: 800;
-  letter-spacing: -0.7px;
+  letter-spacing: -0.6px;
   line-height: 1.15;
   background: linear-gradient(135deg,
     #ffffff 0%, #d0e0ff 40%, #7eb8ff 100%);
@@ -215,8 +169,8 @@ const Name = styled.h1`
   -webkit-text-fill-color: transparent;
   background-clip: text;
 
-  @media (max-width: 768px) { font-size: 1.8rem; }
-  @media (max-width: 480px) { font-size: 1.5rem; }
+  @media (max-width: 768px) { font-size: 1.7rem; }
+  @media (max-width: 480px) { font-size: 1.4rem; }
 `;
 
 const Category = styled.span`
@@ -236,50 +190,137 @@ const Category = styled.span`
   @media (max-width: 480px) { font-size: 0.62rem; padding: 4px 12px; }
 `;
 
-const ShareWrapper = styled.div`
+// ⭐ Header Actions (share + favorite)
+const HeaderActions = styled.div`
+  display: flex;
+  gap: 10px;
+  align-items: center;
   flex-shrink: 0;
-  margin-top: 4px;
-
-  @media (max-width: 480px) { order: -1; margin-top: 0; }
-`;
-
-// ─── DESCRIÇÃO ─────────────────────────────────────────────
-const Description = styled.p`
-  color: #e8eef7;
-  font-size: 1rem;
-  line-height: 1.7;
-  margin: 0 0 28px 0;
-  padding: 20px 22px;
-  background: linear-gradient(135deg,
-    rgba(74, 140, 247, 0.1) 0%,
-    rgba(255, 255, 255, 0.04) 100%);
-  border-radius: 14px;
-  border: 1px solid rgba(74, 140, 247, 0.18);
-  border-left: 3px solid #7eb8ff;
-  font-weight: 500;
-  letter-spacing: 0.15px;
 
   @media (max-width: 480px) {
-    font-size: 0.92rem;
-    padding: 16px 18px;
-    margin-bottom: 22px;
+    order: -1;
+    margin-bottom: 4px;
   }
 `;
 
-// ─── STATS ─────────────────────────────────────────────────
+const FavoriteBtn = styled.button`
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-size: 1.2rem;
+  padding: 0;
+
+  background: ${p => p.$active
+    ? 'rgba(239, 68, 68, 0.15)'
+    : 'rgba(74, 140, 247, 0.08)'};
+  border: 1px solid ${p => p.$active
+    ? 'rgba(239, 68, 68, 0.4)'
+    : 'rgba(74, 140, 247, 0.2)'};
+
+  &:hover {
+    background: ${p => p.$active
+      ? 'rgba(239, 68, 68, 0.25)'
+      : 'rgba(74, 140, 247, 0.15)'};
+    transform: translateY(-2px);
+  }
+
+  &:active { transform: translateY(0) scale(0.95); }
+
+  @media (max-width: 480px) {
+    width: 40px;
+    height: 40px;
+  }
+`;
+
+// ─── DESCRIPTION BOX (com ícone + fundo) ──────────────────
+const DescriptionBox = styled.div`
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  padding: 18px 20px;
+  background: linear-gradient(135deg,
+    rgba(74, 140, 247, 0.08) 0%,
+    rgba(168, 85, 247, 0.04) 100%);
+  border: 1px solid rgba(74, 140, 247, 0.18);
+  border-left: 3px solid #7eb8ff;
+  border-radius: 14px;
+
+  @media (max-width: 480px) {
+    padding: 14px 16px;
+    margin-bottom: 20px;
+  }
+`;
+
+const DescriptionIcon = styled.div`
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  line-height: 1;
+  margin-top: 2px;
+`;
+
+const DescriptionText = styled.p`
+  color: #e8eef7;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  margin: 0;
+  font-weight: 500;
+
+  @media (max-width: 480px) { font-size: 0.88rem; }
+`;
+
+// ─── CHIPS DE PERFIL ──────────────────────────────────────
+const ChipsRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 26px;
+
+  @media (max-width: 480px) { gap: 6px; margin-bottom: 20px; }
+`;
+
+const ProfileChip = styled.span`
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+
+  background: rgba(74, 140, 247, 0.08);
+  border: 1px solid rgba(74, 140, 247, 0.2);
+  color: #a8ccff;
+
+  @media (max-width: 480px) { font-size: 0.66rem; padding: 5px 11px; }
+`;
+
+// ─── STATS (4 cards) ──────────────────────────────────────
 const StatsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 14px;
-  margin-bottom: 30px;
+  margin-bottom: 28px;
 
-  @media (max-width: 640px) { grid-template-columns: 1fr 1fr; }
-  @media (max-width: 480px) { grid-template-columns: 1fr; gap: 10px; }
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
 `;
 
 const StatCard = styled.div`
-  background: ${p => p.$bg || 'rgba(74, 140, 247, 0.06)'};
-  border-radius: 18px;
+  background: ${p => p.$bg || 'rgba(74, 140, 247, 0.05)'};
+  border-radius: 16px;
   padding: 20px 16px;
   border: 1px solid ${p => p.$border || 'rgba(74, 140, 247, 0.12)'};
   text-align: center;
@@ -287,30 +328,22 @@ const StatCard = styled.div`
   position: relative;
   overflow: hidden;
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: -30px; right: -30px;
-    width: 100px; height: 100px;
-    background: radial-gradient(circle,
-      ${p => p.$glow || 'rgba(74, 140, 247, 0.15)'} 0%,
-      transparent 70%);
-    pointer-events: none;
-  }
-
   &:hover {
     transform: translateY(-4px);
     border-color: ${p => p.$borderHover || 'rgba(74, 140, 247, 0.35)'};
     box-shadow: 0 10px 28px ${p => p.$glow || 'rgba(74, 140, 247, 0.15)'};
   }
 
-  @media (max-width: 480px) { padding: 16px 14px; }
+  @media (max-width: 480px) {
+    padding: 16px 12px;
+    border-radius: 14px;
+  }
 `;
 
 const StatIconBox = styled.div`
   width: 44px;
   height: 44px;
-  border-radius: 14px;
+  border-radius: 12px;
   margin: 0 auto 12px;
   display: flex;
   align-items: center;
@@ -319,13 +352,21 @@ const StatIconBox = styled.div`
   border: 1px solid ${p => p.$border || 'rgba(74, 140, 247, 0.25)'};
 
   svg { width: 20px; height: 20px; }
+
+  @media (max-width: 480px) {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    svg { width: 18px; height: 18px; }
+  }
 `;
 
 const StatLabel = styled.div`
   color: #a8b8d8;
-  font-size: 0.62rem;
+  font-size: 0.6rem;
   text-transform: uppercase;
-  letter-spacing: 1.3px;
+  letter-spacing: 1.1px;
   font-weight: 700;
   margin-bottom: 8px;
 `;
@@ -337,10 +378,10 @@ const StatValue = styled.div`
   letter-spacing: -0.3px;
   line-height: 1.2;
 
-  @media (max-width: 480px) { font-size: 1rem; }
+  @media (max-width: 480px) { font-size: 0.95rem; }
 `;
 
-// ─── TÍTULOS ───────────────────────────────────────────────
+// ─── TÍTULOS DE SEÇÃO ──────────────────────────────────────
 const SectionTitle = styled.h3`
   color: #e8eef7;
   font-size: 1.15rem;
@@ -350,8 +391,6 @@ const SectionTitle = styled.h3`
   gap: 12px;
   font-weight: 800;
   letter-spacing: -0.2px;
-  position: relative;
-  z-index: 1;
 
   svg { color: #7eb8ff; width: 20px; height: 20px; flex-shrink: 0; }
 
@@ -361,24 +400,76 @@ const SectionTitle = styled.h3`
 const SectionSubtitle = styled.p`
   color: #a8b8d8;
   font-size: 0.85rem;
-  margin: 0 0 22px 0;
+  margin: 0 0 20px 0;
   line-height: 1.6;
-  position: relative;
-  z-index: 1;
 
-  @media (max-width: 480px) { font-size: 0.78rem; margin-bottom: 18px; }
+  @media (max-width: 480px) {
+    font-size: 0.78rem;
+    margin-bottom: 16px;
+  }
 `;
 
 // ─── BASE SECTION ──────────────────────────────────────────
 const BaseSection = styled.div`
   border-radius: 22px;
-  padding: 30px;
-  margin-bottom: 28px;
+  padding: 28px;
+  margin-bottom: 24px;
   position: relative;
   overflow: hidden;
 
-  @media (max-width: 768px) { padding: 24px; border-radius: 18px; }
-  @media (max-width: 480px) { padding: 20px 16px; margin-bottom: 22px; border-radius: 16px; }
+  @media (max-width: 768px) { padding: 22px; border-radius: 18px; }
+  @media (max-width: 480px) { padding: 18px 14px; margin-bottom: 20px; border-radius: 16px; }
+`;
+
+// ─── PREÇO SUGERIDO ────────────────────────────────────────
+const PriceBox = styled(BaseSection)`
+  background: linear-gradient(135deg,
+    rgba(74, 222, 128, 0.08) 0%,
+    rgba(34, 197, 94, 0.03) 100%);
+  border: 1px solid rgba(74, 222, 128, 0.22);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 24px;
+  margin-bottom: 24px;
+
+  .icon {
+    font-size: 1.6rem;
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    display: grid;
+    place-items: center;
+    background: rgba(74, 222, 128, 0.12);
+    border-radius: 14px;
+    border: 1px solid rgba(74, 222, 128, 0.3);
+  }
+
+  .content { flex: 1; min-width: 0; }
+
+  .label {
+    color: #a8d5b8;
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 4px;
+  }
+
+  .value {
+    color: #86efac;
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 16px 18px;
+    gap: 12px;
+
+    .icon { width: 44px; height: 44px; font-size: 1.3rem; }
+    .value { font-size: 1.1rem; }
+  }
 `;
 
 // ─── CALCULADORA ───────────────────────────────────────────
@@ -394,8 +485,6 @@ const CalcGrid = styled.div`
   grid-template-columns: repeat(3, 1fr);
   gap: 14px;
   margin-bottom: 22px;
-  position: relative;
-  z-index: 1;
 
   @media (max-width: 640px) { grid-template-columns: 1fr; gap: 12px; }
 `;
@@ -452,8 +541,6 @@ const CalcResult = styled.div`
   border: 1px solid rgba(74, 222, 128, 0.2);
   text-align: center;
   animation: ${fadeInUp} 0.4s ease-out;
-  position: relative;
-  z-index: 1;
 
   @media (max-width: 480px) { padding: 18px 14px; }
 `;
@@ -519,7 +606,7 @@ const ResultItemValue = styled.div`
   @media (max-width: 480px) { font-size: 0.95rem; }
 `;
 
-// ─── PREVIEW DOS PASSOS ────────────────────────────────────
+// ─── PREVIEW PASSOS ────────────────────────────────────────
 const PreviewSection = styled(BaseSection)`
   background: linear-gradient(135deg,
     rgba(74, 140, 247, 0.05) 0%,
@@ -531,7 +618,7 @@ const PreviewList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
 `;
 
 const PreviewStep = styled.div`
@@ -550,13 +637,13 @@ const PreviewStep = styled.div`
 `;
 
 const PreviewNumber = styled.div`
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   background: rgba(74, 140, 247, 0.18);
   border: 1px solid rgba(74, 140, 247, 0.4);
   color: #7eb8ff;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 800;
   display: flex;
   align-items: center;
@@ -570,71 +657,76 @@ const PreviewMore = styled.div`
   color: #8899aa;
   font-size: 0.8rem;
   font-weight: 600;
-  padding: 8px;
+  padding: 10px 14px;
   font-style: italic;
+  background: rgba(74, 140, 247, 0.04);
+  border: 1px dashed rgba(74, 140, 247, 0.2);
+  border-radius: 10px;
 `;
 
-// ─── GRID INFO ─────────────────────────────────────────────
+// ─── GRID INFO (materiais + clientes) ─────────────────────
 const InfoGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   gap: 20px;
+  margin-bottom: 24px;
 
   @media (min-width: 768px) { grid-template-columns: 1fr 1fr; }
 `;
 
-const InfoBox = styled(BaseSection)`
-  margin-bottom: 0;
+const InfoBox = styled.div`
   background: rgba(74, 140, 247, 0.04);
-  border: 1px solid rgba(74, 140, 247, 0.1);
-  padding: 24px;
+  border: 1px solid rgba(74, 140, 247, 0.12);
+  border-radius: 20px;
+  padding: 22px;
   transition: all 0.3s ease;
 
   &:hover {
-    border-color: rgba(74, 140, 247, 0.25);
+    border-color: rgba(74, 140, 247, 0.28);
     background: rgba(74, 140, 247, 0.06);
   }
 
-  @media (max-width: 768px) { padding: 20px; }
-  @media (max-width: 480px) { padding: 18px 16px; }
+  @media (max-width: 768px) { padding: 18px; }
+  @media (max-width: 480px) { padding: 16px 14px; border-radius: 16px; }
 `;
 
 const InfoHeader = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 
   svg { color: #7eb8ff; width: 18px; height: 18px; flex-shrink: 0; }
 
   h3 {
     color: #e8eef7;
-    font-size: 0.95rem;
+    font-size: 0.92rem;
     margin: 0;
     font-weight: 800;
     letter-spacing: -0.2px;
   }
 `;
 
+// ⭐ Cards mais compactos
 const List = styled.ul`
   list-style: none;
   padding: 0;
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 `;
 
 const ListItem = styled.li`
-  padding: 12px 14px 12px 34px;
+  padding: 9px 12px 9px 30px;
   position: relative;
   color: #c8d8e8;
   font-weight: 500;
   background: rgba(74, 140, 247, 0.05);
-  border-radius: 10px;
+  border-radius: 8px;
   border: 1px solid rgba(74, 140, 247, 0.08);
   transition: all 0.25s ease;
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   line-height: 1.4;
 
   &::before {
@@ -642,76 +734,62 @@ const ListItem = styled.li`
     color: #7eb8ff;
     font-weight: 900;
     position: absolute;
-    left: 14px;
+    left: 12px;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
   }
 
   &:hover {
     background: rgba(74, 140, 247, 0.1);
     border-color: rgba(74, 140, 247, 0.25);
     color: #e8eef7;
-    transform: translateX(4px);
+    transform: translateX(3px);
   }
 `;
 
-// ─── CTA PRINCIPAL (o botão "quero começar") ───────────────
-const CTAWrapper = styled(BaseSection)`
-  margin-top: 28px;
-  margin-bottom: 0;
+// ─── CTA FINAL (reformulado) ──────────────────────────────
+const CTAWrapper = styled.div`
   background: linear-gradient(135deg,
     rgba(37, 99, 235, 0.12) 0%,
     rgba(124, 92, 255, 0.08) 100%);
   border: 1px solid rgba(74, 140, 247, 0.3);
-  padding: 32px 28px;
+  border-radius: 22px;
+  padding: 28px;
   position: relative;
   overflow: hidden;
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: -50%; right: -20%;
-    width: 320px; height: 320px;
-    background: radial-gradient(circle, rgba(74, 140, 247, 0.2), transparent 70%);
-    pointer-events: none;
-  }
-
-  @media (max-width: 480px) { padding: 24px 20px; }
+  @media (max-width: 480px) { padding: 22px 18px; border-radius: 18px; }
 `;
 
 const CTATitle = styled.h3`
   color: #e8eef7;
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   font-weight: 800;
   margin: 0 0 8px;
-  position: relative;
-  z-index: 1;
+  letter-spacing: -0.3px;
 
   @media (max-width: 480px) { font-size: 1.05rem; }
 `;
 
 const CTASubtitle = styled.p`
   color: #a8b8d8;
-  font-size: 0.87rem;
+  font-size: 0.85rem;
   line-height: 1.55;
-  margin: 0 0 20px;
-  position: relative;
-  z-index: 1;
+  margin: 0 0 18px;
 
-  @media (max-width: 480px) { font-size: 0.8rem; }
+  @media (max-width: 480px) { font-size: 0.78rem; margin-bottom: 16px; }
 `;
 
 const CTAButton = styled.button`
   width: 100%;
-  padding: 20px 28px;
-  border-radius: 16px;
+  padding: 18px 24px;
+  border-radius: 14px;
   border: none;
   cursor: pointer;
   font-family: inherit;
   position: relative;
   overflow: hidden;
-  z-index: 1;
 
   background: linear-gradient(135deg, #2563eb 0%, #4f7cff 50%, #7c5cff 100%);
   background-size: 200% 100%;
@@ -719,14 +797,15 @@ const CTAButton = styled.button`
   text-align: left;
 
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
 
   box-shadow:
     0 12px 32px -8px rgba(37, 99, 235, 0.6),
     inset 0 1px 0 rgba(255, 255, 255, 0.15);
 
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
   &::before {
     content: '';
@@ -737,20 +816,33 @@ const CTAButton = styled.button`
     pointer-events: none;
   }
 
-  .label {
-    font-size: 1.05rem;
-    font-weight: 800;
-    letter-spacing: 0.02em;
-    z-index: 1;
+  .content {
     display: flex;
-    align-items: center;
-    gap: 10px;
+    flex-direction: column;
+    gap: 3px;
+    flex: 1;
+    min-width: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .label {
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 0.01em;
   }
 
   .hint {
-    font-size: 0.82rem;
+    font-size: 0.78rem;
     font-weight: 500;
-    color: rgba(255, 255, 255, 0.75);
+    color: rgba(255, 255, 255, 0.78);
+  }
+
+  .arrow {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+    position: relative;
     z-index: 1;
   }
 
@@ -758,8 +850,10 @@ const CTAButton = styled.button`
     background-position: 100% 50%;
     transform: translateY(-2px);
     box-shadow:
-      0 16px 40px -8px rgba(37, 99, 235, 0.8),
+      0 16px 40px -8px rgba(37, 99, 235, 0.85),
       inset 0 1px 0 rgba(255, 255, 255, 0.2);
+
+    .arrow { transform: translateX(6px); }
   }
 
   &:active { transform: translateY(0) scale(0.99); }
@@ -767,8 +861,9 @@ const CTAButton = styled.button`
   @media (max-width: 480px) {
     padding: 16px 20px;
 
-    .label { font-size: 0.95rem; }
-    .hint { font-size: 0.75rem; }
+    .label { font-size: 0.92rem; }
+    .hint { font-size: 0.72rem; }
+    .arrow { font-size: 1.2rem; }
   }
 `;
 
@@ -782,8 +877,6 @@ const LoginHint = styled.div`
   font-size: 0.8rem;
   font-weight: 600;
   text-align: center;
-  position: relative;
-  z-index: 1;
 
   a {
     color: #fbbf24;
@@ -850,7 +943,7 @@ const SkeletonBox = styled.div`
   margin-bottom: ${p => p.$mb || '0'};
 `;
 
-// ─── ÍCONES SVG ────────────────────────────────────────────
+// ─── ÍCONES ────────────────────────────────────────────────
 const HomeIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
@@ -893,6 +986,13 @@ const ClockIcon = () => (
   </svg>
 );
 
+const TrendingIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+    <polyline points="17 6 23 6 23 12" />
+  </svg>
+);
+
 const CalcIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <rect x="4" y="2" width="16" height="20" rx="2" ry="2" />
@@ -928,6 +1028,22 @@ const TargetIcon = () => (
   </svg>
 );
 
+// ─── HELPERS DE PERFIL ─────────────────────────────────────
+const TIME_PROFILE_LABELS = {
+  pouco: '⏱ Pouco tempo',
+  medio: '⏱ Tempo médio',
+  integral: '⏱ Tempo integral',
+  flexivel: '⏱ Horário flexível',
+};
+
+const WORK_PROFILE_LABELS = {
+  internet: '🌐 Pela internet',
+  casa: '🏠 Em casa',
+  rua: '🚶 Na rua',
+  servicos: '🛠 Prestando serviço',
+  produtos: '📦 Vendendo produtos',
+};
+
 // ─── COMPONENTE ────────────────────────────────────────────
 const BusinessDetail = () => {
   const { id } = useParams();
@@ -937,19 +1053,18 @@ const BusinessDetail = () => {
   const [business, setBusiness] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState(null);
+  const [isFavorited, setIsFavorited] = useState(false);
+  const [favoriting, setFavoriting] = useState(false);
 
-  // Estados da calculadora
   const [precoServico, setPrecoServico] = useState('');
   const [clientesDia, setClientesDia] = useState('');
   const [diasMes, setDiasMes] = useState('22');
 
-  // ─── Auth ────────────────────────────────────────────────
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => setCurrentUser(user));
     return () => unsubscribe();
   }, []);
 
-  // ─── Carrega business ────────────────────────────────────
   useEffect(() => {
     setLoading(true);
     const found = businessData.find(b => b.id === parseInt(id));
@@ -959,23 +1074,61 @@ const BusinessDetail = () => {
     }, 250);
   }, [id]);
 
-  // ─── Scroll to top ao trocar de negócio ──────────────────
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [id]);
 
-  // ─── Preview dos passos (normalizados) ───────────────────
+  // ─── Checa se é favorito ────────────────────────────────
+  useEffect(() => {
+    if (!currentUser || !business) return;
+    const storageKey = `favorites_${currentUser.uid}`;
+    const saved = JSON.parse(localStorage.getItem(storageKey) || '[]');
+    setIsFavorited(saved.includes(business.id));
+  }, [business, currentUser]);
+
+  const toggleFavorite = () => {
+    if (!currentUser) {
+      showToast('🔒 Faça login para favoritar', 'warning', 2500);
+      return;
+    }
+
+    if (favoriting) return;
+    setFavoriting(true);
+
+    try {
+      const storageKey = `favorites_${currentUser.uid}`;
+      const saved = JSON.parse(localStorage.getItem(storageKey) || '[]');
+
+      if (isFavorited) {
+        const next = saved.filter(fid => fid !== business.id);
+        localStorage.setItem(storageKey, JSON.stringify(next));
+        setIsFavorited(false);
+        showToast('💔 Removido dos favoritos', 'info', 1800);
+        authService.removeFavorite(currentUser.uid, business.id)
+          .catch(err => console.warn(err));
+      } else {
+        if (!saved.includes(business.id)) {
+          saved.push(business.id);
+          localStorage.setItem(storageKey, JSON.stringify(saved));
+        }
+        setIsFavorited(true);
+        showToast('❤️ Adicionado aos favoritos', 'success', 1800);
+        authService.addFavorite(currentUser.uid, business.id)
+          .catch(err => console.warn(err));
+      }
+    } finally {
+      setFavoriting(false);
+    }
+  };
+
   const previewSteps = useMemo(() => {
     if (!business) return [];
     const raw = businessSteps[business.name] || [];
-    return raw
-      .slice(0, 2)
-      .map((s, i) => normalizeStep(s, i));
+    return raw.slice(0, 2).map((s, i) => normalizeStep(s, i));
   }, [business]);
 
   const totalSteps = business ? (businessSteps[business.name] || []).length : 0;
 
-  // ─── Helpers ─────────────────────────────────────────────
   const formatInvestment = (min, max) => {
     if (min === max) return `R$ ${min.toLocaleString('pt-BR')}`;
     return `R$ ${min.toLocaleString('pt-BR')} - R$ ${max.toLocaleString('pt-BR')}`;
@@ -1008,7 +1161,6 @@ const BusinessDetail = () => {
     return { faturamento, lucro, margem: margem * 100 };
   };
 
-  // ─── Loading ─────────────────────────────────────────────
   if (loading) {
     return (
       <Container>
@@ -1026,13 +1178,13 @@ const BusinessDetail = () => {
             <SkeletonBox $w="100%" $h="130px" $radius="18px" />
             <SkeletonBox $w="100%" $h="130px" $radius="18px" />
             <SkeletonBox $w="100%" $h="130px" $radius="18px" />
+            <SkeletonBox $w="100%" $h="130px" $radius="18px" />
           </StatsGrid>
         </Card>
       </Container>
     );
   }
 
-  // ─── Not found ───────────────────────────────────────────
   if (!business) {
     return (
       <Container>
@@ -1056,6 +1208,10 @@ const BusinessDetail = () => {
 
   const shareUrl = `${window.location.origin}/business/${business.id}`;
   const previewImage = `${window.location.origin}/preview.jpg`;
+
+  const timeChips = (business.timeProfile || []).map(key => TIME_PROFILE_LABELS[key]).filter(Boolean);
+  const workChips = (business.workProfile || []).map(key => WORK_PROFILE_LABELS[key]).filter(Boolean);
+  const allChips = [...timeChips, ...workChips];
 
   return (
     <Container>
@@ -1085,9 +1241,10 @@ const BusinessDetail = () => {
       </Breadcrumb>
 
       <Card>
-        {/* HEADER */}
+        {/* ─── HEADER ─────────────────────────────────── */}
         <Header>
           <EmojiWrapper>{business.image}</EmojiWrapper>
+
           <HeaderContent>
             <Name>{business.name}</Name>
             <Category>
@@ -1095,15 +1252,37 @@ const BusinessDetail = () => {
               {business.category}
             </Category>
           </HeaderContent>
-          <ShareWrapper>
+
+          <HeaderActions>
+            <FavoriteBtn
+              $active={isFavorited}
+              onClick={toggleFavorite}
+              disabled={favoriting}
+              title={isFavorited ? 'Remover dos favoritos' : 'Salvar nos favoritos'}
+              aria-label={isFavorited ? 'Remover dos favoritos' : 'Salvar nos favoritos'}
+            >
+              {isFavorited ? '❤️' : '🤍'}
+            </FavoriteBtn>
             <ShareButton business={business} />
-          </ShareWrapper>
+          </HeaderActions>
         </Header>
 
-        {/* DESCRIÇÃO */}
-        <Description>{business.description}</Description>
+        {/* ─── DESCRIÇÃO ──────────────────────────────── */}
+        <DescriptionBox>
+          <DescriptionIcon>📝</DescriptionIcon>
+          <DescriptionText>{business.description}</DescriptionText>
+        </DescriptionBox>
 
-        {/* STATS */}
+        {/* ─── CHIPS DE PERFIL ────────────────────────── */}
+        {allChips.length > 0 && (
+          <ChipsRow>
+            {allChips.map((chip, i) => (
+              <ProfileChip key={i}>{chip}</ProfileChip>
+            ))}
+          </ChipsRow>
+        )}
+
+        {/* ─── STATS (4 cards) ────────────────────────── */}
         <StatsGrid>
           <StatCard
             $bg="rgba(74, 222, 128, 0.06)"
@@ -1127,7 +1306,7 @@ const BusinessDetail = () => {
             <StatIconBox $bg="rgba(251, 191, 36, 0.15)" $border="rgba(251, 191, 36, 0.3)">
               <ChartIcon style={{ color: '#fbbf24' }} />
             </StatIconBox>
-            <StatLabel>Margem de Lucro</StatLabel>
+            <StatLabel>Margem</StatLabel>
             <StatValue>{business.profitMargin}</StatValue>
           </StatCard>
 
@@ -1143,23 +1322,49 @@ const BusinessDetail = () => {
             <StatLabel>Retorno</StatLabel>
             <StatValue>{business.payback}</StatValue>
           </StatCard>
+
+          {business.monthlyRevenue && (
+            <StatCard
+              $bg="rgba(168, 85, 247, 0.06)"
+              $border="rgba(168, 85, 247, 0.18)"
+              $borderHover="rgba(168, 85, 247, 0.4)"
+              $glow="rgba(168, 85, 247, 0.2)"
+            >
+              <StatIconBox $bg="rgba(168, 85, 247, 0.15)" $border="rgba(168, 85, 247, 0.3)">
+                <TrendingIcon style={{ color: '#c084fc' }} />
+              </StatIconBox>
+              <StatLabel>Faturamento/mês</StatLabel>
+              <StatValue style={{ fontSize: '0.9rem' }}>{business.monthlyRevenue}</StatValue>
+            </StatCard>
+          )}
         </StatsGrid>
 
-        {/* CALCULADORA */}
+        {/* ─── PREÇO SUGERIDO ─────────────────────────── */}
+        {business.suggestedPrice && (
+          <PriceBox>
+            <div className="icon">💰</div>
+            <div className="content">
+              <div className="label">Preço sugerido</div>
+              <div className="value">{business.suggestedPrice}</div>
+            </div>
+          </PriceBox>
+        )}
+
+        {/* ─── CALCULADORA ────────────────────────────── */}
         <CalculatorSection>
           <SectionTitle>
             <CalcIcon />
             Calculadora de Faturamento
           </SectionTitle>
           <SectionSubtitle>
-            Descubra quanto você pode faturar com este negócio! Preencha os campos abaixo:
+            Descubra quanto você pode faturar! Preencha os campos abaixo:
           </SectionSubtitle>
 
           <CalcGrid>
             <CalcField>
               <CalcLabel>
                 <MoneyIcon />
-                Preço por serviço (R$)
+                Preço por serviço
               </CalcLabel>
               <CalcInput
                 type="text"
@@ -1208,7 +1413,7 @@ const BusinessDetail = () => {
               <ResultValue>{formatCurrency(resultado.faturamento)}</ResultValue>
 
               <ResultDetails>
-                Baseado em <strong>{clientesDia} clientes/dia</strong> × <strong>{diasMes} dias</strong> × <strong>{formatCurrency(parseFloat(precoServico.replace(',', '.')) || 0)}</strong>
+                <strong>{clientesDia} clientes/dia</strong> × <strong>{diasMes} dias</strong> × <strong>{formatCurrency(parseFloat(precoServico.replace(',', '.')) || 0)}</strong>
               </ResultDetails>
 
               <ResultGrid>
@@ -1227,7 +1432,7 @@ const BusinessDetail = () => {
           )}
         </CalculatorSection>
 
-        {/* PREVIEW DO ROTEIRO */}
+        {/* ─── PREVIEW DO ROTEIRO ─────────────────────── */}
         {previewSteps.length > 0 && (
           <PreviewSection>
             <SectionTitle>
@@ -1235,7 +1440,7 @@ const BusinessDetail = () => {
               Como começar
             </SectionTitle>
             <SectionSubtitle>
-              Uma prévia do que você precisa fazer. O roteiro completo está no seu plano personalizado:
+              Uma prévia do que você precisa fazer. O roteiro completo está no seu plano:
             </SectionSubtitle>
 
             <PreviewList>
@@ -1249,18 +1454,18 @@ const BusinessDetail = () => {
 
             {totalSteps > previewSteps.length && (
               <PreviewMore>
-                + {totalSteps - previewSteps.length} etapa{totalSteps - previewSteps.length > 1 ? 's' : ''} no plano completo
+                + {totalSteps - previewSteps.length} etapas no plano completo
               </PreviewMore>
             )}
           </PreviewSection>
         )}
 
-        {/* GRID FINAL */}
+        {/* ─── GRID MATERIAIS + CLIENTES ──────────────── */}
         <InfoGrid>
           <InfoBox>
             <InfoHeader>
               <PackageIcon />
-              <h3>Materiais Necessários</h3>
+              <h3>Materiais necessários</h3>
             </InfoHeader>
             <List>
               {business.materials.map((material, index) => (
@@ -1272,7 +1477,7 @@ const BusinessDetail = () => {
           <InfoBox>
             <InfoHeader>
               <UsersIcon />
-              <h3>Potenciais Clientes</h3>
+              <h3>Potenciais clientes</h3>
             </InfoHeader>
             <List>
               {business.potentialClients.map((client, index) => (
@@ -1282,11 +1487,11 @@ const BusinessDetail = () => {
           </InfoBox>
         </InfoGrid>
 
-        {/* ─── CTA FINAL ─────────────────────────────────── */}
+        {/* ─── CTA FINAL ──────────────────────────────── */}
         <CTAWrapper>
           <CTATitle>Pronto para começar?</CTATitle>
           <CTASubtitle>
-            Acesse o roteiro completo, os materiais detalhados com faixa de preço,
+            Acesse o roteiro completo, materiais detalhados com faixa de preço
             e uma tabela de quanto cobrar em cada nível.
           </CTASubtitle>
 
@@ -1300,12 +1505,11 @@ const BusinessDetail = () => {
               navigate(`/business/${business.id}/comecar`);
             }}
           >
-            <div className="label">
-              🚀 Quero fazer esse serviço
+            <div className="content">
+              <div className="label">Quero fazer esse serviço</div>
+              <div className="hint">Ver roteiro, materiais e orçamento</div>
             </div>
-            <div className="hint">
-              Ver roteiro, materiais e orçamento detalhado
-            </div>
+            <div className="arrow">→</div>
           </CTAButton>
 
           {!currentUser && (

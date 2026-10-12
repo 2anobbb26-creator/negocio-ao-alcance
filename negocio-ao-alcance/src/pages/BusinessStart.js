@@ -6,6 +6,8 @@ import { businessData } from '../data/businessData';
 import { businessSteps } from '../data/businessSteps';
 import { useToast } from '../components/Toast';
 import { generatePlanPDF } from '../utils/generatePlanPDF';
+import { auth } from '../services/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 import {
   normalizeStep,
   normalizeMaterial,
@@ -1266,6 +1268,13 @@ const BusinessStart = () => {
   const [completedSteps, setCompletedSteps] = useState({});
   const [checkedMaterials, setCheckedMaterials] = useState({});
   const [generatingPDF, setGeneratingPDF] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+
+  // ─── Auth listener ──────────────────────────────────────
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => setCurrentUser(user));
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1350,6 +1359,12 @@ const BusinessStart = () => {
     try {
       setGeneratingPDF(true);
 
+      const nomeUsuario =
+        currentUser?.displayName ||
+        currentUser?.name ||
+        currentUser?.email?.split('@')[0] ||
+        null;
+
       generatePlanPDF({
         business,
         steps,
@@ -1358,6 +1373,7 @@ const BusinessStart = () => {
         checkedMaterials,
         pricing,
         timeline: business.startTimeline || null,
+        userName: nomeUsuario,
       });
 
       showToast('📄 PDF gerado! Verifique seus downloads.', 'success', 3000);
