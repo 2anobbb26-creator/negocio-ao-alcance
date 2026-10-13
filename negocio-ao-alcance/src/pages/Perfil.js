@@ -7,6 +7,7 @@ import {
   FiSearch, FiBriefcase, FiCheckCircle, FiX, FiAlertTriangle
 } from 'react-icons/fi';
 import { auth, authService } from '../services/firebase';
+import { useToast } from '../components/Toast';
 
 // ─── ANIMAÇÕES ─────────────────────────────────────────────
 const fadeInUp = keyframes`
@@ -587,12 +588,13 @@ const formatDate = (dateString) => {
 // ─── COMPONENTE ────────────────────────────────────────────
 const Perfil = () => {
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   const [userData, setUserData] = useState(null);
   const [favoritesCount, setFavoritesCount] = useState(0);
 
   // Modais
-  const [modal, setModal] = useState(null); // 'edit' | 'logout' | 'delete' | 'password'
+  const [modal, setModal] = useState(null);
   const [editData, setEditData] = useState({ name: '', phone: '' });
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState({ text: '', ok: true });
@@ -602,7 +604,6 @@ const Perfil = () => {
     const currentUser = auth.currentUser;
     if (!currentUser) return;
 
-    // 1) Imediato: Auth
     const initial = {
       name: currentUser.displayName || currentUser.email?.split('@')[0] || 'Usuário',
       email: currentUser.email,
@@ -615,7 +616,6 @@ const Perfil = () => {
     setUserData(initial);
     setEditData({ name: initial.name, phone: '' });
 
-    // 2) Firestore em background
     authService.getUserData(currentUser.uid)
       .then((res) => {
         if (res.success && res.data) {
@@ -630,7 +630,6 @@ const Perfil = () => {
             phone: res.data.phone || '',
           }));
 
-          // Estatísticas reais
           const favs = res.data.favorites;
           setFavoritesCount(Array.isArray(favs) ? favs.length : 0);
         }
@@ -677,7 +676,7 @@ const Perfil = () => {
           name: editData.name.trim(),
           phone: editData.phone.trim(),
         }));
-        setMessage({ text: 'Perfil atualizado com sucesso!', ok: true });
+        showToast('✅ Perfil atualizado com sucesso!', 'success');
         setTimeout(() => setModal(null), 1400);
       } else {
         setMessage({ text: `Erro: ${result.error}`, ok: false });
@@ -692,6 +691,7 @@ const Perfil = () => {
     setSaving(true);
     try {
       await authService.logout();
+      showToast('👋 Você saiu da conta', 'info');
       navigate('/login');
     } catch (err) {
       setMessage({ text: 'Erro ao sair', ok: false });
@@ -705,6 +705,7 @@ const Perfil = () => {
     try {
       const result = await authService.deleteAccount();
       if (result?.success !== false) {
+        showToast('🗑️ Conta excluída com sucesso', 'success');
         navigate('/login');
       } else {
         setMessage({ text: `Erro: ${result.error}`, ok: false });
@@ -722,7 +723,8 @@ const Perfil = () => {
     try {
       const result = await authService.resetPassword(userData.email);
       if (result?.success !== false) {
-        setMessage({ text: 'Enviamos um link de redefinição para seu email.', ok: true });
+        showToast('📧 Link enviado! Confira seu email', 'success');
+        setModal(null);
       } else {
         setMessage({ text: `Erro: ${result.error}`, ok: false });
       }
