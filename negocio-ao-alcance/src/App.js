@@ -12,7 +12,7 @@ import InstallPrompt from './components/InstallPrompt';
 const Home = React.lazy(() => import('./pages/Home'));
 const Login = React.lazy(() => import('./pages/Login'));
 const BusinessDetail = React.lazy(() => import('./pages/BusinessDetail'));
-const BusinessStart = React.lazy(() => import('./pages/BusinessStart')); // 🆕
+const BusinessStart = React.lazy(() => import('./pages/BusinessStart'));
 const Perfil = React.lazy(() => import('./pages/Perfil'));
 const Favoritos = React.lazy(() => import('./pages/Favoritos'));
 const EmailVerification = React.lazy(() => import('./components/EmailVerification'));
@@ -103,9 +103,12 @@ const AppRoutes = ({ user, handleLogin, handleRegister }) => {
             element={user ? <Navigate to="/" replace /> : <Login onLogin={handleLogin} onRegister={handleRegister} />}
           />
 
+          {/* ⚠️ ATENÇÃO À ORDEM: rota mais específica SEMPRE antes */}
+          {/* /business/:id/comecar vem ANTES de /business/:id */}
+
           {/* 🔓 ROTAS PÚBLICAS */}
+          <Route path="/business/:id/comecar" element={<BusinessStart user={user} />} />
           <Route path="/business/:id" element={<BusinessDetail user={user} />} />
-          <Route path="/business/:id/comecar" element={<BusinessStart user={user} />} /> {/* 🆕 */}
 
           {/* 🔒 ROTAS PRIVADAS */}
           <Route

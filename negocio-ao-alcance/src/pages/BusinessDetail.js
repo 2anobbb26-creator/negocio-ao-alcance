@@ -80,7 +80,7 @@ const Breadcrumb = styled.div`
   }
 `;
 
-// ─── CARD PRINCIPAL ────────────────────────────────────────
+// ─── CARD PRINCIPAL (sem linha gradiente no topo) ──────────
 const Card = styled.div`
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(14px);
@@ -91,20 +91,11 @@ const Card = styled.div`
   overflow: hidden;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg,
-      #ffffff 0%, #7eb8ff 35%, #a855f7 65%, #ffffff 100%);
-  }
-
   @media (max-width: 768px) { padding: 28px; border-radius: 22px; }
   @media (max-width: 480px) { padding: 22px 18px; border-radius: 20px; }
 `;
 
-// ─── HEADER (reformulado) ──────────────────────────────────
+// ─── HEADER ────────────────────────────────────────────────
 const Header = styled.div`
   display: flex;
   align-items: flex-start;
@@ -124,7 +115,6 @@ const Header = styled.div`
   }
 `;
 
-// ⭐ SEM efeito/glow — só uma caixa simples
 const EmojiWrapper = styled.div`
   font-size: 3rem;
   width: 88px;
@@ -190,7 +180,6 @@ const Category = styled.span`
   @media (max-width: 480px) { font-size: 0.62rem; padding: 4px 12px; }
 `;
 
-// ⭐ Header Actions (share + favorite)
 const HeaderActions = styled.div`
   display: flex;
   gap: 10px;
@@ -236,7 +225,7 @@ const FavoriteBtn = styled.button`
   }
 `;
 
-// ─── DESCRIPTION BOX (com ícone + fundo) ──────────────────
+// ─── DESCRIÇÃO ─────────────────────────────────────────────
 const DescriptionBox = styled.div`
   display: flex;
   gap: 12px;
@@ -271,34 +260,6 @@ const DescriptionText = styled.p`
   font-weight: 500;
 
   @media (max-width: 480px) { font-size: 0.88rem; }
-`;
-
-// ─── CHIPS DE PERFIL ──────────────────────────────────────
-const ChipsRow = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 26px;
-
-  @media (max-width: 480px) { gap: 6px; margin-bottom: 20px; }
-`;
-
-const ProfileChip = styled.span`
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 14px;
-  border-radius: 999px;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-
-  background: rgba(74, 140, 247, 0.08);
-  border: 1px solid rgba(74, 140, 247, 0.2);
-  color: #a8ccff;
-
-  @media (max-width: 480px) { font-size: 0.66rem; padding: 5px 11px; }
 `;
 
 // ─── STATS (4 cards) ──────────────────────────────────────
@@ -707,7 +668,6 @@ const InfoHeader = styled.div`
   }
 `;
 
-// ⭐ Cards mais compactos
 const List = styled.ul`
   list-style: none;
   padding: 0;
@@ -748,7 +708,7 @@ const ListItem = styled.li`
   }
 `;
 
-// ─── CTA FINAL (reformulado) ──────────────────────────────
+// ─── CTA FINAL ────────────────────────────────────────────
 const CTAWrapper = styled.div`
   background: linear-gradient(135deg,
     rgba(37, 99, 235, 0.12) 0%,
@@ -1028,22 +988,6 @@ const TargetIcon = () => (
   </svg>
 );
 
-// ─── HELPERS DE PERFIL ─────────────────────────────────────
-const TIME_PROFILE_LABELS = {
-  pouco: '⏱ Pouco tempo',
-  medio: '⏱ Tempo médio',
-  integral: '⏱ Tempo integral',
-  flexivel: '⏱ Horário flexível',
-};
-
-const WORK_PROFILE_LABELS = {
-  internet: '🌐 Pela internet',
-  casa: '🏠 Em casa',
-  rua: '🚶 Na rua',
-  servicos: '🛠 Prestando serviço',
-  produtos: '📦 Vendendo produtos',
-};
-
 // ─── COMPONENTE ────────────────────────────────────────────
 const BusinessDetail = () => {
   const { id } = useParams();
@@ -1078,7 +1022,6 @@ const BusinessDetail = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [id]);
 
-  // ─── Checa se é favorito ────────────────────────────────
   useEffect(() => {
     if (!currentUser || !business) return;
     const storageKey = `favorites_${currentUser.uid}`;
@@ -1209,10 +1152,6 @@ const BusinessDetail = () => {
   const shareUrl = `${window.location.origin}/business/${business.id}`;
   const previewImage = `${window.location.origin}/preview.jpg`;
 
-  const timeChips = (business.timeProfile || []).map(key => TIME_PROFILE_LABELS[key]).filter(Boolean);
-  const workChips = (business.workProfile || []).map(key => WORK_PROFILE_LABELS[key]).filter(Boolean);
-  const allChips = [...timeChips, ...workChips];
-
   return (
     <Container>
       <Helmet>
@@ -1241,7 +1180,6 @@ const BusinessDetail = () => {
       </Breadcrumb>
 
       <Card>
-        {/* ─── HEADER ─────────────────────────────────── */}
         <Header>
           <EmojiWrapper>{business.image}</EmojiWrapper>
 
@@ -1267,22 +1205,11 @@ const BusinessDetail = () => {
           </HeaderActions>
         </Header>
 
-        {/* ─── DESCRIÇÃO ──────────────────────────────── */}
         <DescriptionBox>
           <DescriptionIcon>📝</DescriptionIcon>
           <DescriptionText>{business.description}</DescriptionText>
         </DescriptionBox>
 
-        {/* ─── CHIPS DE PERFIL ────────────────────────── */}
-        {allChips.length > 0 && (
-          <ChipsRow>
-            {allChips.map((chip, i) => (
-              <ProfileChip key={i}>{chip}</ProfileChip>
-            ))}
-          </ChipsRow>
-        )}
-
-        {/* ─── STATS (4 cards) ────────────────────────── */}
         <StatsGrid>
           <StatCard
             $bg="rgba(74, 222, 128, 0.06)"
@@ -1339,7 +1266,6 @@ const BusinessDetail = () => {
           )}
         </StatsGrid>
 
-        {/* ─── PREÇO SUGERIDO ─────────────────────────── */}
         {business.suggestedPrice && (
           <PriceBox>
             <div className="icon">💰</div>
@@ -1350,7 +1276,6 @@ const BusinessDetail = () => {
           </PriceBox>
         )}
 
-        {/* ─── CALCULADORA ────────────────────────────── */}
         <CalculatorSection>
           <SectionTitle>
             <CalcIcon />
@@ -1432,7 +1357,6 @@ const BusinessDetail = () => {
           )}
         </CalculatorSection>
 
-        {/* ─── PREVIEW DO ROTEIRO ─────────────────────── */}
         {previewSteps.length > 0 && (
           <PreviewSection>
             <SectionTitle>
@@ -1460,7 +1384,6 @@ const BusinessDetail = () => {
           </PreviewSection>
         )}
 
-        {/* ─── GRID MATERIAIS + CLIENTES ──────────────── */}
         <InfoGrid>
           <InfoBox>
             <InfoHeader>
@@ -1487,7 +1410,6 @@ const BusinessDetail = () => {
           </InfoBox>
         </InfoGrid>
 
-        {/* ─── CTA FINAL ──────────────────────────────── */}
         <CTAWrapper>
           <CTATitle>Pronto para começar?</CTATitle>
           <CTASubtitle>
