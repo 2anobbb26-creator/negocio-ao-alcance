@@ -597,11 +597,11 @@ const ResultsTitle = styled.h2`
   margin: 0;
 
   span {
-  background: linear-gradient(135deg, #ffffff 0%, #b8d4ff 40%, #4f7cff 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
+    background: linear-gradient(135deg, #ffffff 0%, #b8d4ff 40%, #4f7cff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
 
   @media (max-width: 768px) { font-size: 1.3rem; }
   @media (max-width: 480px) {
@@ -748,13 +748,6 @@ const XIcon = () => (
   </svg>
 );
 
-const SparklesIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6L5.6 18.4" opacity="0.3" />
-    <path d="M12 2l1.5 4.5L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1.5z" />
-  </svg>
-);
-
 const Home = ({ user }) => {
   const { showToast } = useToast();
 
@@ -786,11 +779,10 @@ const Home = ({ user }) => {
         // Busca por descrição
         const matchDescription = item.description?.toLowerCase().includes(term);
 
-        // Busca por valor (se o termo for numérico)
+        // ⭐ Busca por valor exato: só mostra negócios cujo minInvestment seja IGUAL ao valor buscado
+        // Ex: buscar "200" → só negócios com minInvestment === 200
         const matchValue = !isNaN(termAsNumber)
-          ? item.minInvestment <= termAsNumber ||
-            (item.maxInvestment && item.maxInvestment >= termAsNumber) ||
-            item.minInvestment >= termAsNumber
+          ? item.minInvestment === termAsNumber
           : false;
 
         return matchName || matchCategory || matchDescription || matchValue;
@@ -832,7 +824,7 @@ const Home = ({ user }) => {
   const hasFilters = appliedSearch.trim() !== '' || selectedCategory !== 'Todos';
 
   // Sugestões rápidas
-const suggestions = ['Estética', 'Edição de vídeo', 'Artesanato', 'Fotografia', '200'];
+  const suggestions = ['Estética', 'Edição de vídeo', 'Artesanato', 'Fotografia', '200'];
 
   return (
     <>

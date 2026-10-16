@@ -5,6 +5,11 @@ import { auth, authService } from '../services/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import ShareButton from './ShareButton';
 import { useToast } from './Toast';
+import {
+  shouldShowConfetti,
+  markConfettiShown,
+  fireFavoriteConfetti,
+} from '../utils/confetti';
 
 /* ─────────────────────────────  Animações  ───────────────────────────── */
 const fadeIn = keyframes`
@@ -34,7 +39,6 @@ const Card = styled.div`
   overflow: hidden;
   cursor: default;
 
-  /* fundo em camadas — vidro + profundidade */
   background:
     radial-gradient(circle at 0% 0%, rgba(74, 140, 247, 0.09), transparent 45%),
     radial-gradient(circle at 100% 100%, rgba(168, 85, 247, 0.07), transparent 45%),
@@ -57,7 +61,6 @@ const Card = styled.div`
     border-color 0.35s ease,
     background 0.35s ease;
 
-  /* barra gradiente superior */
   &::before {
     content: '';
     position: absolute;
@@ -73,7 +76,6 @@ const Card = styled.div`
     transition: opacity 0.4s ease;
   }
 
-  /* brilho que segue no hover */
   &::after {
     content: '';
     position: absolute;
@@ -130,7 +132,6 @@ const Card = styled.div`
   @media (max-width: 768px) {
     &:hover {
       transform: translateY(-4px);
-      /* desativa 3D no touch */
     }
   }
 
@@ -140,7 +141,6 @@ const Card = styled.div`
   }
 `;
 
-/* ───────────────────────  Ações topo (share + heart)  ─────────────────────── */
 const TopActions = styled.div`
   position: absolute;
   top: 14px;
@@ -157,13 +157,12 @@ const TopActions = styled.div`
   }
 `;
 
-/* ───────────────────────  Header (emoji + título + cat)  ─────────────────────── */
 const CardHeader = styled.div`
   display: flex;
   align-items: flex-start;
   gap: 12px;
   margin-bottom: 14px;
-  padding-right: 88px; /* espaço pro coração e share */
+  padding-right: 88px;
 
   @media (max-width: 480px) {
     gap: 10px;
@@ -237,7 +236,6 @@ const Category = styled.span`
   }
 `;
 
-/* ───────────────────────  Coração 3D (mantido)  ─────────────────────── */
 const FavoriteButton = styled.button`
   background: ${props => props.$favorited
     ? 'rgba(239, 68, 68, 0.15)'
@@ -256,7 +254,6 @@ const FavoriteButton = styled.button`
   transition: all 0.3s ease;
   padding: 0;
   flex-shrink: 0;
-  /* preserva o 3D que já existia */
   filter: ${props => props.$favorited
     ? 'drop-shadow(0 0 8px rgba(239, 68, 68, 0.5))'
     : 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3))'};
@@ -279,7 +276,6 @@ const FavoriteButton = styled.button`
   }
 `;
 
-/* ───────────────────────  Badges  ─────────────────────── */
 const BadgeContainer = styled.div`
   display: flex;
   gap: 6px;
@@ -307,7 +303,6 @@ const Badge = styled.span`
   }
 `;
 
-/* ───────────────────────  Descrição  ─────────────────────── */
 const Description = styled.p`
   color: #94a3b8;
   font-size: 0.85rem;
@@ -323,7 +318,6 @@ const Description = styled.p`
   }
 `;
 
-/* ───────────────────────  Investimento  ─────────────────────── */
 const Investment = styled.div`
   display: flex;
   align-items: center;
@@ -363,12 +357,11 @@ const Investment = styled.div`
   }
 `;
 
-/* ───────────────────────  Botão Detalhes  ─────────────────────── */
 const DetailButton = styled.button`
   position: relative;
   width: 100%;
   padding: 12px 16px;
-  margin-top: auto; /* empurra pro rodapé do card */
+  margin-top: auto;
   border-radius: 12px;
   border: 1px solid rgba(74, 140, 247, 0.35);
   background: rgba(74, 140, 247, 0.08);
@@ -387,7 +380,6 @@ const DetailButton = styled.button`
     box-shadow 0.3s ease,
     transform 0.15s ease;
 
-  /* gradiente "deslizante" que aparece no hover */
   &::before {
     content: '';
     position: absolute;
@@ -470,6 +462,12 @@ const BusinessCard = ({ business, style }) => {
       }
       setFavorited(true);
       showToast('❤️ Adicionado aos favoritos!', 'success');
+
+      // ⭐ CONFETTI na primeira vez
+      if (shouldShowConfetti(currentUser.uid)) {
+        fireFavoriteConfetti();
+        markConfettiShown(currentUser.uid);
+      }
 
       authService.addFavorite(currentUser.uid, business.id)
         .catch(err => console.warn('⚠️ Firestore erro:', err));
