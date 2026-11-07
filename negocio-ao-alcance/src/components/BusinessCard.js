@@ -448,6 +448,7 @@ const BusinessCard = ({ business, style }) => {
     const savedFavorites = JSON.parse(localStorage.getItem(storageKey) || '[]');
 
     if (favorited) {
+      // ─── REMOVENDO ────────────────────────────────────
       const newFavorites = savedFavorites.filter(id => id !== business.id);
       localStorage.setItem(storageKey, JSON.stringify(newFavorites));
       setFavorited(false);
@@ -456,6 +457,7 @@ const BusinessCard = ({ business, style }) => {
       authService.removeFavorite(currentUser.uid, business.id)
         .catch(err => console.warn('⚠️ Firestore erro:', err));
     } else {
+      // ─── ADICIONANDO ──────────────────────────────────
       if (!savedFavorites.includes(business.id)) {
         savedFavorites.push(business.id);
         localStorage.setItem(storageKey, JSON.stringify(savedFavorites));
@@ -463,16 +465,20 @@ const BusinessCard = ({ business, style }) => {
       setFavorited(true);
       showToast('❤️ Adicionado aos favoritos!', 'success');
 
-      // ⭐ CONFETTI na primeira vez
-      if (shouldShowConfetti(currentUser.uid)) {
+      // ⭐ Verifica se é a PRIMEIRA vez do usuário favoritando algo
+      const isFirstTime = shouldShowConfetti(currentUser.uid);
+
+      if (isFirstTime) {
+        // 🎉 Primeira vez: confetti + navega pra mostrar a página
         fireFavoriteConfetti();
         markConfettiShown(currentUser.uid);
+
+        setTimeout(() => navigate('/favoritos'), 600);
       }
+      // 👆 Depois da primeira vez: só marca o coração, NÃO navega
 
       authService.addFavorite(currentUser.uid, business.id)
         .catch(err => console.warn('⚠️ Firestore erro:', err));
-
-      setTimeout(() => navigate('/favoritos'), 400);
     }
     setLoading(false);
   };
