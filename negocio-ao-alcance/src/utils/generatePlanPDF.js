@@ -89,6 +89,7 @@ export const generatePlanPDF = ({
     }
   };
 
+  // 🎯 CORREÇÃO DA BADGE E ALINHAMENTO
   const sectionTitle = (x, y, w, title, badge = null, accent = C.azul) => {
     setF(accent);
     doc.roundedRect(x, y - 3.2, 1.6, 4.8, 0.5, 0.5, 'F');
@@ -103,7 +104,8 @@ export const generatePlanPDF = ({
       doc.setFont('helvetica', 'bold');
       const tw = doc.getTextWidth(badge);
       const pw = tw + 8;
-      const px = x + w - pw;
+      // Desconta um padding para não encostar na borda
+      const px = x + w - pw - 2; 
 
       setF(accent);
       doc.roundedRect(px, y - 3.4, pw, 5.4, 2.7, 2.7, 'F');
@@ -117,6 +119,7 @@ export const generatePlanPDF = ({
     doc.line(x, y + 2.8, x + w, y + 2.8);
   };
 
+  // 🎨 NOVOS ÍCONES VETORIAIS
   const drawCategoryIcon = (cx, cy, categoria, cor = C.branco) => {
     setF(cor);
     const cat = (categoria || '').toLowerCase();
@@ -126,7 +129,10 @@ export const generatePlanPDF = ({
       doc.rect(cx - 1.8, cy + 2.2, 3.6, 0.7, 'F');
       doc.rect(cx - 3, cy + 3, 6, 0.5, 'F');
     } else if (cat.includes('beleza')) {
-      doc.triangle(cx, cy - 3.4, cx - 3, cy + 3, cx + 3, cy + 3, 'F');
+      // Lápis de maquiagem / Batom
+      doc.rect(cx - 1.5, cy - 3.5, 3, 4, 'F');
+      doc.triangle(cx - 1.5, cy + 0.5, cx + 1.5, cy + 0.5, cx, cy + 2, 'F');
+      doc.rect(cx - 2, cy + 2.2, 4, 1.5, 'F');
     } else if (cat.includes('alimenta')) {
       doc.rect(cx - 2.4, cy - 3, 0.8, 6, 'F');
       doc.rect(cx - 3.4, cy - 3, 0.5, 1.8, 'F');
@@ -148,6 +154,10 @@ export const generatePlanPDF = ({
       doc.circle(cx, cy, 3.2, 'F');
       setF(C.headerBg);
       doc.circle(cx, cy, 1.2, 'F');
+    } else if (cat.includes('revenda')) {
+      // Sacola de compras
+      doc.roundedRect(cx - 3, cy - 2, 6, 5, 0.5, 0.5, 'F');
+      doc.rect(cx - 1.5, cy - 4, 3, 2, 'F');
     } else {
       doc.roundedRect(cx - 3, cy - 3, 6, 6, 0.6, 0.6, 'F');
       setF(C.headerBg);
@@ -174,13 +184,13 @@ export const generatePlanPDF = ({
       doc.line(x + size * 0.25, y + size * 0.55, x + size * 0.45, y + size * 0.75);
       doc.line(x + size * 0.45, y + size * 0.75, x + size * 0.78, y + size * 0.28);
     } else {
-      setD([200, 210, 226]);
-      doc.setLineWidth(0.5);
+      setD([180, 195, 215]); // Borda mais escura e visível
+      doc.setLineWidth(0.6);
       doc.roundedRect(x, y, size, size, 1.3, 1.3, 'S');
     }
   };
 
-  // Helper pra renderizar tabela de preços (reusado em 2 lugares)
+  // Helper pra renderizar tabela de preços
   const renderPricingTable = (x, y, w) => {
     if (!pricing || pricing.length === 0) return y;
 
@@ -195,7 +205,7 @@ export const generatePlanPDF = ({
     setC(C.roxoDk);
     doc.text('NÍVEL', x + 3, cy);
     doc.text('VALOR', x + w * 0.42, cy);
-    doc.text('PRAZO', x + w, cy, { align: 'right' });
+    doc.text('PRAZO', x + w - 2, cy, { align: 'right' });
 
     cy += 7.5;
 
@@ -211,7 +221,7 @@ export const generatePlanPDF = ({
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(9);
       setC(C.textoMed);
-      doc.text(row.time || '', x + w, cy, { align: 'right' });
+      doc.text(row.time || '', x + w - 2, cy, { align: 'right' });
 
       setD(C.divider);
       doc.setLineWidth(0.2);
@@ -366,7 +376,7 @@ export const generatePlanPDF = ({
       doc.text(proximoPasso.estimatedTime, pageW - M - 4, y + 7, { align: 'right' });
     }
 
-    y += cardH + 5;   // ⬅️ reduzido de 8
+    y += cardH + 6;
   }
 
   // ═══════════════════════════════════════════════════════
@@ -374,7 +384,7 @@ export const generatePlanPDF = ({
   // ═══════════════════════════════════════════════════════
   if (business.description) {
     sectionTitle(M, y, pageW - M * 2, 'Sobre o negócio', null, C.azul);
-    y += 9;   // ⬅️ reduzido de 10
+    y += 9;
 
     setF(C.cardBg);
     setD(C.divider);
@@ -390,7 +400,7 @@ export const generatePlanPDF = ({
     const descLines = doc.splitTextToSize(business.description, pageW - M * 2 - 12);
     doc.text(descLines.slice(0, 2), M + 6, y + 7);
 
-    y += 20;   // ⬅️ reduzido de 23
+    y += 20;
   }
 
   // ═══════════════════════════════════════════════════════
@@ -438,18 +448,18 @@ export const generatePlanPDF = ({
       setC(C.textoLt);
       doc.text(item.label, x + 5, y + 7);
 
-      doc.setFontSize(14);
+      doc.setFontSize(13.5);
       doc.setFont('helvetica', 'bold');
       setC(C.texto);
       const valLines = doc.splitTextToSize(item.value, cardW - 8);
-      doc.text(valLines[0], x + 5, y + 15.5);
+      doc.text(valLines[0], x + 5, y + 15);
     });
 
-    y += 25;   // ⬅️ reduzido de 27
+    y += 26;
   }
 
   // ═══════════════════════════════════════════════════════
-  // COLUNAS
+  // COLUNAS (ROTEIRO E MATERIAIS)
   // ═══════════════════════════════════════════════════════
   let yL = y;
   let yR = y;
@@ -461,7 +471,6 @@ export const generatePlanPDF = ({
 
     steps.slice(0, 8).forEach((step, i) => {
       const isDone = !!completedSteps[i];
-
       drawCheckbox(colL, yL - 3.5, isDone, 4.5);
 
       doc.setFontSize(10.5);
@@ -474,7 +483,6 @@ export const generatePlanPDF = ({
 
       yL += lines.length * 5 + 3.2;
     });
-
     yL += 6;
   }
 
@@ -521,7 +529,6 @@ export const generatePlanPDF = ({
 
     if (hasPrice) {
       yR += 4;
-
       setF(C.azulSoft);
       setD(C.azul);
       doc.setLineWidth(0.35);
@@ -543,25 +550,12 @@ export const generatePlanPDF = ({
 
       yR += 22;
     }
-
     yR += 6;
-
-    // ⭐ Preços na mesma coluna se ainda tiver espaço
-    if (pricing && pricing.length > 0 && yR < yL - 30) {
-      yR += 4;
-      yR = renderPricingTable(colR, yR, colW);
-      yR += 4;
-    }
   }
 
   // ─── ESQUERDA: CLIENTES ────────────────────────────────
   if (business.potentialClients?.length > 0) {
-    sectionTitle(
-      colL, yL, colW,
-      'Clientes potenciais',
-      `${business.potentialClients.length} perfis`,
-      C.azul
-    );
+    sectionTitle(colL, yL, colW, 'Clientes potenciais', `${business.potentialClients.length} perfis`, C.azul);
     yL += 11;
 
     business.potentialClients.slice(0, 8).forEach((client) => {
@@ -578,11 +572,10 @@ export const generatePlanPDF = ({
 
       yL += 6;
     });
-
     yL += 6;
   }
 
-  // ─── DIREITA: PREÇOS (só se não foi renderizado ainda) ─
+  // ─── DIREITA: PREÇOS ───────────────────────────────────
   if (pricing && pricing.length > 0 && yR < yL - 20) {
     yR += 4;
     yR = renderPricingTable(colR, yR, colW);
@@ -590,135 +583,34 @@ export const generatePlanPDF = ({
   }
 
   // ═══════════════════════════════════════════════════════
-  // ERROS COMUNS (condição permissiva)
+  // BLOCO: DICAS DE OURO (Preenche o final da página)
   // ═══════════════════════════════════════════════════════
   const maxY = Math.max(yL, yR);
   const espacoRestante = pageH - 60 - maxY;
 
-  if (espacoRestante > 30) {   // ⬅️ era 60
+  if (espacoRestante > 45) {
     const dy = maxY + 8;
+    
+    // Card de Dicas
+    setF(C.roxoSoft);
+    setD(C.roxo);
+    doc.setLineWidth(0.35);
+    doc.roundedRect(M, dy, pageW - M * 2, 26, 2.5, 2.5, 'FD');
+    
+    setF(C.roxo);
+    doc.roundedRect(M + 2, dy + 2, 1.6, 22, 0.8, 0.8, 'F');
 
-    sectionTitle(M, dy, pageW - M * 2, 'Erros comuns', 'evite', C.roxo);
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'bold');
+    setC(C.roxoDk);
+    doc.text('💡 Dica de Ouro', M + 8, dy + 7);
 
-    const erros = [
-      'Cobrar barato demais pra atrair cliente: desvaloriza seu trabalho e atrai quem não valoriza.',
-      'Não documentar o trabalho: sem portfólio você não consegue cobrar mais caro depois.',
-      'Deixar de pedir feedback: 90% dos clientes satisfeitos voltam se você perguntar.',
-    ];
-
-    let dy2 = dy + 13;
-    erros.forEach((erro) => {
-      const xr = M + 1.4;
-      const yr = dy2 - 1.2;
-
-      setD(C.roxo);
-      doc.setLineWidth(0.8);
-      doc.line(xr - 1.3, yr - 1.3, xr + 1.3, yr + 1.3);
-      doc.line(xr + 1.3, yr - 1.3, xr - 1.3, yr + 1.3);
-
-      doc.setFontSize(9.5);
-      doc.setFont('helvetica', 'normal');
-      setC(C.texto);
-
-      const lines = doc.splitTextToSize(erro, pageW - M * 2 - 8);
-      doc.text(lines[0], M + 6, dy2);
-      dy2 += 4.8;
-
-      if (lines[1]) {
-        doc.text(lines[1], M + 6, dy2);
-        dy2 += 4.8;
-      }
-
-      dy2 += 2;
-    });
-  }
-
-  // ═══════════════════════════════════════════════════════
-  // CHECKLIST "ANTES DE COMEÇAR" (permissiva)
-  // ═══════════════════════════════════════════════════════
-  const maxY2 = Math.max(yL, yR, y);
-
-  if (pageH - 60 - maxY2 > 35) {   // ⬅️ era 55
-    const dy = maxY2 + 40;   // ⬅️ era 48
-
-    sectionTitle(M, dy, pageW - M * 2, 'Antes de começar', 'checklist', C.azul);
-
-    const checks = [
-      'Reservei tempo na semana para me dedicar',
-      'Tenho acesso à internet e aos equipamentos básicos',
-      'Separei o valor do investimento inicial',
-      'Escolhi um espaço adequado para trabalhar',
-      'Estou disposto a aprender e ajustar o plano',
-    ];
-
-    let dy2 = dy + 12;
-    checks.forEach((check) => {
-      drawCheckbox(M, dy2 - 2.8, false, 4);
-
-      doc.setFontSize(9.5);
-      doc.setFont('helvetica', 'normal');
-      setC(C.texto);
-      doc.text(check, M + 6.5, dy2);
-
-      dy2 += 6.5;
-    });
-  }
-
-  // ═══════════════════════════════════════════════════════
-  // PERGUNTAS FREQUENTES (condição MUITO permissiva)
-  // ═══════════════════════════════════════════════════════
-  const maxY3 = Math.max(yL, yR, y, maxY2);
-  const espacoFAQ = pageH - 60 - maxY3;
-
-  if (espacoFAQ > 25) {   // ⬅️ era 50
-    const dy = maxY3 + 50;   // ⬅️ era 58
-
-    if (dy < pageH - 42) {
-      sectionTitle(M, dy, pageW - M * 2, 'Perguntas frequentes', 'FAQ', C.roxo);
-
-      const faqs = [
-        {
-          q: 'Preciso de CNPJ pra começar?',
-          a: 'Não. Você pode começar como pessoa física. O CNPJ (MEI) só é necessário quando você passar a faturar acima de R$ 3.000 por mês ou precisar emitir nota fiscal.',
-        },
-        {
-          q: 'Quanto tempo leva pra ter o primeiro cliente?',
-          a: 'Depende do seu esforço, mas em média leva de 2 a 4 semanas. Foque em divulgar todos os dias e oferecer um serviço de teste pra 3 pessoas próximas.',
-        },
-        {
-          q: 'Posso começar sozinho ou preciso de sócio?',
-          a: 'Comece sozinho. Um sócio só é bom quando você já tem clientes e precisa dividir tarefas. No início, menos gente = menos dor de cabeça.',
-        },
-        {
-          q: 'O que faço se não der certo nos primeiros meses?',
-          a: 'Ajuste o plano. Veja em qual etapa você parou, o que faltou e recomece. Muitos negócios só decolam depois de 2-3 tentativas.',
-        },
-      ];
-
-      let dy2 = dy + 13;
-      faqs.forEach((faq) => {
-        setF(C.roxo);
-        doc.circle(M + 1.5, dy2 - 1, 1, 'F');
-
-        doc.setFontSize(10);
-        doc.setFont('helvetica', 'bold');
-        setC(C.roxoDk);
-        const qLines = doc.splitTextToSize(faq.q, pageW - M * 2 - 8);
-        doc.text(qLines[0], M + 6, dy2);
-        dy2 += 5.5;
-
-        doc.setFontSize(9.5);
-        doc.setFont('helvetica', 'normal');
-        setC(C.textoMed);
-        const aLines = doc.splitTextToSize(faq.a, pageW - M * 2 - 8);
-        aLines.slice(0, 3).forEach((line) => {
-          doc.text(line, M + 6, dy2);
-          dy2 += 4.5;
-        });
-
-        dy2 += 3.5;
-      });
-    }
+    doc.setFontSize(9.5);
+    doc.setFont('helvetica', 'normal');
+    setC(C.texto);
+    const dicaText = 'Foque em resolver a dor do seu cliente o mais rápido possível. Entregue um atendimento impecável nas primeiras vendas e peça indicações. O boca a boca é o marketing mais barato e eficiente que existe!';
+    const dicaLines = doc.splitTextToSize(dicaText, pageW - M * 2 - 14);
+    doc.text(dicaLines, M + 8, dy + 13);
   }
 
   // ═══════════════════════════════════════════════════════
@@ -747,12 +639,7 @@ export const generatePlanPDF = ({
     doc.setFontSize(7.5);
     doc.setFont('helvetica', 'normal');
     setC(C.textoLt);
-    doc.text(
-      `Gerado por ${userName}`,
-      pageW / 2,
-      footerY + 8,
-      { align: 'center' }
-    );
+    doc.text(`Gerado por ${userName}`, pageW / 2, footerY + 8, { align: 'center' });
   }
 
   // ═══════════════════════════════════════════════════════
