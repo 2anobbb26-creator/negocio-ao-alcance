@@ -20,6 +20,7 @@ const MeusPlanos = React.lazy(() => import('./pages/MeusPlanos'));
 const Jornada = React.lazy(() => import('./pages/Jornada'));
 const Guia = React.lazy(() => import('./pages/Guia'));
 const Sobre = React.lazy(() => import('./pages/Sobre'));
+const Consultor = React.lazy(() => import('./pages/Consultor'));       // ⬅ NOVO
 const EmailVerification = React.lazy(() => import('./components/EmailVerification'));
 
 // ─── ANIMAÇÕES ─────────────────────────────────────────────
@@ -145,6 +146,10 @@ const AppRoutes = ({ user, handleLogin, handleRegister }) => {
           <Route
             path="/jornada"
             element={<PrivateRoute user={user}><Jornada /></PrivateRoute>}
+          />
+          <Route
+            path="/consultor"
+            element={<PrivateRoute user={user}><Consultor /></PrivateRoute>}
           />
         </Routes>
       </Suspense>

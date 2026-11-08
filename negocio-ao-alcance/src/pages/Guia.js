@@ -552,6 +552,186 @@ const ARTIGOS = [
       </>
     ),
   },
+  {
+    id: 13,
+    emoji: '🛍️',
+    title: 'Como vender no WhatsApp sem ser chato',
+    excerpt: 'O WhatsApp é a ferramenta mais poderosa de vendas do Brasil. Aprenda a usá-lo sem espantar clientes.',
+    content: (
+      <>
+        <p>O WhatsApp é onde as vendas realmente acontecem no Brasil. Mas tem que saber usar. Veja as regras de ouro:</p>
+        <h3>1. Configure o WhatsApp Business</h3>
+        <p>Coloque foto profissional, descrição clara, catálogo de produtos e mensagem automática de boas-vindas.</p>
+        <h3>2. Não mande mensagem sem permissão</h3>
+        <p>Nunca adicione alguém num grupo sem pedir. Peça autorização: "Posso te mandar novidades uma vez por semana?".</p>
+        <h3>3. Responda rápido</h3>
+        <p>A chance de fechar venda cai 80% se você demorar mais de 1 hora para responder. Ative notificações!</p>
+        <h3>4. Use listas de transmissão (com moderação)</h3>
+        <p>Mande novidades para quem autorizou. Nada de spam diário.</p>
+        <h3>5. Finalize com pergunta</h3>
+        <p>Toda mensagem deve terminar com uma pergunta: "Qual cor você prefere?", "Posso reservar pra você?".</p>
+        <p><strong>💡 Dica:</strong> responda no mesmo tom do cliente. Se ele usar emoji, use emoji. Se for formal, seja formal. Conexão vende.</p>
+      </>
+    ),
+  },
+  {
+    id: 14,
+    emoji: '🎨',
+    title: 'Identidade visual: como criar a cara do seu negócio',
+    excerpt: 'Cores, fontes e logo não são frescura. Passam credibilidade e fazem o cliente lembrar de você.',
+    content: (
+      <>
+        <p>A <strong>identidade visual</strong> é o conjunto de elementos que representam seu negócio: logo, cores, tipografia e tom de voz. Sem ela, você não é lembrado.</p>
+        <h3>1. Escolha sua paleta de cores</h3>
+        <p>Use 2 ou 3 cores no máximo. Cada cor passa um sentimento:</p>
+        <ul>
+          <li><strong>Azul:</strong> confiança (bancos, tecnologia)</li>
+          <li><strong>Vermelho:</strong> energia (alimentação, esportes)</li>
+          <li><strong>Verde:</strong> saúde e natureza</li>
+          <li><strong>Rosa:</strong> delicadeza (beleza, bebês)</li>
+        </ul>
+        <h3>2. Escolha uma fonte</h3>
+        <p>Use no máximo 2 fontes diferentes. Uma para título e outra para corpo. Se for simples, use uma só.</p>
+        <h3>3. Crie um logo simples</h3>
+        <p>Use Canva (grátis), Looka ou Hatchful. O logo precisa funcionar em qualquer tamanho — se sumir quando diminui, está complexo demais.</p>
+        <h3>4. Padronize tudo</h3>
+        <p>Use as mesmas cores e fontes no Instagram, no cartão, no WhatsApp e no site. Consistência = reconhecimento.</p>
+        <p><strong>💡 Dica:</strong> salve o logo em PNG com fundo transparente. Fica mais fácil de usar em qualquer fundo.</p>
+      </>
+    ),
+  },
+  {
+    id: 15,
+    emoji: '💼',
+    title: 'Como negociar com fornecedores',
+    excerpt: 'Pagar mais barato é possível. Aprenda a negociar prazos, descontos e parcerias.',
+    content: (
+      <>
+        <p>Uma boa negociação com fornecedores pode <strong>aumentar sua margem de lucro</strong> sem você precisar aumentar o preço pro cliente.</p>
+        <h3>1. Pesquise antes de negociar</h3>
+        <p>Nunca aceite a primeira proposta. Pesquise em pelo menos 3 fornecedores antes de fechar.</p>
+        <h3>2. Peça desconto por volume</h3>
+        <p>Se for comprar 10 unidades, peça desconto pra 20. Às vezes o fornecedor tem tabela progressiva.</p>
+        <h3>3. Negocie prazo de pagamento</h3>
+        <p>Pagar em 30, 60 ou 90 dias libera seu fluxo de caixa. Vale mais que 5% de desconto.</p>
+        <h3>4. Construa relacionamento</h3>
+        <p>Vire parceiro, não só cliente. Indique, converse, mande mensagem de fim de ano. Fornecedor que gosta de você dá prioridade.</p>
+        <h3>5. Peça amostras</h3>
+        <p>Sempre peça amostra antes de comprar em quantidade. E se der problema, exija nota fiscal e garantia por escrito.</p>
+        <p><strong>💡 Dica:</strong> registre tudo por escrito (WhatsApp vale). Nunca feche acordo só de boca.</p>
+      </>
+    ),
+  },
+  {
+    id: 16,
+    emoji: '📈',
+    title: 'Como definir metas realistas',
+    excerpt: 'Sonhar alto é bom, mas metas vagas não funcionam. Aprenda o método SMART para traçar objetivos.',
+    content: (
+      <>
+        <p>"Quero ganhar muito dinheiro" não é meta. Meta de verdade precisa ser <strong>específica e mensurável</strong>. Use o método SMART:</p>
+        <h3>S — Específica</h3>
+        <p>"Quero vender bolos de chocolate" é mais específico que "quero vender doces".</p>
+        <h3>M — Mensurável</h3>
+        <p>"Vender 30 bolos por mês" — você sabe se bateu ou não.</p>
+        <h3>A — Atingível</h3>
+        <p>Se hoje você vende 5 bolos, querer 100 no próximo mês é irreal. 15 é desafiador e possível.</p>
+        <h3>R — Relevante</h3>
+        <p>A meta tem que fazer sentido pro seu momento. Não copie metas dos outros.</p>
+        <h3>T — Temporal</h3>
+        <p>Defina prazo: 30, 60 ou 90 dias. Sem prazo, não é meta, é desejo.</p>
+        <p><strong>💡 Dica:</strong> quebre metas grandes em pequenas. "30 bolos por mês" = "1 bolo por dia". Mais fácil de executar.</p>
+      </>
+    ),
+  },
+  {
+    id: 17,
+    emoji: '🧠',
+    title: 'Como manter a motivação nos dias difíceis',
+    excerpt: 'Empreender é uma maratona, não um sprint. Veja como lidar com o desânimo sem desistir.',
+    content: (
+      <>
+        <p>Todo empreendedor tem dias de desânimo. A diferença é o que você faz com eles.</p>
+        <h3>1. Aceite que dias ruins são normais</h3>
+        <p>Nenhum negócio cresce em linha reta. Altos e baixos fazem parte.</p>
+        <h3>2. Foque em uma coisa pequena por dia</h3>
+        <p>Quando estiver desanimado, faça <strong>só uma coisa</strong>: mande uma mensagem, poste uma foto, responda um cliente. A ação gera motivação.</p>
+        <h3>3. Celebre as pequenas vitórias</h3>
+        <p>Primeira venda, primeiro depoimento, primeiro seguidor. Tudo conta.</p>
+        <h3>4. Cerque-se de gente que empreende</h3>
+        <p>Grupos de WhatsApp, comunidades, amigos empreendedores. Ninguém te entende melhor.</p>
+        <h3>5. Tenha um "porquê" forte</h3>
+        <p>Por que você começou? Pra pagar as contas? Dar o melhor pro filho? Ter liberdade? Cole esse porquê na parede.</p>
+        <p><strong>💡 Dica:</strong> se o desânimo durar mais de 2 semanas seguidas, procure ajuda profissional. Saúde mental é séria.</p>
+      </>
+    ),
+  },
+  {
+    id: 18,
+    emoji: '🚀',
+    title: 'Como escalar um negócio pequeno',
+    excerpt: 'Escalar não é vender mais. É crescer sem aumentar o trabalho na mesma proporção.',
+    content: (
+      <>
+        <p>Muita gente confunde <strong>escalar</strong> com <strong>trabalhar mais</strong>. Escalar é fazer o negócio crescer sem você precisar trabalhar 15 horas por dia.</p>
+        <h3>1. Padronize processos</h3>
+        <p>Escreva como você faz cada tarefa: como atende o cliente, como produz, como entrega. Se você ficar doente, o negócio roda?</p>
+        <h3>2. Delegue o repetitivo</h3>
+        <p>O que você faz sempre igual, alguém pode fazer por você. Contrate freelancer para as tarefas simples.</p>
+        <h3>3. Aumente o ticket médio</h3>
+        <p>Em vez de vender mais barato pra mais gente, venda um pacote completo pra menos gente. Menos clientes, mais lucro.</p>
+        <h3>4. Automatize o que der</h3>
+        <p>Use ferramentas: agendamento automático, respostas prontas, catálogo online. Cada minuto economizado conta.</p>
+        <h3>5. Invista em marca</h3>
+        <p>Marca forte vende sozinha. Invista em conteúdo, depoimentos e identidade visual.</p>
+        <p><strong>💡 Dica:</strong> escalar antes de ter processo é receita pra caos. Consolide antes de crescer.</p>
+      </>
+    ),
+  },
+  {
+    id: 19,
+    emoji: '🛡️',
+    title: 'Proteja seu negócio: contratos e segurança',
+    excerpt: 'Um contrato mal feito pode custar caro. Aprenda o básico para se proteger juridicamente.',
+    content: (
+      <>
+        <p>Não precisa ser advogado pra se proteger. Mas alguns cuidados básicos evitam muita dor de cabeça.</p>
+        <h3>1. Tenha contrato de prestação de serviço</h3>
+        <p>Mesmo simples, precisa ter: nome das partes, descrição do serviço, valor, prazo, forma de pagamento e o que acontece em caso de cancelamento.</p>
+        <h3>2. Combine tudo por escrito</h3>
+        <p>WhatsApp vale como prova. Sempre confirme por mensagem o que foi combinado por telefone.</p>
+        <h3>3. Emita nota fiscal</h3>
+        <p>Além de proteger, comprova renda. Sem nota, você não tem como cobrar judicialmente.</p>
+        <h3>4. Guarde os registros</h3>
+        <p>Fotos do produto, prints da conversa, comprovante de pagamento. Tudo salvo por, no mínimo, 5 anos.</p>
+        <h3>5. Pense duas vezes antes de processar</h3>
+        <p>Processar cliente por valor baixo pode custar mais caro que o prejuízo. Use bom senso.</p>
+        <p><strong>💡 Dica:</strong> modelos de contrato grátis existem no site do Sebrae. Use e adapte.</p>
+      </>
+    ),
+  },
+  {
+    id: 20,
+    emoji: '🎯',
+    title: 'Como se diferenciar num mercado cheio',
+    excerpt: 'Todo mundo vende a mesma coisa. Como fazer o cliente escolher você?',
+    content: (
+      <>
+        <p>Não importa o que você venda, sempre tem concorrente. A diferença está em <strong>como</strong> você vende.</p>
+        <h3>1. Atendimento é o novo marketing</h3>
+        <p>Responder rápido, tratar bem, lembrar do nome do cliente. 80% dos negócios fecham por atendimento, não por preço.</p>
+        <h3>2. Especialize em um nicho</h3>
+        <p>Em vez de "faço bolos", seja "faço bolos sem glúten para festas infantis". Nicho te faz único.</p>
+        <h3>3. Conte sua história</h3>
+        <p>Mostre o porquê você faz o que faz. Pessoas compram de pessoas, não de logos.</p>
+        <h3>4. Entregue o inesperado</h3>
+        <p>Um brinde, um cartão escrito à mão, um follow-up depois da entrega. O detalhe que ninguém espera é o que fica na memória.</p>
+        <h3>5. Cobre um preço justo</h3>
+        <p>Não seja o mais barato. Seja o que mais vale a pena.</p>
+        <p><strong>💡 Dica:</strong> pergunte aos seus melhores clientes por que eles escolhem você. A resposta está aí.</p>
+      </>
+    ),
+  }
 ];
 
 // ─── COMPONENTE ────────────────────────────────────────────

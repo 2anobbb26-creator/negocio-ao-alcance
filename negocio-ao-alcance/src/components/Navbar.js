@@ -340,6 +340,7 @@ const IcoHeart = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor
 const IcoUser = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>;
 const IcoDots = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="1" /><circle cx="12" cy="5" r="1" /><circle cx="12" cy="19" r="1" /></svg>;
 const IcoLogout = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg>;
+const IcoBrain = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"><path d="M12 4.5a2.5 2.5 0 0 0-4.96-.46 2.5 2.5 0 0 0-1.98 3 2.5 2.5 0 0 0-1.32 4.24 3 3 0 0 0 .34 5.58 2.5 2.5 0 0 0 2.96 3.08A2.5 2.5 0 0 0 12 19.5a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 12 4.5" /></svg>;
 
 const getInitials = (name) => name ? name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase() : '?';
 
@@ -389,6 +390,7 @@ const Navbar = ({ user, onLogout }) => {
               </DotsButton>
               {moreOpen && (
                 <DropdownMenu>
+                  <DropdownItem to="/consultor" onClick={() => setMoreOpen(false)}>🧠 Consultor Inteligente</DropdownItem>
                   <DropdownItem to="/ferramentas" onClick={() => setMoreOpen(false)}>🧰 Ferramentas</DropdownItem>
                   <DropdownItem to="/guia" onClick={() => setMoreOpen(false)}>📚 Guia</DropdownItem>
                   <DropdownItem to="/sobre" onClick={() => setMoreOpen(false)}>💙 Sobre</DropdownItem>
@@ -435,6 +437,7 @@ const Navbar = ({ user, onLogout }) => {
         <BottomNav>
           <BottomNavItem to="/" $active={isActive('/')} $iconColor="#7eb8ff"><IcoHome /> Início</BottomNavItem>
           <BottomNavItem to="/meus-planos" $active={isActive('/meus-planos')} $iconColor="#a855f7"><IcoTarget /> Planos</BottomNavItem>
+          <BottomNavItem to="/consultor" $active={isActive('/consultor')} $iconColor="#a855f7"><IcoBrain /> Consultor</BottomNavItem>
           <BottomNavItem to="/favoritos" $active={isActive('/favoritos')} $iconColor="#ec4899"><IcoHeart /> Favoritos</BottomNavItem>
           <BottomNavItem to="/perfil" $active={isActive('/perfil')} $iconColor="#7eb8ff"><IcoUser /> Perfil</BottomNavItem>
         </BottomNav>

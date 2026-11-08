@@ -8,20 +8,9 @@ export const businessData = [
     category: "Tecnologia",
     minInvestment: 50,
     maxInvestment: 200,
-    materials: [
-      "Celular ou computador",
-      "Canva Pro ou similar",
-      "Banco de imagens",
-      "Internet"
-    ],
+    materials: ["Celular ou computador", "Canva Pro ou similar", "Banco de imagens", "Internet"],
     suggestedPrice: "R$ 20–80 por arte",
-    potentialClients: [
-      "Lojas de roupas e acessórios",
-      "Salões de beleza e barbearias",
-      "Restaurantes e food trucks",
-      "Pequenas empresas locais",
-      "Profissionais autônomos"
-    ],
+    potentialClients: ["Lojas de roupas e acessórios", "Salões de beleza e barbearias", "Restaurantes e food trucks", "Pequenas empresas locais", "Profissionais autônomos"],
     description: "Crie artes profissionais para redes sociais com baixo investimento.",
     image: "🎨",
     monthlyRevenue: "R$ 1.500 - R$ 5.000",
@@ -36,20 +25,9 @@ export const businessData = [
     category: "Tecnologia",
     minInvestment: 100,
     maxInvestment: 500,
-    materials: [
-      "Celular ou computador",
-      "Editor de vídeo (CapCut/DaVinci)",
-      "Internet",
-      "Banco de músicas"
-    ],
+    materials: ["Celular ou computador", "Editor de vídeo (CapCut/DaVinci)", "Internet", "Banco de músicas"],
     suggestedPrice: "R$ 50–200 por vídeo",
-    potentialClients: [
-      "Influenciadores digitais",
-      "Lojas e e-commerces",
-      "Empresas de marketing",
-      "Criadores de conteúdo",
-      "Produtores de eventos"
-    ],
+    potentialClients: ["Influenciadores digitais", "Lojas e e-commerces", "Empresas de marketing", "Criadores de conteúdo", "Produtores de eventos"],
     description: "Mercado em crescimento com demanda crescente por conteúdo em vídeo.",
     image: "🎬",
     monthlyRevenue: "R$ 2.000 - R$ 8.000",
@@ -64,19 +42,9 @@ export const businessData = [
     category: "Tecnologia",
     minInvestment: 50,
     maxInvestment: 150,
-    materials: [
-      "Celular ou computador",
-      "Editor de design (Canva/Photoshop)",
-      "Internet"
-    ],
+    materials: ["Celular ou computador", "Editor de design (Canva/Photoshop)", "Internet"],
     suggestedPrice: "R$ 15–60 por convite",
-    potentialClients: [
-      "Pessoas físicas (aniversários, casamentos)",
-      "Organizadores de festas",
-      "Escolas e colégios",
-      "Buffets e eventos",
-      "Empresas (eventos corporativos)"
-    ],
+    potentialClients: ["Pessoas físicas (aniversários, casamentos)", "Organizadores de festas", "Escolas e colégios", "Buffets e eventos", "Empresas (eventos corporativos)"],
     description: "Baixo investimento com alta criatividade e rápida execução.",
     image: "💌",
     monthlyRevenue: "R$ 800 - R$ 3.000",
@@ -91,20 +59,9 @@ export const businessData = [
     category: "Tecnologia",
     minInvestment: 50,
     maxInvestment: 150,
-    materials: [
-      "Computador",
-      "Editor de texto (Word/Google Docs)",
-      "Internet",
-      "Modelos e templates"
-    ],
+    materials: ["Computador", "Editor de texto (Word/Google Docs)", "Internet", "Modelos e templates"],
     suggestedPrice: "R$ 20–70 por currículo",
-    potentialClients: [
-      "Estudantes universitários",
-      "Profissionais em transição de carreira",
-      "Trabalhadores buscando emprego",
-      "Jovens aprendizes",
-      "Profissionais de todas as áreas"
-    ],
+    potentialClients: ["Estudantes universitários", "Profissionais em transição de carreira", "Trabalhadores buscando emprego", "Jovens aprendizes", "Profissionais de todas as áreas"],
     description: "Serviço essencial com alta demanda e margem de lucro muito alta.",
     image: "📄",
     monthlyRevenue: "R$ 800 - R$ 3.500",
@@ -119,20 +76,9 @@ export const businessData = [
     category: "Tecnologia",
     minInvestment: 100,
     maxInvestment: 350,
-    materials: [
-      "Celular e computador",
-      "Internet",
-      "Ferramentas de agendamento",
-      "Canva Pro"
-    ],
+    materials: ["Celular e computador", "Internet", "Ferramentas de agendamento", "Canva Pro"],
     suggestedPrice: "R$ 300–1.000 por mês",
-    potentialClients: [
-      "Pequenas empresas locais",
-      "Lojas de comércio eletrônico",
-      "Restaurantes e serviços",
-      "Profissionais liberais",
-      "Startups e negócios em crescimento"
-    ],
+    potentialClients: ["Pequenas empresas locais", "Lojas de comércio eletrônico", "Restaurantes e serviços", "Profissionais liberais", "Startups e negócios em crescimento"],
     description: "Serviço recorrente com contrato mensal e alta margem de lucro.",
     image: "📱",
     monthlyRevenue: "R$ 3.000 - R$ 10.000",
@@ -147,20 +93,9 @@ export const businessData = [
     category: "Tecnologia",
     minInvestment: 300,
     maxInvestment: 1500,
-    materials: [
-      "Celular com boa câmera",
-      "Iluminação (ring light/softbox)",
-      "Fundo e suportes",
-      "Editor de fotos"
-    ],
+    materials: ["Celular com boa câmera", "Iluminação (ring light/softbox)", "Fundo e suportes", "Editor de fotos"],
     suggestedPrice: "R$ 100–400 por ensaio",
-    potentialClients: [
-      "Lojas e e-commerces",
-      "Vendedores online (Mercado Livre, Shopee)",
-      "Artesãos e produtores",
-      "Restaurantes (fotos de comida)",
-      "Anunciantes no Instagram"
-    ],
+    potentialClients: ["Lojas e e-commerces", "Vendedores online (Mercado Livre, Shopee)", "Artesãos e produtores", "Restaurantes (fotos de comida)", "Anunciantes no Instagram"],
     description: "Alta demanda com crescimento do e-commerce e redes sociais.",
     image: "📷",
     monthlyRevenue: "R$ 2.000 - R$ 8.000",
@@ -175,20 +110,9 @@ export const businessData = [
     category: "Tecnologia",
     minInvestment: 150,
     maxInvestment: 800,
-    materials: [
-      "Computador",
-      "Internet",
-      "Hospedagem e domínio",
-      "Editor de sites (WordPress/Wix)"
-    ],
+    materials: ["Computador", "Internet", "Hospedagem e domínio", "Editor de sites (WordPress/Wix)"],
     suggestedPrice: "R$ 500–2.000 por site",
-    potentialClients: [
-      "Pequenas empresas",
-      "Profissionais autônomos",
-      "Lojas físicas querendo entrar no digital",
-      "Restaurantes e serviços",
-      "ONGs e instituições"
-    ],
+    potentialClients: ["Pequenas empresas", "Profissionais autônomos", "Lojas físicas querendo entrar no digital", "Restaurantes e serviços", "ONGs e instituições"],
     description: "Serviço com boa remuneração e possibilidade de manutenção recorrente.",
     image: "🌐",
     monthlyRevenue: "R$ 3.000 - R$ 12.000",
@@ -203,21 +127,9 @@ export const businessData = [
     category: "Tecnologia",
     minInvestment: 200,
     maxInvestment: 800,
-    materials: [
-      "Ferramentas básicas",
-      "Pen drives e HDs externos",
-      "Materiais de limpeza",
-      "Software e sistemas",
-      "Transporte"
-    ],
+    materials: ["Ferramentas básicas", "Pen drives e HDs externos", "Materiais de limpeza", "Software e sistemas", "Transporte"],
     suggestedPrice: "R$ 50–200 por serviço",
-    potentialClients: [
-      "Residências e idosos",
-      "Pequenos escritórios",
-      "Empresas locais",
-      "Escolas e colégios",
-      "Lojas de informática (parceria)"
-    ],
+    potentialClients: ["Residências e idosos", "Pequenos escritórios", "Empresas locais", "Escolas e colégios", "Lojas de informática (parceria)"],
     description: "Serviço essencial com demanda constante e baixo investimento.",
     image: "🖥️",
     monthlyRevenue: "R$ 2.000 - R$ 6.000",
@@ -236,19 +148,9 @@ export const businessData = [
     category: "Serviços",
     minInvestment: 150,
     maxInvestment: 500,
-    materials: [
-      "Baldes e esponjas",
-      "Produtos de limpeza",
-      "Panos de microfibra",
-      "Aspirador portátil"
-    ],
+    materials: ["Baldes e esponjas", "Produtos de limpeza", "Panos de microfibra", "Aspirador portátil"],
     suggestedPrice: "R$ 40–120 por serviço",
-    potentialClients: [
-      "Proprietários de carros",
-      "Condomínios residenciais",
-      "Empresas com frota",
-      "Estacionamentos"
-    ],
+    potentialClients: ["Proprietários de carros", "Condomínios residenciais", "Empresas com frota", "Estacionamentos"],
     description: "Serviço com alta demanda e possibilidade de atendimento móvel.",
     image: "🚗",
     monthlyRevenue: "R$ 2.000 - R$ 6.000",
@@ -263,19 +165,9 @@ export const businessData = [
     category: "Serviços",
     minInvestment: 500,
     maxInvestment: 2000,
-    materials: [
-      "Extratora de estofados",
-      "Produtos específicos",
-      "Escovas e panos",
-      "Equipamentos de proteção"
-    ],
+    materials: ["Extratora de estofados", "Produtos específicos", "Escovas e panos", "Equipamentos de proteção"],
     suggestedPrice: "R$ 100–350 por serviço",
-    potentialClients: [
-      "Casas e apartamentos",
-      "Empresas e escritórios",
-      "Restaurantes",
-      "Hotéis e pousadas"
-    ],
+    potentialClients: ["Casas e apartamentos", "Empresas e escritórios", "Restaurantes", "Hotéis e pousadas"],
     description: "Serviço especializado com boa margem de lucro.",
     image: "🛋️",
     monthlyRevenue: "R$ 2.500 - R$ 8.000",
@@ -290,19 +182,9 @@ export const businessData = [
     category: "Serviços",
     minInvestment: 300,
     maxInvestment: 1500,
-    materials: [
-      "Tesoura de poda",
-      "Ferramentas de jardinagem",
-      "Equipamentos de proteção",
-      "Sacos de lixo"
-    ],
+    materials: ["Tesoura de poda", "Ferramentas de jardinagem", "Equipamentos de proteção", "Sacos de lixo"],
     suggestedPrice: "R$ 80–300 por visita",
-    potentialClients: [
-      "Casas e condomínios",
-      "Empresas com áreas verdes",
-      "Escolas",
-      "Hotéis e pousadas"
-    ],
+    potentialClients: ["Casas e condomínios", "Empresas com áreas verdes", "Escolas", "Hotéis e pousadas"],
     description: "Serviço com demanda constante e possibilidade de contratos recorrentes.",
     image: "🌿",
     monthlyRevenue: "R$ 1.800 - R$ 5.000",
@@ -317,19 +199,9 @@ export const businessData = [
     category: "Serviços",
     minInvestment: 50,
     maxInvestment: 200,
-    materials: [
-      "Caixas organizadoras",
-      "Etiquetas e canetas",
-      "Fitas adesivas",
-      "Suportes e acessórios"
-    ],
+    materials: ["Caixas organizadoras", "Etiquetas e canetas", "Fitas adesivas", "Suportes e acessórios"],
     suggestedPrice: "R$ 80–300 por projeto",
-    potentialClients: [
-      "Casas e apartamentos",
-      "Pessoas em mudança",
-      "Profissionais ocupados",
-      "Famílias com crianças"
-    ],
+    potentialClients: ["Casas e apartamentos", "Pessoas em mudança", "Profissionais ocupados", "Famílias com crianças"],
     description: "Serviço com alta demanda e baixo investimento inicial.",
     image: "📦",
     monthlyRevenue: "R$ 1.200 - R$ 4.000",
@@ -344,19 +216,9 @@ export const businessData = [
     category: "Serviços",
     minInvestment: 200,
     maxInvestment: 800,
-    materials: [
-      "Kit de ferramentas",
-      "Chave de fenda",
-      "Martelo",
-      "Furadeira"
-    ],
+    materials: ["Kit de ferramentas", "Chave de fenda", "Martelo", "Furadeira"],
     suggestedPrice: "R$ 50–200 por serviço",
-    potentialClients: [
-      "Pessoas que compraram móveis novos",
-      "Lojas de móveis (parceria)",
-      "Empresas de mudança",
-      "Condomínios residenciais"
-    ],
+    potentialClients: ["Pessoas que compraram móveis novos", "Lojas de móveis (parceria)", "Empresas de mudança", "Condomínios residenciais"],
     description: "Serviço com alta demanda e possibilidade de parcerias com lojas.",
     image: "🔧",
     monthlyRevenue: "R$ 1.500 - R$ 5.000",
@@ -371,19 +233,9 @@ export const businessData = [
     category: "Serviços",
     minInvestment: 300,
     maxInvestment: 1500,
-    materials: [
-      "Furadeira e brocas",
-      "Kit de ferramentas",
-      "Materiais de construção",
-      "Equipamentos de proteção"
-    ],
+    materials: ["Furadeira e brocas", "Kit de ferramentas", "Materiais de construção", "Equipamentos de proteção"],
     suggestedPrice: "R$ 50–250 por serviço",
-    potentialClients: [
-      "Residências e comércios",
-      "Condomínios",
-      "Empresas de manutenção",
-      "Imobiliárias"
-    ],
+    potentialClients: ["Residências e comércios", "Condomínios", "Empresas de manutenção", "Imobiliárias"],
     description: "Serviço essencial com demanda constante e preços flexíveis.",
     image: "🔨",
     monthlyRevenue: "R$ 2.000 - R$ 6.000",
@@ -402,19 +254,9 @@ export const businessData = [
     category: "Alimentação",
     minInvestment: 150,
     maxInvestment: 500,
-    materials: [
-      "Ingredientes básicos",
-      "Formas de bolo",
-      "Embalagens decorativas",
-      "Utensílios de confeitaria"
-    ],
+    materials: ["Ingredientes básicos", "Formas de bolo", "Embalagens decorativas", "Utensílios de confeitaria"],
     suggestedPrice: "R$ 25–80 por bolo",
-    potentialClients: [
-      "Famílias",
-      "Festas e eventos",
-      "Coffee shops",
-      "Empresas (aniversários)"
-    ],
+    potentialClients: ["Famílias", "Festas e eventos", "Coffee shops", "Empresas (aniversários)"],
     description: "Alta margem de lucro com baixo investimento inicial.",
     image: "🎂",
     monthlyRevenue: "R$ 1.000 - R$ 3.000",
@@ -429,19 +271,9 @@ export const businessData = [
     category: "Alimentação",
     minInvestment: 100,
     maxInvestment: 400,
-    materials: [
-      "Ingredientes",
-      "Embalagens",
-      "Palitinhos",
-      "Formas"
-    ],
+    materials: ["Ingredientes", "Embalagens", "Palitinhos", "Formas"],
     suggestedPrice: "R$ 2–5 por unidade",
-    potentialClients: [
-      "Festas e eventos",
-      "Escolas",
-      "Empresas",
-      "Feiras gastronômicas"
-    ],
+    potentialClients: ["Festas e eventos", "Escolas", "Empresas", "Feiras gastronômicas"],
     description: "Baixo investimento com alta margem de lucro e fácil produção.",
     image: "🍪",
     monthlyRevenue: "R$ 800 - R$ 2.500",
@@ -456,19 +288,9 @@ export const businessData = [
     category: "Alimentação",
     minInvestment: 300,
     maxInvestment: 1000,
-    materials: [
-      "Ingredientes",
-      "Embalagens descartáveis",
-      "Utensílios de cozinha",
-      "Panelas e fogão"
-    ],
+    materials: ["Ingredientes", "Embalagens descartáveis", "Utensílios de cozinha", "Panelas e fogão"],
     suggestedPrice: "R$ 15–30 por marmita",
-    potentialClients: [
-      "Trabalhadores",
-      "Estudantes",
-      "Academias",
-      "Empresas e escritórios"
-    ],
+    potentialClients: ["Trabalhadores", "Estudantes", "Academias", "Empresas e escritórios"],
     description: "Alta demanda com clientes recorrentes e escala de produção.",
     image: "🥘",
     monthlyRevenue: "R$ 2.000 - R$ 8.000",
@@ -483,19 +305,9 @@ export const businessData = [
     category: "Alimentação",
     minInvestment: 200,
     maxInvestment: 700,
-    materials: [
-      "Ingredientes",
-      "Utensílios de cozinha",
-      "Embalagens",
-      "Formas e assadeiras"
-    ],
+    materials: ["Ingredientes", "Utensílios de cozinha", "Embalagens", "Formas e assadeiras"],
     suggestedPrice: "R$ 50–100 por cento",
-    potentialClients: [
-      "Festas e eventos",
-      "Buffets",
-      "Empresas",
-      "Escolas"
-    ],
+    potentialClients: ["Festas e eventos", "Buffets", "Empresas", "Escolas"],
     description: "Alta demanda em eventos com boa margem de lucro.",
     image: "🥟",
     monthlyRevenue: "R$ 1.500 - R$ 4.000",
@@ -510,19 +322,9 @@ export const businessData = [
     category: "Alimentação",
     minInvestment: 150,
     maxInvestment: 500,
-    materials: [
-      "Ingredientes frescos",
-      "Embalagens",
-      "Utensílios de cozinha",
-      "Caixas térmicas"
-    ],
+    materials: ["Ingredientes frescos", "Embalagens", "Utensílios de cozinha", "Caixas térmicas"],
     suggestedPrice: "R$ 8–18 por unidade",
-    potentialClients: [
-      "Escolas",
-      "Empresas",
-      "Academias",
-      "Eventos e reuniões"
-    ],
+    potentialClients: ["Escolas", "Empresas", "Academias", "Eventos e reuniões"],
     description: "Comida saudável com baixo investimento e alta demanda.",
     image: "🥪",
     monthlyRevenue: "R$ 1.200 - R$ 3.500",
@@ -537,19 +339,9 @@ export const businessData = [
     category: "Alimentação",
     minInvestment: 200,
     maxInvestment: 700,
-    materials: [
-      "Alimentos variados",
-      "Cestas decorativas",
-      "Fitas e laços",
-      "Embalagens"
-    ],
+    materials: ["Alimentos variados", "Cestas decorativas", "Fitas e laços", "Embalagens"],
     suggestedPrice: "R$ 80–250 por cesta",
-    potentialClients: [
-      "Presentes e datas comemorativas",
-      "Empresas (cestas para clientes)",
-      "Hotéis e pousadas",
-      "Eventos especiais"
-    ],
+    potentialClients: ["Presentes e datas comemorativas", "Empresas (cestas para clientes)", "Hotéis e pousadas", "Eventos especiais"],
     description: "Produto com alto valor agregado e excelente margem de lucro.",
     image: "🧺",
     monthlyRevenue: "R$ 1.500 - R$ 5.000",
@@ -568,19 +360,9 @@ export const businessData = [
     category: "Beleza",
     minInvestment: 150,
     maxInvestment: 500,
-    materials: [
-      "Esmaltes e bases",
-      "Alicates e lixas",
-      "Produtos de limpeza",
-      "Mesa e cadeira"
-    ],
+    materials: ["Esmaltes e bases", "Alicates e lixas", "Produtos de limpeza", "Mesa e cadeira"],
     suggestedPrice: "R$ 30–80 por serviço",
-    potentialClients: [
-      "Mulheres e homens",
-      "Famílias",
-      "Festas e eventos",
-      "Salões de beleza (parceria)"
-    ],
+    potentialClients: ["Mulheres e homens", "Famílias", "Festas e eventos", "Salões de beleza (parceria)"],
     description: "Serviço com alta demanda e clientes fiéis.",
     image: "💅",
     monthlyRevenue: "R$ 2.000 - R$ 6.000",
@@ -595,19 +377,9 @@ export const businessData = [
     category: "Beleza",
     minInvestment: 100,
     maxInvestment: 400,
-    materials: [
-      "Pinças e lâminas",
-      "Linha para sobrancelha",
-      "Produtos de limpeza",
-      "Espelho e iluminação"
-    ],
+    materials: ["Pinças e lâminas", "Linha para sobrancelha", "Produtos de limpeza", "Espelho e iluminação"],
     suggestedPrice: "R$ 20–60 por serviço",
-    potentialClients: [
-      "Clientes da região",
-      "Salões de beleza (parceria)",
-      "Festas e eventos",
-      "Indicações"
-    ],
+    potentialClients: ["Clientes da região", "Salões de beleza (parceria)", "Festas e eventos", "Indicações"],
     description: "Serviço rápido com boa margem de lucro e cliente fiel.",
     image: "👁️",
     monthlyRevenue: "R$ 1.500 - R$ 4.000",
@@ -622,19 +394,9 @@ export const businessData = [
     category: "Beleza",
     minInvestment: 100,
     maxInvestment: 500,
-    materials: [
-      "Produtos e materiais para tranças",
-      "Pentes e escovas",
-      "Elásticos e acessórios",
-      "Produtos de finalização"
-    ],
+    materials: ["Produtos e materiais para tranças", "Pentes e escovas", "Elásticos e acessórios", "Produtos de finalização"],
     suggestedPrice: "R$ 50–250 por serviço",
-    potentialClients: [
-      "Clientes individuais",
-      "Festas e eventos",
-      "Formaturas",
-      "Crianças e adolescentes"
-    ],
+    potentialClients: ["Clientes individuais", "Festas e eventos", "Formaturas", "Crianças e adolescentes"],
     description: "Serviço especializado com boa margem de lucro.",
     image: "💇‍♀️",
     monthlyRevenue: "R$ 1.500 - R$ 5.000",
@@ -649,19 +411,9 @@ export const businessData = [
     category: "Beleza",
     minInvestment: 500,
     maxInvestment: 2000,
-    materials: [
-      "Maquiagem profissional",
-      "Acessórios e pincéis",
-      "Iluminação e espelho",
-      "Produtos de limpeza"
-    ],
+    materials: ["Maquiagem profissional", "Acessórios e pincéis", "Iluminação e espelho", "Produtos de limpeza"],
     suggestedPrice: "R$ 100–300 por evento",
-    potentialClients: [
-      "Festas e formaturas",
-      "Casamentos",
-      "Ensaios fotográficos",
-      "Produções e eventos"
-    ],
+    potentialClients: ["Festas e formaturas", "Casamentos", "Ensaios fotográficos", "Produções e eventos"],
     description: "Serviço com alto valor agregado e boa margem de lucro.",
     image: "💄",
     monthlyRevenue: "R$ 2.000 - R$ 8.000",
@@ -676,19 +428,9 @@ export const businessData = [
     category: "Beleza",
     minInvestment: 500,
     maxInvestment: 2000,
-    materials: [
-      "Máquina de cortar",
-      "Tesouras profissionais",
-      "Capa e acessórios",
-      "Produtos de finalização"
-    ],
+    materials: ["Máquina de cortar", "Tesouras profissionais", "Capa e acessórios", "Produtos de finalização"],
     suggestedPrice: "R$ 25–80 por corte",
-    potentialClients: [
-      "Homens, mulheres e crianças",
-      "Famílias",
-      "Barbearias (parceria)",
-      "Idosos"
-    ],
+    potentialClients: ["Homens, mulheres e crianças", "Famílias", "Barbearias (parceria)", "Idosos"],
     description: "Serviço essencial com alta rotatividade e clientes fiéis.",
     image: "✂️",
     monthlyRevenue: "R$ 2.000 - R$ 7.000",
@@ -703,19 +445,9 @@ export const businessData = [
     category: "Beleza",
     minInvestment: 500,
     maxInvestment: 1500,
-    materials: [
-      "Secador e chapinha",
-      "Escovas e pentes",
-      "Produtos de finalização",
-      "Acessórios e decoração"
-    ],
+    materials: ["Secador e chapinha", "Escovas e pentes", "Produtos de finalização", "Acessórios e decoração"],
     suggestedPrice: "R$ 40–150 por serviço",
-    potentialClients: [
-      "Festas e eventos",
-      "Formaturas",
-      "Casamentos",
-      "Ensaios fotográficos"
-    ],
+    potentialClients: ["Festas e eventos", "Formaturas", "Casamentos", "Ensaios fotográficos"],
     description: "Serviço com alta demanda em eventos e ocasiões especiais.",
     image: "💇‍♂️",
     monthlyRevenue: "R$ 1.800 - R$ 5.000",
@@ -734,19 +466,9 @@ export const businessData = [
     category: "Educação",
     minInvestment: 50,
     maxInvestment: 200,
-    materials: [
-      "Material escolar",
-      "Celular ou computador",
-      "Internet",
-      "Livros e apostilas"
-    ],
+    materials: ["Material escolar", "Celular ou computador", "Internet", "Livros e apostilas"],
     suggestedPrice: "R$ 25–60 por hora",
-    potentialClients: [
-      "Crianças e adolescentes",
-      "Pais preocupados com educação",
-      "Escolas (parceria)",
-      "Vestibulandos"
-    ],
+    potentialClients: ["Crianças e adolescentes", "Pais preocupados com educação", "Escolas (parceria)", "Vestibulandos"],
     description: "Baixo investimento com alta demanda e margem de lucro.",
     image: "📖",
     monthlyRevenue: "R$ 1.000 - R$ 4.000",
@@ -761,19 +483,9 @@ export const businessData = [
     category: "Educação",
     minInvestment: 50,
     maxInvestment: 300,
-    materials: [
-      "Computador ou celular",
-      "Internet",
-      "Material didático",
-      "Softwares educacionais"
-    ],
+    materials: ["Computador ou celular", "Internet", "Material didático", "Softwares educacionais"],
     suggestedPrice: "R$ 30–70 por hora",
-    potentialClients: [
-      "Crianças e adultos",
-      "Idosos",
-      "Profissionais reciclando",
-      "Empresas (treinamento)"
-    ],
+    potentialClients: ["Crianças e adultos", "Idosos", "Profissionais reciclando", "Empresas (treinamento)"],
     description: "Baixo investimento com alta demanda crescente.",
     image: "💻",
     monthlyRevenue: "R$ 1.200 - R$ 4.500",
@@ -788,19 +500,9 @@ export const businessData = [
     category: "Educação",
     minInvestment: 50,
     maxInvestment: 200,
-    materials: [
-      "Papel e lápis",
-      "Materiais de arte",
-      "Tablet (opcional)",
-      "Internet"
-    ],
+    materials: ["Papel e lápis", "Materiais de arte", "Tablet (opcional)", "Internet"],
     suggestedPrice: "R$ 25–60 por hora",
-    potentialClients: [
-      "Crianças e adolescentes",
-      "Iniciantes",
-      "Pessoas procurando hobby",
-      "Artesãos"
-    ],
+    potentialClients: ["Crianças e adolescentes", "Iniciantes", "Pessoas procurando hobby", "Artesãos"],
     description: "Baixo investimento com alta margem de lucro.",
     image: "✏️",
     monthlyRevenue: "R$ 800 - R$ 3.000",
@@ -815,19 +517,9 @@ export const businessData = [
     category: "Educação",
     minInvestment: 50,
     maxInvestment: 300,
-    materials: [
-      "Computador",
-      "Internet",
-      "Material didático",
-      "Plataformas de ensino"
-    ],
+    materials: ["Computador", "Internet", "Material didático", "Plataformas de ensino"],
     suggestedPrice: "R$ 30–80 por hora",
-    potentialClients: [
-      "Estudantes",
-      "Profissionais",
-      "Pessoas viajando",
-      "Empresas (cursos)"
-    ],
+    potentialClients: ["Estudantes", "Profissionais", "Pessoas viajando", "Empresas (cursos)"],
     description: "Alta demanda com baixo investimento inicial.",
     image: "🌎",
     monthlyRevenue: "R$ 1.200 - R$ 5.000",
@@ -842,19 +534,9 @@ export const businessData = [
     category: "Educação",
     minInvestment: 50,
     maxInvestment: 200,
-    materials: [
-      "Computador",
-      "Internet",
-      "Softwares de edição",
-      "Impressora (opcional)"
-    ],
+    materials: ["Computador", "Internet", "Softwares de edição", "Impressora (opcional)"],
     suggestedPrice: "R$ 20–100 por serviço",
-    potentialClients: [
-      "Estudantes",
-      "Profissionais",
-      "Empresas pequenas",
-      "Pesquisadores"
-    ],
+    potentialClients: ["Estudantes", "Profissionais", "Empresas pequenas", "Pesquisadores"],
     description: "Baixo investimento com boa margem de lucro.",
     image: "⌨️",
     monthlyRevenue: "R$ 800 - R$ 3.000",
@@ -873,19 +555,9 @@ export const businessData = [
     category: "Agro",
     minInvestment: 100,
     maxInvestment: 500,
-    materials: [
-      "Sementes e mudas",
-      "Vasos e recipientes",
-      "Substrato e terra",
-      "Ferramentas de jardinagem"
-    ],
+    materials: ["Sementes e mudas", "Vasos e recipientes", "Substrato e terra", "Ferramentas de jardinagem"],
     suggestedPrice: "R$ 5–30 por muda",
-    potentialClients: [
-      "Jardineiros",
-      "Moradores locais",
-      "Empresas de paisagismo",
-      "Viveiros"
-    ],
+    potentialClients: ["Jardineiros", "Moradores locais", "Empresas de paisagismo", "Viveiros"],
     description: "Baixo investimento com boa margem de lucro.",
     image: "🌱",
     monthlyRevenue: "R$ 800 - R$ 2.500",
@@ -900,19 +572,9 @@ export const businessData = [
     category: "Agro",
     minInvestment: 150,
     maxInvestment: 600,
-    materials: [
-      "Sementes",
-      "Vasos e terra",
-      "Ferramentas de jardinagem",
-      "Adubos e insumos"
-    ],
+    materials: ["Sementes", "Vasos e terra", "Ferramentas de jardinagem", "Adubos e insumos"],
     suggestedPrice: "R$ 100–500 por projeto",
-    potentialClients: [
-      "Casas e condomínios",
-      "Escolas",
-      "Empresas",
-      "Restaurantes"
-    ],
+    potentialClients: ["Casas e condomínios", "Escolas", "Empresas", "Restaurantes"],
     description: "Alta demanda com tendência de alimentação saudável.",
     image: "🥬",
     monthlyRevenue: "R$ 1.000 - R$ 3.000",
@@ -927,19 +589,9 @@ export const businessData = [
     category: "Agro",
     minInvestment: 100,
     maxInvestment: 400,
-    materials: [
-      "Ferramentas de jardinagem",
-      "Insumos e adubos",
-      "Equipamentos de proteção",
-      "Transporte"
-    ],
+    materials: ["Ferramentas de jardinagem", "Insumos e adubos", "Equipamentos de proteção", "Transporte"],
     suggestedPrice: "R$ 80–250 por visita",
-    potentialClients: [
-      "Residências",
-      "Empresas",
-      "Escolas",
-      "Condomínios"
-    ],
+    potentialClients: ["Residências", "Empresas", "Escolas", "Condomínios"],
     description: "Serviço com demanda crescente e contrato recorrente.",
     image: "🌿",
     monthlyRevenue: "R$ 1.200 - R$ 3.500",
@@ -954,19 +606,9 @@ export const businessData = [
     category: "Agro",
     minInvestment: 100,
     maxInvestment: 400,
-    materials: [
-      "Sementes",
-      "Vasos e terra",
-      "Embalagens",
-      "Ferramentas básicas"
-    ],
+    materials: ["Sementes", "Vasos e terra", "Embalagens", "Ferramentas básicas"],
     suggestedPrice: "R$ 5–20 por produto",
-    potentialClients: [
-      "Consumidores locais",
-      "Restaurantes",
-      "Feiras",
-      "Lojas de produtos naturais"
-    ],
+    potentialClients: ["Consumidores locais", "Restaurantes", "Feiras", "Lojas de produtos naturais"],
     description: "Baixo investimento com alta margem de lucro.",
     image: "🌶️",
     monthlyRevenue: "R$ 800 - R$ 2.500",
@@ -981,19 +623,9 @@ export const businessData = [
     category: "Agro",
     minInvestment: 500,
     maxInvestment: 2500,
-    materials: [
-      "Roçadeira",
-      "Ferramentas de jardinagem",
-      "Equipamentos de proteção",
-      "Transporte"
-    ],
+    materials: ["Roçadeira", "Ferramentas de jardinagem", "Equipamentos de proteção", "Transporte"],
     suggestedPrice: "R$ 80–300 por serviço",
-    potentialClients: [
-      "Casas",
-      "Terrenos",
-      "Empresas",
-      "Condomínios"
-    ],
+    potentialClients: ["Casas", "Terrenos", "Empresas", "Condomínios"],
     description: "Serviço com demanda constante e boa margem de lucro.",
     image: "🌳",
     monthlyRevenue: "R$ 1.500 - R$ 4.500",
@@ -1012,19 +644,9 @@ export const businessData = [
     category: "Artesanato",
     minInvestment: 100,
     maxInvestment: 500,
-    materials: [
-      "Materiais diversos",
-      "Argolas e conectores",
-      "Embalagens",
-      "Ferramentas básicas"
-    ],
+    materials: ["Materiais diversos", "Argolas e conectores", "Embalagens", "Ferramentas básicas"],
     suggestedPrice: "R$ 5–20 por unidade",
-    potentialClients: [
-      "Escolas",
-      "Festas",
-      "Empresas (brindes)",
-      "Lojas de presentes"
-    ],
+    potentialClients: ["Escolas", "Festas", "Empresas (brindes)", "Lojas de presentes"],
     description: "Baixo investimento com alta margem de lucro.",
     image: "🔑",
     monthlyRevenue: "R$ 800 - R$ 2.500",
@@ -1039,19 +661,9 @@ export const businessData = [
     category: "Artesanato",
     minInvestment: 500,
     maxInvestment: 2000,
-    materials: [
-      "Prensa térmica",
-      "Canecas brancas",
-      "Papel sublimático",
-      "Embalagens"
-    ],
+    materials: ["Prensa térmica", "Canecas brancas", "Papel sublimático", "Embalagens"],
     suggestedPrice: "R$ 25–50 por unidade",
-    potentialClients: [
-      "Empresas (brindes)",
-      "Lojas de presentes",
-      "Eventos",
-      "Datas comemorativas"
-    ],
+    potentialClients: ["Empresas (brindes)", "Lojas de presentes", "Eventos", "Datas comemorativas"],
     description: "Produto com alto valor agregado e boa margem de lucro.",
     image: "☕",
     monthlyRevenue: "R$ 1.500 - R$ 4.000",
@@ -1066,19 +678,9 @@ export const businessData = [
     category: "Artesanato",
     minInvestment: 100,
     maxInvestment: 500,
-    materials: [
-      "EVA e papel",
-      "Fitas e laços",
-      "Embalagens",
-      "Cola e tesoura"
-    ],
+    materials: ["EVA e papel", "Fitas e laços", "Embalagens", "Cola e tesoura"],
     suggestedPrice: "R$ 3–20 por unidade",
-    potentialClients: [
-      "Festas e eventos",
-      "Casamentos",
-      "Aniversários",
-      "Empresas"
-    ],
+    potentialClients: ["Festas e eventos", "Casamentos", "Aniversários", "Empresas"],
     description: "Alta demanda em eventos com baixo investimento.",
     image: "🎁",
     monthlyRevenue: "R$ 1.000 - R$ 3.000",
@@ -1093,19 +695,9 @@ export const businessData = [
     category: "Artesanato",
     minInvestment: 300,
     maxInvestment: 1500,
-    materials: [
-      "Impressora",
-      "Papel e cartolina",
-      "Materiais de arte",
-      "Embalagens"
-    ],
+    materials: ["Impressora", "Papel e cartolina", "Materiais de arte", "Embalagens"],
     suggestedPrice: "R$ 20–150 por produto",
-    potentialClients: [
-      "Escolas",
-      "Festas",
-      "Empresas",
-      "Eventos"
-    ],
+    potentialClients: ["Escolas", "Festas", "Empresas", "Eventos"],
     description: "Produto com bom valor agregado e margem de lucro.",
     image: "📝",
     monthlyRevenue: "R$ 1.200 - R$ 3.500",
@@ -1120,19 +712,9 @@ export const businessData = [
     category: "Artesanato",
     minInvestment: 100,
     maxInvestment: 500,
-    materials: [
-      "Miçangas e contas",
-      "Fios e arames",
-      "Ferramentas básicas",
-      "Embalagens"
-    ],
+    materials: ["Miçangas e contas", "Fios e arames", "Ferramentas básicas", "Embalagens"],
     suggestedPrice: "R$ 15–80 por peça",
-    potentialClients: [
-      "Consumidores",
-      "Lojas de acessórios",
-      "Feiras e eventos",
-      "E-commerces"
-    ],
+    potentialClients: ["Consumidores", "Lojas de acessórios", "Feiras e eventos", "E-commerces"],
     description: "Criatividade com boa margem de lucro.",
     image: "📿",
     monthlyRevenue: "R$ 1.000 - R$ 3.500",
@@ -1147,19 +729,9 @@ export const businessData = [
     category: "Artesanato",
     minInvestment: 200,
     maxInvestment: 800,
-    materials: [
-      "Cera de soja/parafina",
-      "Essências e fragrâncias",
-      "Moldes",
-      "Pavios e embalagens"
-    ],
+    materials: ["Cera de soja/parafina", "Essências e fragrâncias", "Moldes", "Pavios e embalagens"],
     suggestedPrice: "R$ 20–80 por vela",
-    potentialClients: [
-      "Presentes",
-      "Decoração",
-      "Lojas de artigos",
-      "Feiras"
-    ],
+    potentialClients: ["Presentes", "Decoração", "Lojas de artigos", "Feiras"],
     description: "Produto com alta margem de lucro e crescente demanda.",
     image: "🕯️",
     monthlyRevenue: "R$ 1.200 - R$ 4.000",
@@ -1178,19 +750,9 @@ export const businessData = [
     category: "Automotivo",
     minInvestment: 200,
     maxInvestment: 700,
-    materials: [
-      "Produtos de limpeza",
-      "Panos e baldes",
-      "Equipamentos de proteção",
-      "Aspirador portátil"
-    ],
+    materials: ["Produtos de limpeza", "Panos e baldes", "Equipamentos de proteção", "Aspirador portátil"],
     suggestedPrice: "R$ 40–120 por serviço",
-    potentialClients: [
-      "Proprietários de veículos",
-      "Condomínios",
-      "Estacionamentos",
-      "Empresas com frota"
-    ],
+    potentialClients: ["Proprietários de veículos", "Condomínios", "Estacionamentos", "Empresas com frota"],
     description: "Alta demanda com possibilidade de atendimento móvel.",
     image: "🚿",
     monthlyRevenue: "R$ 2.000 - R$ 6.000",
@@ -1205,19 +767,9 @@ export const businessData = [
     category: "Automotivo",
     minInvestment: 300,
     maxInvestment: 1500,
-    materials: [
-      "Produtos específicos",
-      "Aspirador profissional",
-      "Equipamentos de limpeza",
-      "Produtos de desinfecção"
-    ],
+    materials: ["Produtos específicos", "Aspirador profissional", "Equipamentos de limpeza", "Produtos de desinfecção"],
     suggestedPrice: "R$ 80–250 por serviço",
-    potentialClients: [
-      "Motoristas",
-      "Famílias",
-      "Empresas",
-      "Uber/99"
-    ],
+    potentialClients: ["Motoristas", "Famílias", "Empresas", "Uber/99"],
     description: "Serviço especializado com boa margem de lucro.",
     image: "🧼",
     monthlyRevenue: "R$ 2.500 - R$ 8.000",
@@ -1232,19 +784,9 @@ export const businessData = [
     category: "Automotivo",
     minInvestment: 700,
     maxInvestment: 2500,
-    materials: [
-      "Politriz",
-      "Boinas e panos",
-      "Produtos de polimento",
-      "Equipamentos de proteção"
-    ],
+    materials: ["Politriz", "Boinas e panos", "Produtos de polimento", "Equipamentos de proteção"],
     suggestedPrice: "R$ 200–600 por serviço",
-    potentialClients: [
-      "Proprietários de carros",
-      "Lojas de veículos",
-      "Concessionárias",
-      "Motoristas exigentes"
-    ],
+    potentialClients: ["Proprietários de carros", "Lojas de veículos", "Concessionárias", "Motoristas exigentes"],
     description: "Serviço com alta margem de lucro.",
     image: "✨",
     monthlyRevenue: "R$ 3.000 - R$ 10.000",
@@ -1259,19 +801,9 @@ export const businessData = [
     category: "Automotivo",
     minInvestment: 150,
     maxInvestment: 500,
-    materials: [
-      "Produtos de limpeza",
-      "Panos e baldes",
-      "Equipamentos de proteção",
-      "Ferramentas básicas"
-    ],
+    materials: ["Produtos de limpeza", "Panos e baldes", "Equipamentos de proteção", "Ferramentas básicas"],
     suggestedPrice: "R$ 30–80 por serviço",
-    potentialClients: [
-      "Motociclistas",
-      "Concessionárias de motos",
-      "Eventos de motos",
-      "Lojas de acessórios"
-    ],
+    potentialClients: ["Motociclistas", "Concessionárias de motos", "Eventos de motos", "Lojas de acessórios"],
     description: "Baixo investimento com boa margem de lucro.",
     image: "🏍️",
     monthlyRevenue: "R$ 1.500 - R$ 4.000",
@@ -1286,19 +818,9 @@ export const businessData = [
     category: "Automotivo",
     minInvestment: 500,
     maxInvestment: 3000,
-    materials: [
-      "Películas e adesivos",
-      "Ferramentas específicas",
-      "Produtos de limpeza",
-      "Equipamentos de proteção"
-    ],
+    materials: ["Películas e adesivos", "Ferramentas específicas", "Produtos de limpeza", "Equipamentos de proteção"],
     suggestedPrice: "R$ 100–500 por serviço",
-    potentialClients: [
-      "Motoristas",
-      "Empresas",
-      "Lojas de customização",
-      "Concessionárias"
-    ],
+    potentialClients: ["Motoristas", "Empresas", "Lojas de customização", "Concessionárias"],
     description: "Serviço especializado com alta margem de lucro.",
     image: "🎯",
     monthlyRevenue: "R$ 3.000 - R$ 12.000",
@@ -1317,19 +839,9 @@ export const businessData = [
     category: "Revenda",
     minInvestment: 300,
     maxInvestment: 2000,
-    materials: [
-      "Estoque inicial de acessórios",
-      "Expositores",
-      "Embalagens",
-      "Marketing"
-    ],
+    materials: ["Estoque inicial de acessórios", "Expositores", "Embalagens", "Marketing"],
     suggestedPrice: "Margem de 30–100%",
-    potentialClients: [
-      "Usuários de celular",
-      "Lojas de informática",
-      "Feiras",
-      "E-commerces"
-    ],
+    potentialClients: ["Usuários de celular", "Lojas de informática", "Feiras", "E-commerces"],
     description: "Baixo risco com boa margem de lucro.",
     image: "📱",
     monthlyRevenue: "R$ 1.500 - R$ 5.000",
@@ -1344,19 +856,9 @@ export const businessData = [
     category: "Revenda",
     minInvestment: 200,
     maxInvestment: 1500,
-    materials: [
-      "Estoque de cosméticos",
-      "Catálogos",
-      "Embalagens",
-      "Marketing digital"
-    ],
+    materials: ["Estoque de cosméticos", "Catálogos", "Embalagens", "Marketing digital"],
     suggestedPrice: "Margem de 20–50%",
-    potentialClients: [
-      "Consumidores",
-      "Salões de beleza",
-      "Feiras",
-      "Redes sociais"
-    ],
+    potentialClients: ["Consumidores", "Salões de beleza", "Feiras", "Redes sociais"],
     description: "Produtos com alta rotatividade e demanda.",
     image: "💄",
     monthlyRevenue: "R$ 1.200 - R$ 4.000",
@@ -1371,19 +873,9 @@ export const businessData = [
     category: "Revenda",
     minInvestment: 100,
     maxInvestment: 1000,
-    materials: [
-      "Roupas",
-      "Cabides",
-      "Embalagens",
-      "Fotografia"
-    ],
+    materials: ["Roupas", "Cabides", "Embalagens", "Fotografia"],
     suggestedPrice: "R$ 20–150 por item",
-    potentialClients: [
-      "Jovens e adultos",
-      "Consumidores conscientes",
-      "Feiras",
-      "Redes sociais"
-    ],
+    potentialClients: ["Jovens e adultos", "Consumidores conscientes", "Feiras", "Redes sociais"],
     description: "Baixo investimento com boa margem de lucro.",
     image: "👗",
     monthlyRevenue: "R$ 1.000 - R$ 3.500",
@@ -1398,19 +890,9 @@ export const businessData = [
     category: "Revenda",
     minInvestment: 300,
     maxInvestment: 2000,
-    materials: [
-      "Estoque de produtos",
-      "Expositores",
-      "Embalagens",
-      "Marketing"
-    ],
+    materials: ["Estoque de produtos", "Expositores", "Embalagens", "Marketing"],
     suggestedPrice: "Margem de 20–60%",
-    potentialClients: [
-      "Famílias",
-      "Lojas de decoração",
-      "Feiras",
-      "E-commerces"
-    ],
+    potentialClients: ["Famílias", "Lojas de decoração", "Feiras", "E-commerces"],
     description: "Produtos com alta demanda e boa margem.",
     image: "🏠",
     monthlyRevenue: "R$ 1.500 - R$ 5.000",
@@ -1425,19 +907,9 @@ export const businessData = [
     category: "Revenda",
     minInvestment: 200,
     maxInvestment: 1000,
-    materials: [
-      "Produtos variados",
-      "Cestas decorativas",
-      "Fitas e laços",
-      "Embalagens"
-    ],
+    materials: ["Produtos variados", "Cestas decorativas", "Fitas e laços", "Embalagens"],
     suggestedPrice: "R$ 80–300 por cesta",
-    potentialClients: [
-      "Pessoas procurando presentes",
-      "Empresas",
-      "Hotéis",
-      "Datas comemorativas"
-    ],
+    potentialClients: ["Pessoas procurando presentes", "Empresas", "Hotéis", "Datas comemorativas"],
     description: "Produto com alto valor agregado e boa margem.",
     image: "🎁",
     monthlyRevenue: "R$ 1.500 - R$ 5.000",
@@ -1456,20 +928,9 @@ export const businessData = [
     category: "Tecnologia",
     minInvestment: 200,
     maxInvestment: 800,
-    materials: [
-      "Computador",
-      "Internet",
-      "Editor de código (VS Code)",
-      "Hospedagem e domínio"
-    ],
+    materials: ["Computador", "Internet", "Editor de código (VS Code)", "Hospedagem e domínio"],
     suggestedPrice: "R$ 500–2.500 por página",
-    potentialClients: [
-      "Pequenas empresas",
-      "Profissionais autônomos",
-      "Startups",
-      "Infoprodutores",
-      "Lojas online"
-    ],
+    potentialClients: ["Pequenas empresas", "Profissionais autônomos", "Startups", "Infoprodutores", "Lojas online"],
     description: "Crie páginas de conversão profissionais para negócios digitais.",
     image: "📄",
     monthlyRevenue: "R$ 3.000 - R$ 12.000",
@@ -1484,19 +945,9 @@ export const businessData = [
     category: "Tecnologia",
     minInvestment: 300,
     maxInvestment: 1500,
-    materials: [
-      "Computador",
-      "Ferramentas de automação (Zapier, Make)",
-      "Internet",
-      "Cursos de marketing"
-    ],
+    materials: ["Computador", "Ferramentas de automação (Zapier, Make)", "Internet", "Cursos de marketing"],
     suggestedPrice: "R$ 800–3.000 por projeto",
-    potentialClients: [
-      "Empresas de médio porte",
-      "E-commerces",
-      "Agências de marketing",
-      "Infoprodutores"
-    ],
+    potentialClients: ["Empresas de médio porte", "E-commerces", "Agências de marketing", "Infoprodutores"],
     description: "Automatize processos de marketing para empresas com ferramentas no-code.",
     image: "🤖",
     monthlyRevenue: "R$ 4.000 - R$ 15.000",
@@ -1511,19 +962,9 @@ export const businessData = [
     category: "Tecnologia",
     minInvestment: 100,
     maxInvestment: 400,
-    materials: [
-      "Computador",
-      "Word/Google Docs",
-      "Canva para capa",
-      "Internet"
-    ],
+    materials: ["Computador", "Word/Google Docs", "Canva para capa", "Internet"],
     suggestedPrice: "R$ 200–1.500 por e-book",
-    potentialClients: [
-      "Empresas",
-      "Influenciadores digitais",
-      "Profissionais liberais",
-      "Coaches e mentores"
-    ],
+    potentialClients: ["Empresas", "Influenciadores digitais", "Profissionais liberais", "Coaches e mentores"],
     description: "Crie conteúdo digital de alto valor agregado com baixo investimento.",
     image: "📕",
     monthlyRevenue: "R$ 2.000 - R$ 8.000",
@@ -1538,19 +979,9 @@ export const businessData = [
     category: "Tecnologia",
     minInvestment: 200,
     maxInvestment: 700,
-    materials: [
-      "Computador",
-      "Adobe Illustrator/Photoshop",
-      "Internet",
-      "Ferramentas de design"
-    ],
+    materials: ["Computador", "Adobe Illustrator/Photoshop", "Internet", "Ferramentas de design"],
     suggestedPrice: "R$ 500–3.000 por projeto",
-    potentialClients: [
-      "Novos negócios",
-      "Empresas que querem se renovar",
-      "Startups",
-      "Lojas e restaurantes"
-    ],
+    potentialClients: ["Novos negócios", "Empresas que querem se renovar", "Startups", "Lojas e restaurantes"],
     description: "Crie a identidade visual completa para marcas e empresas.",
     image: "🎯",
     monthlyRevenue: "R$ 2.500 - R$ 10.000",
@@ -1565,19 +996,9 @@ export const businessData = [
     category: "Tecnologia",
     minInvestment: 100,
     maxInvestment: 500,
-    materials: [
-      "Computador",
-      "Internet",
-      "Softwares de acesso remoto",
-      "Ferramentas de diagnóstico"
-    ],
+    materials: ["Computador", "Internet", "Softwares de acesso remoto", "Ferramentas de diagnóstico"],
     suggestedPrice: "R$ 80–200 por hora",
-    potentialClients: [
-      "Empresas locais",
-      "Profissionais autônomos",
-      "Idosos",
-      "Pequenos escritórios"
-    ],
+    potentialClients: ["Empresas locais", "Profissionais autônomos", "Idosos", "Pequenos escritórios"],
     description: "Ofereça suporte técnico remoto para computadores e redes.",
     image: "🔧",
     monthlyRevenue: "R$ 3.000 - R$ 10.000",
@@ -1596,19 +1017,9 @@ export const businessData = [
     category: "Serviços",
     minInvestment: 300,
     maxInvestment: 1200,
-    materials: [
-      "Equipamentos de limpeza",
-      "Produtos químicos",
-      "Testadores de pH",
-      "Escovas e redes"
-    ],
+    materials: ["Equipamentos de limpeza", "Produtos químicos", "Testadores de pH", "Escovas e redes"],
     suggestedPrice: "R$ 80–200 por serviço",
-    potentialClients: [
-      "Casas com piscina",
-      "Condomínios",
-      "Hotéis e pousadas",
-      "Academias"
-    ],
+    potentialClients: ["Casas com piscina", "Condomínios", "Hotéis e pousadas", "Academias"],
     description: "Serviço especializado com clientes fixos e boa margem.",
     image: "🏊",
     monthlyRevenue: "R$ 2.500 - R$ 8.000",
@@ -1623,19 +1034,9 @@ export const businessData = [
     category: "Serviços",
     minInvestment: 500,
     maxInvestment: 2000,
-    materials: [
-      "Equipamentos de aplicação",
-      "Inseticidas",
-      "Equipamentos de proteção",
-      "Transporte"
-    ],
+    materials: ["Equipamentos de aplicação", "Inseticidas", "Equipamentos de proteção", "Transporte"],
     suggestedPrice: "R$ 150–500 por serviço",
-    potentialClients: [
-      "Residências",
-      "Empresas e comércios",
-      "Condomínios",
-      "Restaurantes"
-    ],
+    potentialClients: ["Residências", "Empresas e comércios", "Condomínios", "Restaurantes"],
     description: "Serviço essencial com alta demanda e margem de lucro.",
     image: "🐜",
     monthlyRevenue: "R$ 3.000 - R$ 12.000",
@@ -1650,19 +1051,9 @@ export const businessData = [
     category: "Serviços",
     minInvestment: 800,
     maxInvestment: 3000,
-    materials: [
-      "Ferramentas",
-      "Materiais de instalação",
-      "Equipamentos de segurança",
-      "Transporte"
-    ],
+    materials: ["Ferramentas", "Materiais de instalação", "Equipamentos de segurança", "Transporte"],
     suggestedPrice: "R$ 200–800 por instalação",
-    potentialClients: [
-      "Residências",
-      "Empresas",
-      "Lojas e comércios",
-      "Escritórios"
-    ],
+    potentialClients: ["Residências", "Empresas", "Lojas e comércios", "Escritórios"],
     description: "Serviço técnico com alta remuneração e demanda crescente.",
     image: "❄️",
     monthlyRevenue: "R$ 4.000 - R$ 15.000",
@@ -1677,19 +1068,9 @@ export const businessData = [
     category: "Serviços",
     minInvestment: 500,
     maxInvestment: 2000,
-    materials: [
-      "Equipamentos de desentupimento",
-      "Ferramentas",
-      "Equipamentos de proteção",
-      "Transporte"
-    ],
+    materials: ["Equipamentos de desentupimento", "Ferramentas", "Equipamentos de proteção", "Transporte"],
     suggestedPrice: "R$ 150–500 por serviço",
-    potentialClients: [
-      "Residências",
-      "Empresas",
-      "Condomínios",
-      "Restaurantes"
-    ],
+    potentialClients: ["Residências", "Empresas", "Condomínios", "Restaurantes"],
     description: "Serviço de emergência com alta demanda e boa margem.",
     image: "🚽",
     monthlyRevenue: "R$ 3.500 - R$ 12.000",
@@ -1704,19 +1085,9 @@ export const businessData = [
     category: "Serviços",
     minInvestment: 400,
     maxInvestment: 1800,
-    materials: [
-      "Ferramentas",
-      "Materiais de encanamento",
-      "Equipamentos de segurança",
-      "Transporte"
-    ],
+    materials: ["Ferramentas", "Materiais de encanamento", "Equipamentos de segurança", "Transporte"],
     suggestedPrice: "R$ 80–350 por serviço",
-    potentialClients: [
-      "Residências",
-      "Empresas",
-      "Condomínios",
-      "Imobiliárias"
-    ],
+    potentialClients: ["Residências", "Empresas", "Condomínios", "Imobiliárias"],
     description: "Serviço essencial com demanda constante e boa margem.",
     image: "🔧",
     monthlyRevenue: "R$ 2.500 - R$ 10.000",
@@ -1731,19 +1102,9 @@ export const businessData = [
     category: "Serviços",
     minInvestment: 500,
     maxInvestment: 2000,
-    materials: [
-      "Ferramentas",
-      "Materiais elétricos",
-      "Equipamentos de segurança",
-      "Transporte"
-    ],
+    materials: ["Ferramentas", "Materiais elétricos", "Equipamentos de segurança", "Transporte"],
     suggestedPrice: "R$ 100–400 por serviço",
-    potentialClients: [
-      "Residências",
-      "Empresas",
-      "Condomínios",
-      "Lojas"
-    ],
+    potentialClients: ["Residências", "Empresas", "Condomínios", "Lojas"],
     description: "Serviço técnico com alta demanda e boa remuneração.",
     image: "⚡",
     monthlyRevenue: "R$ 3.000 - R$ 12.000",
@@ -1758,19 +1119,9 @@ export const businessData = [
     category: "Serviços",
     minInvestment: 300,
     maxInvestment: 1500,
-    materials: [
-      "Tintas e pincéis",
-      "Rolos e bandejas",
-      "Lonas e fitas",
-      "Equipamentos de proteção"
-    ],
+    materials: ["Tintas e pincéis", "Rolos e bandejas", "Lonas e fitas", "Equipamentos de proteção"],
     suggestedPrice: "R$ 1.500–8.000 por projeto",
-    potentialClients: [
-      "Casas e apartamentos",
-      "Empresas",
-      "Condomínios",
-      "Lojas e escritórios"
-    ],
+    potentialClients: ["Casas e apartamentos", "Empresas", "Condomínios", "Lojas e escritórios"],
     description: "Serviço de alto valor agregado com excelente margem de lucro.",
     image: "🎨",
     monthlyRevenue: "R$ 4.000 - R$ 15.000",
@@ -1789,19 +1140,9 @@ export const businessData = [
     category: "Alimentação",
     minInvestment: 500,
     maxInvestment: 2000,
-    materials: [
-      "Freezer",
-      "Açaí e complementos",
-      "Embalagens",
-      "Utensílios"
-    ],
+    materials: ["Freezer", "Açaí e complementos", "Embalagens", "Utensílios"],
     suggestedPrice: "R$ 12–30 por copo",
-    potentialClients: [
-      "Jovens e adultos",
-      "Academias",
-      "Moradores locais",
-      "Escritórios"
-    ],
+    potentialClients: ["Jovens e adultos", "Academias", "Moradores locais", "Escritórios"],
     description: "Alta demanda com crescimento do mercado de saúde e bem-estar.",
     image: "🍧",
     monthlyRevenue: "R$ 2.500 - R$ 10.000",
@@ -1816,19 +1157,9 @@ export const businessData = [
     category: "Alimentação",
     minInvestment: 300,
     maxInvestment: 1200,
-    materials: [
-      "Máquina de café",
-      "Copos e tampas",
-      "Ingredientes",
-      "Transporte"
-    ],
+    materials: ["Máquina de café", "Copos e tampas", "Ingredientes", "Transporte"],
     suggestedPrice: "R$ 8–20 por café",
-    potentialClients: [
-      "Escritórios",
-      "Profissionais ocupados",
-      "Moradores locais",
-      "Eventos"
-    ],
+    potentialClients: ["Escritórios", "Profissionais ocupados", "Moradores locais", "Eventos"],
     description: "Mercado em crescimento com alta recorrência de clientes.",
     image: "☕",
     monthlyRevenue: "R$ 2.000 - R$ 8.000",
@@ -1843,19 +1174,9 @@ export const businessData = [
     category: "Alimentação",
     minInvestment: 400,
     maxInvestment: 1500,
-    materials: [
-      "Freezer",
-      "Embalagens",
-      "Ingredientes",
-      "Utensílios"
-    ],
+    materials: ["Freezer", "Embalagens", "Ingredientes", "Utensílios"],
     suggestedPrice: "R$ 15–30 por porção",
-    potentialClients: [
-      "Famílias",
-      "Profissionais ocupados",
-      "Academias",
-      "Pessoas que fazem dieta"
-    ],
+    potentialClients: ["Famílias", "Profissionais ocupados", "Academias", "Pessoas que fazem dieta"],
     description: "Alta demanda com possibilidade de escala e clientes recorrentes.",
     image: "❄️",
     monthlyRevenue: "R$ 3.000 - R$ 10.000",
@@ -1870,19 +1191,9 @@ export const businessData = [
     category: "Alimentação",
     minInvestment: 200,
     maxInvestment: 800,
-    materials: [
-      "Chapa",
-      "Ingredientes",
-      "Embalagens",
-      "Utensílios"
-    ],
+    materials: ["Chapa", "Ingredientes", "Embalagens", "Utensílios"],
     suggestedPrice: "R$ 8–20 por tapioca",
-    potentialClients: [
-      "Moradores locais",
-      "Turistas",
-      "Trabalhadores",
-      "Estudantes"
-    ],
+    potentialClients: ["Moradores locais", "Turistas", "Trabalhadores", "Estudantes"],
     description: "Negócio de baixo investimento com alta aceitação.",
     image: "🥞",
     monthlyRevenue: "R$ 1.500 - R$ 5.000",
@@ -1897,19 +1208,9 @@ export const businessData = [
     category: "Alimentação",
     minInvestment: 2000,
     maxInvestment: 8000,
-    materials: [
-      "Chapa ou grelha",
-      "Utensílios de cozinha",
-      "Ingredientes",
-      "Embalagens"
-    ],
+    materials: ["Chapa ou grelha", "Utensílios de cozinha", "Ingredientes", "Embalagens"],
     suggestedPrice: "R$ 20–35 por hambúrguer",
-    potentialClients: [
-      "Jovens e adultos",
-      "Famílias",
-      "Trabalhadores",
-      "Delivery"
-    ],
+    potentialClients: ["Jovens e adultos", "Famílias", "Trabalhadores", "Delivery"],
     description: "Mercado em alta com margem de lucro atrativa e clientes fiéis.",
     image: "🍔",
     monthlyRevenue: "R$ 5.000 - R$ 20.000",
@@ -1928,19 +1229,9 @@ export const businessData = [
     category: "Beleza",
     minInvestment: 800,
     maxInvestment: 3000,
-    materials: [
-      "Máquinas e tesouras",
-      "Produtos de barbearia",
-      "Móveis e decoração",
-      "Produtos de limpeza"
-    ],
+    materials: ["Máquinas e tesouras", "Produtos de barbearia", "Móveis e decoração", "Produtos de limpeza"],
     suggestedPrice: "R$ 30–100 por corte",
-    potentialClients: [
-      "Homens de todas as idades",
-      "Profissionais",
-      "Jovens",
-      "Famílias"
-    ],
+    potentialClients: ["Homens de todas as idades", "Profissionais", "Jovens", "Famílias"],
     description: "Mercado em crescimento com clientes fiéis e alta margem.",
     image: "💈",
     monthlyRevenue: "R$ 3.000 - R$ 12.000",
@@ -1955,19 +1246,9 @@ export const businessData = [
     category: "Beleza",
     minInvestment: 200,
     maxInvestment: 800,
-    materials: [
-      "Ceras",
-      "Espátulas",
-      "Produtos de limpeza",
-      "Móveis"
-    ],
+    materials: ["Ceras", "Espátulas", "Produtos de limpeza", "Móveis"],
     suggestedPrice: "R$ 20–80 por área",
-    potentialClients: [
-      "Mulheres",
-      "Homens",
-      "Clientes de salão",
-      "Noivas"
-    ],
+    potentialClients: ["Mulheres", "Homens", "Clientes de salão", "Noivas"],
     description: "Serviço com alta demanda e clientes recorrentes.",
     image: "💫",
     monthlyRevenue: "R$ 2.000 - R$ 8.000",
@@ -1982,19 +1263,9 @@ export const businessData = [
     category: "Beleza",
     minInvestment: 300,
     maxInvestment: 1000,
-    materials: [
-      "Kit de alongamento",
-      "Esmaltes",
-      "Ferramentas",
-      "Mesa e cadeira"
-    ],
+    materials: ["Kit de alongamento", "Esmaltes", "Ferramentas", "Mesa e cadeira"],
     suggestedPrice: "R$ 50–200 por serviço",
-    potentialClients: [
-      "Mulheres de 18-50 anos",
-      "Noivas e madrinhas",
-      "Profissionais da imagem",
-      "Eventos"
-    ],
+    potentialClients: ["Mulheres de 18-50 anos", "Noivas e madrinhas", "Profissionais da imagem", "Eventos"],
     description: "Serviço com alta margem e cliente fiel.",
     image: "💅",
     monthlyRevenue: "R$ 2.500 - R$ 10.000",
@@ -2009,19 +1280,9 @@ export const businessData = [
     category: "Beleza",
     minInvestment: 500,
     maxInvestment: 2000,
-    materials: [
-      "Mesa de massagem",
-      "Óleos essenciais",
-      "Toalhas",
-      "Produtos de aromaterapia"
-    ],
+    materials: ["Mesa de massagem", "Óleos essenciais", "Toalhas", "Produtos de aromaterapia"],
     suggestedPrice: "R$ 60–150 por hora",
-    potentialClients: [
-      "Pessoas estressadas",
-      "Profissionais ocupados",
-      "Clientes de bem-estar",
-      "Atletas"
-    ],
+    potentialClients: ["Pessoas estressadas", "Profissionais ocupados", "Clientes de bem-estar", "Atletas"],
     description: "Serviço com alta demanda no mercado de bem-estar.",
     image: "💆",
     monthlyRevenue: "R$ 3.000 - R$ 12.000",
@@ -2036,19 +1297,9 @@ export const businessData = [
     category: "Beleza",
     minInvestment: 300,
     maxInvestment: 1000,
-    materials: [
-      "Produtos de estética",
-      "Equipamentos",
-      "Móveis",
-      "Produtos de limpeza"
-    ],
+    materials: ["Produtos de estética", "Equipamentos", "Móveis", "Produtos de limpeza"],
     suggestedPrice: "R$ 80–200 por sessão",
-    potentialClients: [
-      "Mulheres de 20-50 anos",
-      "Clientes de estética",
-      "Noivas",
-      "Adolescentes"
-    ],
+    potentialClients: ["Mulheres de 20-50 anos", "Clientes de estética", "Noivas", "Adolescentes"],
     description: "Serviço com alta margem e clientes recorrentes.",
     image: "🧖",
     monthlyRevenue: "R$ 2.500 - R$ 9.000",
@@ -2067,19 +1318,9 @@ export const businessData = [
     category: "Educação",
     minInvestment: 100,
     maxInvestment: 600,
-    materials: [
-      "Instrumento musical",
-      "Material didático",
-      "Internet",
-      "Partituras"
-    ],
+    materials: ["Instrumento musical", "Material didático", "Internet", "Partituras"],
     suggestedPrice: "R$ 40–100 por hora",
-    potentialClients: [
-      "Crianças e adolescentes",
-      "Adultos iniciantes",
-      "Escolas de música",
-      "Idosos"
-    ],
+    potentialClients: ["Crianças e adolescentes", "Adultos iniciantes", "Escolas de música", "Idosos"],
     description: "Serviço com alta demanda e baixo investimento.",
     image: "🎵",
     monthlyRevenue: "R$ 1.500 - R$ 6.000",
@@ -2094,19 +1335,9 @@ export const businessData = [
     category: "Educação",
     minInvestment: 100,
     maxInvestment: 500,
-    materials: [
-      "Espaço para dança",
-      "Música",
-      "Material didático",
-      "Internet"
-    ],
+    materials: ["Espaço para dança", "Música", "Material didático", "Internet"],
     suggestedPrice: "R$ 30–80 por hora",
-    potentialClients: [
-      "Crianças e adolescentes",
-      "Adultos",
-      "Casais",
-      "Idosos"
-    ],
+    potentialClients: ["Crianças e adolescentes", "Adultos", "Casais", "Idosos"],
     description: "Baixo investimento com alta demanda e boa margem.",
     image: "💃",
     monthlyRevenue: "R$ 1.500 - R$ 5.000",
@@ -2121,19 +1352,9 @@ export const businessData = [
     category: "Educação",
     minInvestment: 100,
     maxInvestment: 500,
-    materials: [
-      "Computador",
-      "Internet",
-      "Material didático",
-      "Plataformas de ensino"
-    ],
+    materials: ["Computador", "Internet", "Material didático", "Plataformas de ensino"],
     suggestedPrice: "R$ 50–120 por hora",
-    potentialClients: [
-      "Estudantes",
-      "Profissionais",
-      "Pessoas mudando de carreira",
-      "Crianças (Scratch/Python)"
-    ],
+    potentialClients: ["Estudantes", "Profissionais", "Pessoas mudando de carreira", "Crianças (Scratch/Python)"],
     description: "Alta demanda com excelente margem de lucro.",
     image: "💻",
     monthlyRevenue: "R$ 2.500 - R$ 10.000",
@@ -2148,19 +1369,9 @@ export const businessData = [
     category: "Educação",
     minInvestment: 100,
     maxInvestment: 500,
-    materials: [
-      "Câmera ou celular",
-      "Internet",
-      "Material didático",
-      "Softwares de edição"
-    ],
+    materials: ["Câmera ou celular", "Internet", "Material didático", "Softwares de edição"],
     suggestedPrice: "R$ 50–120 por hora",
-    potentialClients: [
-      "Iniciantes",
-      "Influenciadores",
-      "Empreendedores",
-      "Jovens"
-    ],
+    potentialClients: ["Iniciantes", "Influenciadores", "Empreendedores", "Jovens"],
     description: "Serviço com alta demanda no mercado digital.",
     image: "📷",
     monthlyRevenue: "R$ 1.500 - R$ 6.000",
@@ -2175,19 +1386,9 @@ export const businessData = [
     category: "Educação",
     minInvestment: 200,
     maxInvestment: 800,
-    materials: [
-      "Ingredientes",
-      "Utensílios de cozinha",
-      "Espaço",
-      "Internet"
-    ],
+    materials: ["Ingredientes", "Utensílios de cozinha", "Espaço", "Internet"],
     suggestedPrice: "R$ 80–200 por aula",
-    potentialClients: [
-      "Adultos",
-      "Casais",
-      "Crianças",
-      "Empresas (team building)"
-    ],
+    potentialClients: ["Adultos", "Casais", "Crianças", "Empresas (team building)"],
     description: "Serviço com boa margem e possibilidade de workshops.",
     image: "🍳",
     monthlyRevenue: "R$ 2.000 - R$ 8.000",
@@ -2206,19 +1407,9 @@ export const businessData = [
     category: "Artesanato",
     minInvestment: 300,
     maxInvestment: 1200,
-    materials: [
-      "Máquina de costura",
-      "Tintas e tecidos",
-      "Roupas para customizar",
-      "Ferramentas"
-    ],
+    materials: ["Máquina de costura", "Tintas e tecidos", "Roupas para customizar", "Ferramentas"],
     suggestedPrice: "R$ 40–200 por peça",
-    potentialClients: [
-      "Jovens",
-      "Lojas de moda",
-      "Eventos",
-      "Influenciadores"
-    ],
+    potentialClients: ["Jovens", "Lojas de moda", "Eventos", "Influenciadores"],
     description: "Alta demanda com boa margem de lucro e diferenciação.",
     image: "👕",
     monthlyRevenue: "R$ 1.800 - R$ 6.000",
@@ -2233,19 +1424,9 @@ export const businessData = [
     category: "Artesanato",
     minInvestment: 200,
     maxInvestment: 800,
-    materials: [
-      "Base de sabonete",
-      "Essências",
-      "Moldes",
-      "Embalagens"
-    ],
+    materials: ["Base de sabonete", "Essências", "Moldes", "Embalagens"],
     suggestedPrice: "R$ 8–25 por unidade",
-    potentialClients: [
-      "Consumidores",
-      "Lojas de produtos naturais",
-      "Feiras",
-      "Presentes"
-    ],
+    potentialClients: ["Consumidores", "Lojas de produtos naturais", "Feiras", "Presentes"],
     description: "Baixo investimento com alta margem de lucro.",
     image: "🧼",
     monthlyRevenue: "R$ 1.200 - R$ 4.500",
@@ -2260,19 +1441,9 @@ export const businessData = [
     category: "Artesanato",
     minInvestment: 200,
     maxInvestment: 800,
-    materials: [
-      "Linhas e agulhas",
-      "Bastidores",
-      "Tecidos",
-      "Máquina de bordar (opcional)"
-    ],
+    materials: ["Linhas e agulhas", "Bastidores", "Tecidos", "Máquina de bordar (opcional)"],
     suggestedPrice: "R$ 30–150 por peça",
-    potentialClients: [
-      "Empresas (uniformes)",
-      "Lojas de presentes",
-      "Eventos",
-      "Casamentos"
-    ],
+    potentialClients: ["Empresas (uniformes)", "Lojas de presentes", "Eventos", "Casamentos"],
     description: "Produto com alto valor agregado e margem de lucro.",
     image: "🧵",
     monthlyRevenue: "R$ 1.500 - R$ 5.000",
@@ -2287,19 +1458,9 @@ export const businessData = [
     category: "Artesanato",
     minInvestment: 200,
     maxInvestment: 700,
-    materials: [
-      "Madeira ou MDF",
-      "Tintas e vernizes",
-      "Decorações",
-      "Ferramentas"
-    ],
+    materials: ["Madeira ou MDF", "Tintas e vernizes", "Decorações", "Ferramentas"],
     suggestedPrice: "R$ 40–200 por peça",
-    potentialClients: [
-      "Presentes",
-      "Lojas de decoração",
-      "Feiras",
-      "Casamentos"
-    ],
+    potentialClients: ["Presentes", "Lojas de decoração", "Feiras", "Casamentos"],
     description: "Produto com boa margem de lucro e crescente demanda.",
     image: "💍",
     monthlyRevenue: "R$ 1.500 - R$ 6.000",
@@ -2314,19 +1475,9 @@ export const businessData = [
     category: "Artesanato",
     minInvestment: 200,
     maxInvestment: 800,
-    materials: [
-      "Tecidos",
-      "Enchimento",
-      "Linhas e agulhas",
-      "Olhos e acessórios"
-    ],
+    materials: ["Tecidos", "Enchimento", "Linhas e agulhas", "Olhos e acessórios"],
     suggestedPrice: "R$ 40–200 por boneco",
-    potentialClients: [
-      "Crianças",
-      "Presentes personalizados",
-      "Lojas de brinquedos",
-      "Feiras"
-    ],
+    potentialClients: ["Crianças", "Presentes personalizados", "Lojas de brinquedos", "Feiras"],
     description: "Produto encantador com alta margem de lucro.",
     image: "🧸",
     monthlyRevenue: "R$ 1.500 - R$ 5.000",
@@ -2345,19 +1496,9 @@ export const businessData = [
     category: "Automotivo",
     minInvestment: 500,
     maxInvestment: 2000,
-    materials: [
-      "Ferramentas",
-      "Óleo e filtros",
-      "Equipamentos",
-      "Transporte"
-    ],
+    materials: ["Ferramentas", "Óleo e filtros", "Equipamentos", "Transporte"],
     suggestedPrice: "R$ 100–250 por serviço",
-    potentialClients: [
-      "Proprietários de veículos",
-      "Frotas",
-      "Condomínios",
-      "Empresas"
-    ],
+    potentialClients: ["Proprietários de veículos", "Frotas", "Condomínios", "Empresas"],
     description: "Serviço essencial com demanda constante.",
     image: "🛢️",
     monthlyRevenue: "R$ 3.000 - R$ 10.000",
@@ -2372,19 +1513,9 @@ export const businessData = [
     category: "Automotivo",
     minInvestment: 500,
     maxInvestment: 2000,
-    materials: [
-      "Ferramentas",
-      "Peças",
-      "Equipamentos",
-      "Transporte"
-    ],
+    materials: ["Ferramentas", "Peças", "Equipamentos", "Transporte"],
     suggestedPrice: "R$ 80–250 por serviço",
-    potentialClients: [
-      "Motociclistas",
-      "Concessionárias",
-      "Eventos",
-      "Entregadores"
-    ],
+    potentialClients: ["Motociclistas", "Concessionárias", "Eventos", "Entregadores"],
     description: "Serviço especializado com boa margem.",
     image: "🏍️",
     monthlyRevenue: "R$ 2.500 - R$ 9.000",
@@ -2399,19 +1530,9 @@ export const businessData = [
     category: "Automotivo",
     minInvestment: 2000,
     maxInvestment: 8000,
-    materials: [
-      "Equipamentos de pintura",
-      "Tintas e materiais",
-      "Ferramentas",
-      "EPIs"
-    ],
+    materials: ["Equipamentos de pintura", "Tintas e materiais", "Ferramentas", "EPIs"],
     suggestedPrice: "R$ 300–2.000 por serviço",
-    potentialClients: [
-      "Proprietários de veículos",
-      "Concessionárias",
-      "Seguradoras",
-      "Lojas de veículos"
-    ],
+    potentialClients: ["Proprietários de veículos", "Concessionárias", "Seguradoras", "Lojas de veículos"],
     description: "Serviço de alto valor agregado com excelente margem.",
     image: "🎨",
     monthlyRevenue: "R$ 8.000 - R$ 25.000",
@@ -2430,19 +1551,9 @@ export const businessData = [
     category: "Revenda",
     minInvestment: 200,
     maxInvestment: 1500,
-    materials: [
-      "Estoque de roupas",
-      "Expositores",
-      "Embalagens",
-      "Marketing"
-    ],
+    materials: ["Estoque de roupas", "Expositores", "Embalagens", "Marketing"],
     suggestedPrice: "Margem de 30–70%",
-    potentialClients: [
-      "Famílias",
-      "Lojas de roupas",
-      "Feiras",
-      "E-commerces"
-    ],
+    potentialClients: ["Famílias", "Lojas de roupas", "Feiras", "E-commerces"],
     description: "Alta demanda com boa margem de lucro.",
     image: "👶",
     monthlyRevenue: "R$ 1.800 - R$ 6.000",
@@ -2457,19 +1568,9 @@ export const businessData = [
     category: "Revenda",
     minInvestment: 100,
     maxInvestment: 800,
-    materials: [
-      "Estoque de livros",
-      "Expositores",
-      "Embalagens",
-      "Marketing"
-    ],
+    materials: ["Estoque de livros", "Expositores", "Embalagens", "Marketing"],
     suggestedPrice: "Margem de 40–80%",
-    potentialClients: [
-      "Estudantes",
-      "Leitores",
-      "Escolas",
-      "Feiras"
-    ],
+    potentialClients: ["Estudantes", "Leitores", "Escolas", "Feiras"],
     description: "Baixo investimento com boa margem de lucro.",
     image: "📚",
     monthlyRevenue: "R$ 1.000 - R$ 3.500",
@@ -2484,19 +1585,9 @@ export const businessData = [
     category: "Revenda",
     minInvestment: 300,
     maxInvestment: 2000,
-    materials: [
-      "Estoque de produtos",
-      "Expositores",
-      "Embalagens",
-      "Marketing"
-    ],
+    materials: ["Estoque de produtos", "Expositores", "Embalagens", "Marketing"],
     suggestedPrice: "Margem de 25–60%",
-    potentialClients: [
-      "Atletas",
-      "Academias",
-      "Escolas",
-      "E-commerces"
-    ],
+    potentialClients: ["Atletas", "Academias", "Escolas", "E-commerces"],
     description: "Mercado em crescimento com boa margem.",
     image: "⚽",
     monthlyRevenue: "R$ 2.000 - R$ 7.000",
@@ -2511,19 +1602,9 @@ export const businessData = [
     category: "Revenda",
     minInvestment: 200,
     maxInvestment: 1500,
-    materials: [
-      "Estoque de produtos",
-      "Catálogos",
-      "Embalagens",
-      "Marketing digital"
-    ],
+    materials: ["Estoque de produtos", "Catálogos", "Embalagens", "Marketing digital"],
     suggestedPrice: "Margem de 30–70%",
-    potentialClients: [
-      "Consumidores conscientes",
-      "Lojas de produtos naturais",
-      "Feiras",
-      "Redes sociais"
-    ],
+    potentialClients: ["Consumidores conscientes", "Lojas de produtos naturais", "Feiras", "Redes sociais"],
     description: "Mercado em crescimento com clientes fiéis.",
     image: "🌿",
     monthlyRevenue: "R$ 1.500 - R$ 6.000",
@@ -2531,6 +1612,520 @@ export const businessData = [
     payback: "2 a 4 meses",
     timeProfile: ["pouco", "medio", "flexivel"],
     workProfile: ["produtos", "internet", "casa"]
+  },
+
+  // ============================================
+  // 🆕 NOVOS NEGÓCIOS (93 a 122)
+  // ============================================
+  {
+    id: 93,
+    name: "Social Media para Negócios Locais",
+    category: "Tecnologia",
+    minInvestment: 100,
+    maxInvestment: 400,
+    materials: ["Celular ou computador", "Internet", "Canva Pro", "Meta Business Suite"],
+    suggestedPrice: "R$ 500–1.500 por mês",
+    potentialClients: ["Restaurantes", "Clínicas", "Lojas de bairro", "Academias"],
+    description: "Gerencie as redes sociais de negócios locais que não têm tempo de postar.",
+    image: "📱",
+    monthlyRevenue: "R$ 2.000 - R$ 8.000",
+    profitMargin: "80-90%",
+    payback: "1 a 2 meses",
+    timeProfile: ["medio", "flexivel"],
+    workProfile: ["internet", "casa"]
+  },
+  {
+    id: 94,
+    name: "Criação de Slides para Aulas",
+    category: "Tecnologia",
+    minInvestment: 0,
+    maxInvestment: 100,
+    materials: ["Computador", "Internet", "PowerPoint / Canva", "Ferramentas de design"],
+    suggestedPrice: "R$ 50–200 por apresentação",
+    potentialClients: ["Professores", "Estudantes", "Empresas", "Palestrantes"],
+    description: "Crie apresentações visuais para quem não tem habilidade com design.",
+    image: "📊",
+    monthlyRevenue: "R$ 1.000 - R$ 4.000",
+    profitMargin: "85-95%",
+    payback: "1 mês",
+    timeProfile: ["pouco", "medio", "flexivel"],
+    workProfile: ["internet", "casa"]
+  },
+  {
+    id: 95,
+    name: "Passeio e Adestramento de Cães",
+    category: "Serviços",
+    minInvestment: 100,
+    maxInvestment: 500,
+    materials: ["Coleira e guia", "Petiscos", "Bolsas para dejetos", "Transporte"],
+    suggestedPrice: "R$ 30–100 por passeio",
+    potentialClients: ["Donos de cachorros", "Idosos", "Famílias", "Condomínios"],
+    description: "Passeie com cães e faça adestramento básico.",
+    image: "🐶",
+    monthlyRevenue: "R$ 1.500 - R$ 5.000",
+    profitMargin: "70-80%",
+    payback: "1 a 2 meses",
+    timeProfile: ["pouco", "medio", "flexivel"],
+    workProfile: ["rua", "servicos"]
+  },
+  {
+    id: 96,
+    name: "Montagem e Manutenção de Aquários",
+    category: "Serviços",
+    minInvestment: 300,
+    maxInvestment: 1200,
+    materials: ["Aquário e equipamentos", "Produtos de limpeza", "Testes de pH", "Sifão"],
+    suggestedPrice: "R$ 150–400 por serviço",
+    potentialClients: ["Casas com aquários", "Escritórios", "Clínicas", "Restaurantes"],
+    description: "Ofereça limpeza e manutenção de aquários para quem tem peixes.",
+    image: "🐠",
+    monthlyRevenue: "R$ 1.500 - R$ 4.500",
+    profitMargin: "60-70%",
+    payback: "2 a 4 meses",
+    timeProfile: ["medio", "flexivel"],
+    workProfile: ["rua", "servicos"]
+  },
+  {
+    id: 97,
+    name: "Doces Fit e Sem Açúcar",
+    category: "Alimentação",
+    minInvestment: 200,
+    maxInvestment: 600,
+    materials: ["Ingredientes fit", "Embalagens", "Utensílios", "Formas"],
+    suggestedPrice: "R$ 5–15 por unidade",
+    potentialClients: ["Academias", "Pessoas em dieta", "Público fitness", "Eventos"],
+    description: "Produza doces sem açúcar para o público que não quer sair da dieta.",
+    image: "🍫",
+    monthlyRevenue: "R$ 1.200 - R$ 4.000",
+    profitMargin: "60-70%",
+    payback: "2 a 3 meses",
+    timeProfile: ["pouco", "medio", "flexivel"],
+    workProfile: ["casa", "produtos"]
+  },
+  {
+    id: 98,
+    name: "Pipoca Gourmet para Eventos",
+    category: "Alimentação",
+    minInvestment: 150,
+    maxInvestment: 500,
+    materials: ["Pipoqueira", "Milho", "Ingredientes", "Embalagens"],
+    suggestedPrice: "R$ 10–25 por pacote",
+    potentialClients: ["Festas infantis", "Eventos", "Casamentos", "Feiras"],
+    description: "Pipoca gourmet com sabores doces e salgados tem margem alta.",
+    image: "🍿",
+    monthlyRevenue: "R$ 1.000 - R$ 3.000",
+    profitMargin: "70-80%",
+    payback: "1 a 2 meses",
+    timeProfile: ["pouco", "medio"],
+    workProfile: ["casa", "produtos", "rua"]
+  },
+  {
+    id: 99,
+    name: "Lash Designer (Extensão de Cílios)",
+    category: "Beleza",
+    minInvestment: 300,
+    maxInvestment: 1000,
+    materials: ["Cílios", "Cola profissional", "Pinças", "Maca e iluminação"],
+    suggestedPrice: "R$ 80–250 por aplicação",
+    potentialClients: ["Noivas", "Mulheres", "Público jovem", "Salões (parceria)"],
+    description: "Alongamento fio a fio, volume brasileiro e manutenção.",
+    image: "👁️",
+    monthlyRevenue: "R$ 2.500 - R$ 8.000",
+    profitMargin: "75-85%",
+    payback: "2 a 4 meses",
+    timeProfile: ["medio", "flexivel"],
+    workProfile: ["servicos", "casa"]
+  },
+  {
+    id: 100,
+    name: "Studio de Alongamento de Unhas",
+    category: "Beleza",
+    minInvestment: 500,
+    maxInvestment: 2000,
+    materials: ["Kit de alongamento", "Lixas e brocas", "Cabine", "Cadeira e mesa"],
+    suggestedPrice: "R$ 60–200 por serviço",
+    potentialClients: ["Mulheres", "Noivas", "Eventos", "Manutenção mensal"],
+    description: "Alongamento em gel, fibra de vidro e decorações artísticas.",
+    image: "💅",
+    monthlyRevenue: "R$ 3.000 - R$ 10.000",
+    profitMargin: "70-85%",
+    payback: "2 a 4 meses",
+    timeProfile: ["medio", "integral"],
+    workProfile: ["servicos", "casa"]
+  },
+  {
+    id: 101,
+    name: "Criação de Conteúdo para TikTok",
+    category: "Tecnologia",
+    minInvestment: 0,
+    maxInvestment: 200,
+    materials: ["Celular", "Internet", "Ring light", "Editor de vídeo"],
+    suggestedPrice: "R$ 150–500 por vídeo",
+    potentialClients: ["Influenciadores", "Marcas", "Lojas", "Infoprodutores"],
+    description: "Grave e edite vídeos curtos e virais para empresas e criadores.",
+    image: "🎵",
+    monthlyRevenue: "R$ 2.000 - R$ 7.000",
+    profitMargin: "90-95%",
+    payback: "1 mês",
+    timeProfile: ["pouco", "medio", "flexivel"],
+    workProfile: ["casa", "internet"]
+  },
+  {
+    id: 102,
+    name: "Consultoria de Currículo e LinkedIn",
+    category: "Tecnologia",
+    minInvestment: 0,
+    maxInvestment: 100,
+    materials: ["Computador", "Internet", "Templates", "Conhecimento em RH"],
+    suggestedPrice: "R$ 80–250 por consultoria",
+    potentialClients: ["Profissionais", "Recém-formados", "Executivos", "Pessoas em transição"],
+    description: "Ajude profissionais a se destacarem no mercado com currículos e perfis otimizados.",
+    image: "💼",
+    monthlyRevenue: "R$ 1.500 - R$ 5.000",
+    profitMargin: "90-95%",
+    payback: "1 mês",
+    timeProfile: ["pouco", "flexivel"],
+    workProfile: ["internet", "casa"]
+  },
+  {
+    id: 103,
+    name: "Instalação de Câmeras de Segurança",
+    category: "Serviços",
+    minInvestment: 500,
+    maxInvestment: 2500,
+    materials: ["Câmeras", "Cabos", "Ferramentas", "DVR"],
+    suggestedPrice: "R$ 200–800 por instalação",
+    potentialClients: ["Residências", "Comércios", "Condomínios", "Escolas"],
+    description: "Instalação e configuração de sistemas de monitoramento.",
+    image: "📹",
+    monthlyRevenue: "R$ 3.000 - R$ 10.000",
+    profitMargin: "50-60%",
+    payback: "3 a 5 meses",
+    timeProfile: ["medio", "integral"],
+    workProfile: ["rua", "servicos"]
+  },
+  {
+    id: 104,
+    name: "Reparos em Eletrodomésticos",
+    category: "Serviços",
+    minInvestment: 300,
+    maxInvestment: 1500,
+    materials: ["Ferramentas", "Peças", "Multímetro", "Equipamentos de proteção"],
+    suggestedPrice: "R$ 80–300 por serviço",
+    potentialClients: ["Residências", "Empresas", "Condomínios", "Lojas"],
+    description: "Conserto de geladeiras, máquinas de lavar, micro-ondas e fogões.",
+    image: "🔌",
+    monthlyRevenue: "R$ 2.500 - R$ 8.000",
+    profitMargin: "55-65%",
+    payback: "2 a 4 meses",
+    timeProfile: ["medio", "integral"],
+    workProfile: ["rua", "servicos"]
+  },
+  {
+    id: 105,
+    name: "Personal Organizer de Ambientes",
+    category: "Serviços",
+    minInvestment: 100,
+    maxInvestment: 400,
+    materials: ["Caixas", "Etiquetas", "Material de escritório", "Ferramentas de organização"],
+    suggestedPrice: "R$ 100–300 por ambiente",
+    potentialClients: ["Casas", "Escritórios", "Empresas", "Pessoas em mudança"],
+    description: "Organize armários, escritórios e ambientes para otimizar o espaço.",
+    image: "📦",
+    monthlyRevenue: "R$ 2.000 - R$ 6.000",
+    profitMargin: "75-85%",
+    payback: "1 a 2 meses",
+    timeProfile: ["pouco", "medio", "flexivel"],
+    workProfile: ["servicos", "casa"]
+  },
+  {
+    id: 106,
+    name: "Deliveries de Bebidas (Drinks)",
+    category: "Alimentação",
+    minInvestment: 300,
+    maxInvestment: 1000,
+    materials: ["Ingredientes", "Copos e embalagens", "Gelo", "Transporte"],
+    suggestedPrice: "R$ 15–35 por drink",
+    potentialClients: ["Festas", "Eventos", "Jovens", "Escritórios"],
+    description: "Produza drinks e coquetéis para delivery de festas e eventos.",
+    image: "🍹",
+    monthlyRevenue: "R$ 1.500 - R$ 5.000",
+    profitMargin: "60-70%",
+    payback: "2 a 4 meses",
+    timeProfile: ["pouco", "medio", "flexivel"],
+    workProfile: ["casa", "produtos", "servicos"]
+  },
+  {
+    id: 107,
+    name: "Salgados Fitness (Assados)",
+    category: "Alimentação",
+    minInvestment: 150,
+    maxInvestment: 500,
+    materials: ["Ingredientes fit", "Formas", "Embalagens", "Utensílios"],
+    suggestedPrice: "R$ 4–10 por unidade",
+    potentialClients: ["Academias", "Pessoas em dieta", "Eventos", "Escolas"],
+    description: "Salgados assados, sem fritura e com ingredientes saudáveis.",
+    image: "🥟",
+    monthlyRevenue: "R$ 1.200 - R$ 4.000",
+    profitMargin: "60-70%",
+    payback: "2 a 3 meses",
+    timeProfile: ["pouco", "medio", "flexivel"],
+    workProfile: ["casa", "produtos"]
+  },
+  {
+    id: 108,
+    name: "Aulas de Yoga e Meditação",
+    category: "Educação",
+    minInvestment: 100,
+    maxInvestment: 500,
+    materials: ["Tapetes", "Internet", "Material didático", "Espaço"],
+    suggestedPrice: "R$ 40–100 por aula",
+    potentialClients: ["Adultos", "Idosos", "Empresas", "Atletas"],
+    description: "Aulas de yoga e meditação para bem-estar físico e mental.",
+    image: "🧘",
+    monthlyRevenue: "R$ 1.500 - R$ 5.000",
+    profitMargin: "85-95%",
+    payback: "1 a 2 meses",
+    timeProfile: ["pouco", "medio", "flexivel"],
+    workProfile: ["internet", "casa"]
+  },
+  {
+    id: 109,
+    name: "Bordado Computadorizado",
+    category: "Artesanato",
+    minInvestment: 1500,
+    maxInvestment: 5000,
+    materials: ["Máquina de bordar", "Linhas", "Tecidos", "Computador"],
+    suggestedPrice: "R$ 20–100 por peça",
+    potentialClients: ["Empresas", "Uniformes", "Lojas", "Eventos"],
+    description: "Bordados personalizados com alta qualidade e precisão.",
+    image: "🧵",
+    monthlyRevenue: "R$ 2.500 - R$ 8.000",
+    profitMargin: "60-70%",
+    payback: "4 a 8 meses",
+    timeProfile: ["medio", "integral"],
+    workProfile: ["casa", "produtos"]
+  },
+  {
+    id: 110,
+    name: "Fábrica de Chinelos Personalizados",
+    category: "Artesanato",
+    minInvestment: 300,
+    maxInvestment: 1000,
+    materials: ["Chinelos", "Tintas", "Prensa", "Embalagens"],
+    suggestedPrice: "R$ 25–60 por par",
+    potentialClients: ["Festas", "Casamentos", "Empresas", "Lojas"],
+    description: "Chinelos personalizados para eventos e presentes.",
+    image: "🩴",
+    monthlyRevenue: "R$ 1.500 - R$ 5.000",
+    profitMargin: "65-75%",
+    payback: "2 a 4 meses",
+    timeProfile: ["pouco", "medio", "flexivel"],
+    workProfile: ["casa", "produtos"]
+  },
+  {
+    id: 111,
+    name: "Lavagem de Estofados Automotivos",
+    category: "Automotivo",
+    minInvestment: 500,
+    maxInvestment: 2000,
+    materials: ["Extratora", "Produtos", "Escovas", "Equipamentos de proteção"],
+    suggestedPrice: "R$ 100–300 por serviço",
+    potentialClients: ["Motoristas", "Frotas", "Concessionárias", "Uber"],
+    description: "Higienização profunda de bancos e estofados de veículos.",
+    image: "🚗",
+    monthlyRevenue: "R$ 2.500 - R$ 8.000",
+    profitMargin: "55-65%",
+    payback: "2 a 4 meses",
+    timeProfile: ["medio", "integral"],
+    workProfile: ["rua", "servicos"]
+  },
+  {
+    id: 112,
+    name: "Venda de Kits de Festa",
+    category: "Revenda",
+    minInvestment: 200,
+    maxInvestment: 800,
+    materials: ["Produtos de festa", "Embalagens", "Decoração", "Marketing"],
+    suggestedPrice: "R$ 50–200 por kit",
+    potentialClients: ["Mães", "Organizadores de festas", "Escolas", "Empresas"],
+    description: "Kits prontos com tema para festas infantis e eventos.",
+    image: "🎉",
+    monthlyRevenue: "R$ 1.500 - R$ 5.000",
+    profitMargin: "40-60%",
+    payback: "2 a 4 meses",
+    timeProfile: ["pouco", "medio", "flexivel"],
+    workProfile: ["produtos", "internet", "casa"]
+  },
+  {
+    id: 113,
+    name: "Assinatura de Cafés Especiais",
+    category: "Alimentação",
+    minInvestment: 300,
+    maxInvestment: 1000,
+    materials: ["Cafés", "Embalagens", "Moedor", "Marketing"],
+    suggestedPrice: "R$ 60–150 por mês",
+    potentialClients: ["Café lovers", "Escritórios", "Presentes", "Assinantes"],
+    description: "Envie cafés especiais todos os meses para assinantes.",
+    image: "☕",
+    monthlyRevenue: "R$ 2.000 - R$ 6.000",
+    profitMargin: "50-60%",
+    payback: "2 a 4 meses",
+    timeProfile: ["pouco", "medio", "flexivel"],
+    workProfile: ["produtos", "internet"]
+  },
+  {
+    id: 114,
+    name: "Fotografia de Gestantes e Bebês",
+    category: "Tecnologia",
+    minInvestment: 300,
+    maxInvestment: 1500,
+    materials: ["Câmera", "Iluminação", "Cenários", "Edição"],
+    suggestedPrice: "R$ 200–800 por ensaio",
+    potentialClients: ["Gestantes", "Famílias", "Bebês", "Casais"],
+    description: "Ensaios fotográficos especiais para gestantes e recém-nascidos.",
+    image: "📷",
+    monthlyRevenue: "R$ 2.000 - R$ 8.000",
+    profitMargin: "70-80%",
+    payback: "2 a 4 meses",
+    timeProfile: ["medio", "flexivel"],
+    workProfile: ["casa", "rua"]
+  },
+  {
+    id: 115,
+    name: "Aulas de Violão e Guitarra",
+    category: "Educação",
+    minInvestment: 100,
+    maxInvestment: 600,
+    materials: ["Instrumento", "Material didático", "Internet", "Cifras"],
+    suggestedPrice: "R$ 40–100 por hora",
+    potentialClients: ["Crianças", "Adolescentes", "Adultos", "Idosos"],
+    description: "Aulas práticas de violão e guitarra do básico ao avançado.",
+    image: "🎸",
+    monthlyRevenue: "R$ 1.500 - R$ 6.000",
+    profitMargin: "85-95%",
+    payback: "1 a 2 meses",
+    timeProfile: ["pouco", "medio", "flexivel"],
+    workProfile: ["internet", "casa"]
+  },
+  {
+    id: 116,
+    name: "Produção de Vídeos Institucionais",
+    category: "Tecnologia",
+    minInvestment: 500,
+    maxInvestment: 3000,
+    materials: ["Câmera", "Microfone", "Iluminação", "Software de edição"],
+    suggestedPrice: "R$ 800–3.000 por vídeo",
+    potentialClients: ["Empresas", "Escolas", "Clínicas", "Indústrias"],
+    description: "Vídeos profissionais para apresentar empresas e serviços.",
+    image: "🎥",
+    monthlyRevenue: "R$ 3.000 - R$ 12.000",
+    profitMargin: "75-85%",
+    payback: "2 a 4 meses",
+    timeProfile: ["medio", "integral"],
+    workProfile: ["casa", "rua", "internet"]
+  },
+  {
+    id: 117,
+    name: "Serviço de Mudanças Pequenas",
+    category: "Serviços",
+    minInvestment: 500,
+    maxInvestment: 2000,
+    materials: ["Fitas", "Caixas", "Carrinho", "Transporte"],
+    suggestedPrice: "R$ 200–600 por mudança",
+    potentialClients: ["Apartamentos", "Escritórios", "Estudantes", "Famílias"],
+    description: "Ajuda em mudanças pequenas e transporte de móveis.",
+    image: "🚚",
+    monthlyRevenue: "R$ 2.000 - R$ 7.000",
+    profitMargin: "50-60%",
+    payback: "2 a 4 meses",
+    timeProfile: ["medio", "integral"],
+    workProfile: ["rua", "servicos"]
+  },
+  {
+    id: 118,
+    name: "Criação de Logos para Pequenos Negócios",
+    category: "Tecnologia",
+    minInvestment: 0,
+    maxInvestment: 200,
+    materials: ["Computador", "Internet", "Canva/Illustrator", "Templates"],
+    suggestedPrice: "R$ 100–500 por logo",
+    potentialClients: ["Novos negócios", "Lojas", "Restaurantes", "Autônomos"],
+    description: "Crie logotipos simples e profissionais para pequenos negócios.",
+    image: "🎨",
+    monthlyRevenue: "R$ 1.500 - R$ 5.000",
+    profitMargin: "85-95%",
+    payback: "1 mês",
+    timeProfile: ["pouco", "medio", "flexivel"],
+    workProfile: ["internet", "casa"]
+  },
+  {
+    id: 119,
+    name: "Manutenção de Bicicletas",
+    category: "Serviços",
+    minInvestment: 300,
+    maxInvestment: 1000,
+    materials: ["Ferramentas específicas", "Peças", "Óleo", "Equipamentos de proteção"],
+    suggestedPrice: "R$ 50–200 por serviço",
+    potentialClients: ["Ciclistas", "Lojas de bikes", "Condomínios", "Escolas"],
+    description: "Conserto e manutenção de bicicletas, com atendimento móvel.",
+    image: "🚲",
+    monthlyRevenue: "R$ 1.500 - R$ 5.000",
+    profitMargin: "60-70%",
+    payback: "2 a 4 meses",
+    timeProfile: ["medio", "integral"],
+    workProfile: ["rua", "servicos"]
+  },
+  {
+    id: 120,
+    name: "Cestas de Frutas e Café da Manhã",
+    category: "Alimentação",
+    minInvestment: 200,
+    maxInvestment: 700,
+    materials: ["Frutas", "Cestas", "Embalagens", "Fitas"],
+    suggestedPrice: "R$ 60–200 por cesta",
+    potentialClients: ["Presentes", "Empresas", "Hotéis", "Datas especiais"],
+    description: "Cestas de café da manhã com frutas frescas para presentear.",
+    image: "🍓",
+    monthlyRevenue: "R$ 1.500 - R$ 5.000",
+    profitMargin: "50-60%",
+    payback: "2 a 4 meses",
+    timeProfile: ["pouco", "medio", "flexivel"],
+    workProfile: ["casa", "produtos"]
+  },
+  {
+    id: 121,
+    name: "Reparos de Celulares e Tablets",
+    category: "Serviços",
+    minInvestment: 500,
+    maxInvestment: 2500,
+    materials: ["Ferramentas específicas", "Peças", "Estação de solda", "Equipamentos de proteção"],
+    suggestedPrice: "R$ 80–400 por reparo",
+    potentialClients: ["Usuários de celular", "Lojas de informática", "Escolas", "Empresas"],
+    description: "Conserto de telas, baterias e placas de celulares e tablets.",
+    image: "📱",
+    monthlyRevenue: "R$ 3.000 - R$ 10.000",
+    profitMargin: "50-60%",
+    payback: "3 a 6 meses",
+    timeProfile: ["medio", "integral"],
+    workProfile: ["servicos", "rua"]
+  },
+  {
+    id: 122,
+    name: "Aulas de Artesanato para Crianças",
+    category: "Educação",
+    minInvestment: 100,
+    maxInvestment: 400,
+    materials: ["Materiais de artesanato", "Espaço", "Internet", "Material didático"],
+    suggestedPrice: "R$ 40–100 por aula",
+    potentialClients: ["Crianças", "Escolas", "Pais", "Condomínios"],
+    description: "Aulas criativas de artesanato para crianças em casa ou em grupo.",
+    image: "🎨",
+    monthlyRevenue: "R$ 1.200 - R$ 4.000",
+    profitMargin: "80-90%",
+    payback: "1 a 2 meses",
+    timeProfile: ["pouco", "medio", "flexivel"],
+    workProfile: ["casa", "servicos"]
   }
 ];
 
