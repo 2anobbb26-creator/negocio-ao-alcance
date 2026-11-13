@@ -15,6 +15,12 @@ const BusinessDetail = React.lazy(() => import('./pages/BusinessDetail'));
 const BusinessStart = React.lazy(() => import('./pages/BusinessStart'));
 const Perfil = React.lazy(() => import('./pages/Perfil'));
 const Favoritos = React.lazy(() => import('./pages/Favoritos'));
+const Ferramentas = React.lazy(() => import('./pages/Ferramentas'));
+const MeusPlanos = React.lazy(() => import('./pages/MeusPlanos'));
+const Jornada = React.lazy(() => import('./pages/Jornada'));
+const Guia = React.lazy(() => import('./pages/Guia'));
+const Sobre = React.lazy(() => import('./pages/Sobre'));
+const Consultor = React.lazy(() => import('./pages/Consultor'));       // ⬅ NOVO
 const EmailVerification = React.lazy(() => import('./components/EmailVerification'));
 
 // ─── ANIMAÇÕES ─────────────────────────────────────────────
@@ -32,9 +38,14 @@ const shimmer = keyframes`
 const AppContainer = styled.div`
   min-height: 100vh;
   background: linear-gradient(135deg, #0a1530 0%, #0d1b3e 50%, #0a1530 100%);
+  
+  /* Compensa a Navbar fixa de 72px */
+  padding-top: 72px;
   padding-bottom: 0;
 
   @media (max-width: 768px) {
+    /* Compensa a Navbar (64px) e o menu inferior (64px) */
+    padding-top: 64px;
     padding-bottom: calc(64px + env(safe-area-inset-bottom, 0));
   }
 `;
@@ -103,12 +114,13 @@ const AppRoutes = ({ user, handleLogin, handleRegister }) => {
             element={user ? <Navigate to="/" replace /> : <Login onLogin={handleLogin} onRegister={handleRegister} />}
           />
 
-          {/* ⚠️ ATENÇÃO À ORDEM: rota mais específica SEMPRE antes */}
-          {/* /business/:id/comecar vem ANTES de /business/:id */}
-
           {/* 🔓 ROTAS PÚBLICAS */}
           <Route path="/business/:id/comecar" element={<BusinessStart user={user} />} />
           <Route path="/business/:id" element={<BusinessDetail user={user} />} />
+
+          {/* 🌐 ROTAS PÚBLICAS GERAIS */}
+          <Route path="/guia" element={<Guia />} />
+          <Route path="/sobre" element={<Sobre />} />
 
           {/* 🔒 ROTAS PRIVADAS */}
           <Route
@@ -122,6 +134,22 @@ const AppRoutes = ({ user, handleLogin, handleRegister }) => {
           <Route
             path="/favoritos"
             element={<PrivateRoute user={user}><Favoritos /></PrivateRoute>}
+          />
+          <Route
+            path="/ferramentas"
+            element={<PrivateRoute user={user}><Ferramentas /></PrivateRoute>}
+          />
+          <Route
+            path="/meus-planos"
+            element={<PrivateRoute user={user}><MeusPlanos /></PrivateRoute>}
+          />
+          <Route
+            path="/jornada"
+            element={<PrivateRoute user={user}><Jornada /></PrivateRoute>}
+          />
+          <Route
+            path="/consultor"
+            element={<PrivateRoute user={user}><Consultor /></PrivateRoute>}
           />
         </Routes>
       </Suspense>

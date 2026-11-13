@@ -19,6 +19,19 @@ import {
 } from '../utils/normalizeBusiness';
 
 /* ═══════════════════════════════════════════════════════════
+   FUNÇÕES AUXILIARES (GAMIFICAÇÃO)
+   ═══════════════════════════════════════════════════════════ */
+const salvarDiaAtivo = () => {
+  const hoje = new Date().toISOString().split('T')[0]; // Pega apenas YYYY-MM-DD
+  const historico = JSON.parse(localStorage.getItem('@app:jornada') || '[]');
+  
+  if (!historico.includes(hoje)) {
+    historico.push(hoje);
+    localStorage.setItem('@app:jornada', JSON.stringify(historico));
+  }
+};
+
+/* ═══════════════════════════════════════════════════════════
    ANIMAÇÕES
    ═══════════════════════════════════════════════════════════ */
 const fadeInUp = keyframes`
@@ -1332,6 +1345,8 @@ const BusinessStart = () => {
       for (let i = index; i < steps.length; i++) delete newState[i];
     } else {
       newState[index] = true;
+      // ⬇️ AQUI SALVA O DIA ATIVO NA JORNADA
+      salvarDiaAtivo(); 
     }
 
     setCompletedSteps(newState);

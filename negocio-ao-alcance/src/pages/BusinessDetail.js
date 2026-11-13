@@ -9,6 +9,11 @@ import { useToast } from '../components/Toast';
 import { auth, authService } from '../services/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { normalizeStep } from '../utils/normalizeBusiness';
+import {
+  shouldShowConfetti,
+  markConfettiShown,
+  fireFavoriteConfetti,
+} from '../utils/confetti';
 
 // ─── ANIMAÇÕES ─────────────────────────────────────────────
 const fadeInUp = keyframes`
@@ -80,7 +85,7 @@ const Breadcrumb = styled.div`
   }
 `;
 
-// ─── CARD PRINCIPAL (sem linha gradiente no topo) ──────────
+// ─── CARD PRINCIPAL ────────────────────────────────────────
 const Card = styled.div`
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(14px);
@@ -262,7 +267,7 @@ const DescriptionText = styled.p`
   @media (max-width: 480px) { font-size: 0.88rem; }
 `;
 
-// ─── STATS (4 cards) ──────────────────────────────────────
+// ─── STATS ─────────────────────────────────────────────────
 const StatsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -342,7 +347,7 @@ const StatValue = styled.div`
   @media (max-width: 480px) { font-size: 0.95rem; }
 `;
 
-// ─── TÍTULOS DE SEÇÃO ──────────────────────────────────────
+// ─── TÍTULOS ───────────────────────────────────────────────
 const SectionTitle = styled.h3`
   color: #e8eef7;
   font-size: 1.15rem;
@@ -625,7 +630,7 @@ const PreviewMore = styled.div`
   border-radius: 10px;
 `;
 
-// ─── GRID INFO (materiais + clientes) ─────────────────────
+// ─── GRID INFO ─────────────────────────────────────────────
 const InfoGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr;
@@ -1056,6 +1061,13 @@ const BusinessDetail = () => {
         }
         setIsFavorited(true);
         showToast('❤️ Adicionado aos favoritos', 'success', 1800);
+
+        // ⭐ CONFETTI na primeira vez
+        if (shouldShowConfetti(currentUser.uid)) {
+          fireFavoriteConfetti();
+          markConfettiShown(currentUser.uid);
+        }
+
         authService.addFavorite(currentUser.uid, business.id)
           .catch(err => console.warn(err));
       }
